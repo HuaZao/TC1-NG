@@ -1,0 +1,567 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5008385822696106008EF69D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5008385722696106008EF69D /* AppDelegate.swift */; };
+		5008385A22696106008EF69D /* TCDeviceMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5008385922696106008EF69D /* TCDeviceMainViewController.swift */; };
+		5008385D22696107008EF69D /* TCDeviceMain.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5008385B22696107008EF69D /* TCDeviceMain.storyboard */; };
+		5008385F22696108008EF69D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5008385E22696108008EF69D /* Assets.xcassets */; };
+		5008386222696108008EF69D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5008386022696108008EF69D /* LaunchScreen.storyboard */; };
+		5008386B22696577008EF69D /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5008386A22696577008EF69D /* ExternalAccessory.framework */; };
+		5008387122696693008EF69D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5008387022696693008EF69D /* SystemConfiguration.framework */; };
+		5008387322696FC9008EF69D /* PowerProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5008387222696FC9008EF69D /* PowerProgressView.swift */; };
+		5008387522699D84008EF69D /* TC1MQTTManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5008387422699D84008EF69D /* TC1MQTTManager.swift */; };
+		50777249226D6626000D37EF /* TCListStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50777248226D6626000D37EF /* TCListStoryBoard.storyboard */; };
+		50A7975F227045C1005C706A /* TCDeviceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A7975E227045C1005C706A /* TCDeviceCell.swift */; };
+		50A7976122704606005C706A /* TCListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A7976022704606005C706A /* TCListViewController.swift */; };
+		50A79763227055C0005C706A /* TCSocketItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A79762227055C0005C706A /* TCSocketItem.swift */; };
+		50A7976622705867005C706A /* TCSQLManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A7976522705867005C706A /* TCSQLManager.swift */; };
+		50A79776227064CA005C706A /* TCDeviceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 50A79772227064C9005C706A /* TCDeviceModel.m */; };
+		50A79777227064CA005C706A /* SocketModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 50A79774227064C9005C706A /* SocketModel.m */; };
+		50C6DD3222719FBD00EC9366 /* libEasyLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C6DD3122719FBD00EC9366 /* libEasyLink.a */; };
+		50C6DD392271B3A400EC9366 /* MQTTModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C6DD382271B3A400EC9366 /* MQTTModel.m */; };
+		50C6DD3B2271B6FA00EC9366 /* TCDeviceInfoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C6DD3A2271B6FA00EC9366 /* TCDeviceInfoTableViewController.swift */; };
+		50E8903B2271651500F37638 /* TCConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E8903A2271651500F37638 /* TCConfigViewController.swift */; };
+		5CB9C9FC603A96B93CA6D7FB /* Pods_TC1_NG.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4B04F00B0112D2186FEB698 /* Pods_TC1_NG.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		01D4B00DB74133A4DDCCC1B0 /* Pods-TC1-NG.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TC1-NG.release.xcconfig"; path = "Pods/Target Support Files/Pods-TC1-NG/Pods-TC1-NG.release.xcconfig"; sourceTree = "<group>"; };
+		5008385422696106008EF69D /* TC1-NG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TC1-NG.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5008385722696106008EF69D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		5008385922696106008EF69D /* TCDeviceMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCDeviceMainViewController.swift; sourceTree = "<group>"; };
+		5008385C22696107008EF69D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/TCDeviceMain.storyboard; sourceTree = "<group>"; };
+		5008385E22696108008EF69D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5008386122696108008EF69D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		5008386322696108008EF69D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5008386922696576008EF69D /* TC1-NG.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "TC1-NG.entitlements"; sourceTree = "<group>"; };
+		5008386A22696577008EF69D /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
+		5008387022696693008EF69D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		5008387222696FC9008EF69D /* PowerProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerProgressView.swift; sourceTree = "<group>"; };
+		5008387422699D84008EF69D /* TC1MQTTManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TC1MQTTManager.swift; sourceTree = "<group>"; };
+		50777248226D6626000D37EF /* TCListStoryBoard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TCListStoryBoard.storyboard; sourceTree = "<group>"; };
+		50A7975E227045C1005C706A /* TCDeviceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCDeviceCell.swift; sourceTree = "<group>"; };
+		50A7976022704606005C706A /* TCListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCListViewController.swift; sourceTree = "<group>"; };
+		50A79762227055C0005C706A /* TCSocketItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCSocketItem.swift; sourceTree = "<group>"; };
+		50A7976522705867005C706A /* TCSQLManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCSQLManager.swift; sourceTree = "<group>"; };
+		50A7976822705E3D005C706A /* TC1-NG-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TC1-NG-Bridging-Header.h"; sourceTree = "<group>"; };
+		50A79772227064C9005C706A /* TCDeviceModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCDeviceModel.m; sourceTree = "<group>"; };
+		50A79773227064C9005C706A /* SocketModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketModel.h; sourceTree = "<group>"; };
+		50A79774227064C9005C706A /* SocketModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketModel.m; sourceTree = "<group>"; };
+		50A79775227064C9005C706A /* TCDeviceModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCDeviceModel.h; sourceTree = "<group>"; };
+		50C6DD2F22719FBD00EC9366 /* EasyLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyLink.h; sourceTree = "<group>"; };
+		50C6DD3022719FBD00EC9366 /* route.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = route.h; sourceTree = "<group>"; };
+		50C6DD3122719FBD00EC9366 /* libEasyLink.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libEasyLink.a; sourceTree = "<group>"; };
+		50C6DD372271B3A400EC9366 /* MQTTModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MQTTModel.h; sourceTree = "<group>"; };
+		50C6DD382271B3A400EC9366 /* MQTTModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MQTTModel.m; sourceTree = "<group>"; };
+		50C6DD3A2271B6FA00EC9366 /* TCDeviceInfoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCDeviceInfoTableViewController.swift; sourceTree = "<group>"; };
+		50E8903A2271651500F37638 /* TCConfigViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCConfigViewController.swift; sourceTree = "<group>"; };
+		659E7832BD9F91A6639CDB64 /* Pods-TC1-NG.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TC1-NG.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TC1-NG/Pods-TC1-NG.debug.xcconfig"; sourceTree = "<group>"; };
+		F4B04F00B0112D2186FEB698 /* Pods_TC1_NG.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TC1_NG.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5008385122696106008EF69D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5008387122696693008EF69D /* SystemConfiguration.framework in Frameworks */,
+				5008386B22696577008EF69D /* ExternalAccessory.framework in Frameworks */,
+				5CB9C9FC603A96B93CA6D7FB /* Pods_TC1_NG.framework in Frameworks */,
+				50C6DD3222719FBD00EC9366 /* libEasyLink.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5008384B22696106008EF69D = {
+			isa = PBXGroup;
+			children = (
+				5008385622696106008EF69D /* TC1-NG */,
+				5008385522696106008EF69D /* Products */,
+				D3C920977B31EFC8C2DE796F /* Pods */,
+				9C1D6EF9D3E749FE61818A7C /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		5008385522696106008EF69D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5008385422696106008EF69D /* TC1-NG.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5008385622696106008EF69D /* TC1-NG */ = {
+			isa = PBXGroup;
+			children = (
+				50C6DD332271AE2400EC9366 /* Controller */,
+				50C6DD362271AE5300EC9366 /* View */,
+				50C6DD352271AE4300EC9366 /* Model */,
+				50C6DD342271AE3800EC9366 /* Cell */,
+				50C6DD2E22719FBD00EC9366 /* EasyLink */,
+				50A7976422705854005C706A /* SQL */,
+				5008386922696576008EF69D /* TC1-NG.entitlements */,
+				5008385722696106008EF69D /* AppDelegate.swift */,
+				5008387422699D84008EF69D /* TC1MQTTManager.swift */,
+				5008385B22696107008EF69D /* TCDeviceMain.storyboard */,
+				50777248226D6626000D37EF /* TCListStoryBoard.storyboard */,
+				5008385E22696108008EF69D /* Assets.xcassets */,
+				5008386022696108008EF69D /* LaunchScreen.storyboard */,
+				5008386322696108008EF69D /* Info.plist */,
+				50A7976822705E3D005C706A /* TC1-NG-Bridging-Header.h */,
+			);
+			path = "TC1-NG";
+			sourceTree = "<group>";
+		};
+		50A7976422705854005C706A /* SQL */ = {
+			isa = PBXGroup;
+			children = (
+				50A7976522705867005C706A /* TCSQLManager.swift */,
+			);
+			path = SQL;
+			sourceTree = "<group>";
+		};
+		50C6DD2E22719FBD00EC9366 /* EasyLink */ = {
+			isa = PBXGroup;
+			children = (
+				50C6DD2F22719FBD00EC9366 /* EasyLink.h */,
+				50C6DD3022719FBD00EC9366 /* route.h */,
+				50C6DD3122719FBD00EC9366 /* libEasyLink.a */,
+			);
+			path = EasyLink;
+			sourceTree = "<group>";
+		};
+		50C6DD332271AE2400EC9366 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				5008385922696106008EF69D /* TCDeviceMainViewController.swift */,
+				50A7976022704606005C706A /* TCListViewController.swift */,
+				50E8903A2271651500F37638 /* TCConfigViewController.swift */,
+				50C6DD3A2271B6FA00EC9366 /* TCDeviceInfoTableViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		50C6DD342271AE3800EC9366 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				50A79762227055C0005C706A /* TCSocketItem.swift */,
+				50A7975E227045C1005C706A /* TCDeviceCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		50C6DD352271AE4300EC9366 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				50A79773227064C9005C706A /* SocketModel.h */,
+				50A79774227064C9005C706A /* SocketModel.m */,
+				50A79775227064C9005C706A /* TCDeviceModel.h */,
+				50A79772227064C9005C706A /* TCDeviceModel.m */,
+				50C6DD372271B3A400EC9366 /* MQTTModel.h */,
+				50C6DD382271B3A400EC9366 /* MQTTModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		50C6DD362271AE5300EC9366 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				5008387222696FC9008EF69D /* PowerProgressView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		9C1D6EF9D3E749FE61818A7C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5008387022696693008EF69D /* SystemConfiguration.framework */,
+				5008386A22696577008EF69D /* ExternalAccessory.framework */,
+				F4B04F00B0112D2186FEB698 /* Pods_TC1_NG.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D3C920977B31EFC8C2DE796F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				659E7832BD9F91A6639CDB64 /* Pods-TC1-NG.debug.xcconfig */,
+				01D4B00DB74133A4DDCCC1B0 /* Pods-TC1-NG.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		5008385322696106008EF69D /* TC1-NG */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5008386622696108008EF69D /* Build configuration list for PBXNativeTarget "TC1-NG" */;
+			buildPhases = (
+				8B535F4303A9A33CF13C3851 /* [CP] Check Pods Manifest.lock */,
+				5008385022696106008EF69D /* Sources */,
+				5008385122696106008EF69D /* Frameworks */,
+				5008385222696106008EF69D /* Resources */,
+				26F5569A96373F1942C9D8BB /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "TC1-NG";
+			productName = "TC1-NG";
+			productReference = 5008385422696106008EF69D /* TC1-NG.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5008384C22696106008EF69D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1010;
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = TC1;
+				TargetAttributes = {
+					5008385322696106008EF69D = {
+						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1010;
+						SystemCapabilities = {
+							com.apple.WAC = {
+								enabled = 1;
+							};
+						};
+					};
+				};
+			};
+			buildConfigurationList = 5008384F22696106008EF69D /* Build configuration list for PBXProject "TC1-NG" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 5008384B22696106008EF69D;
+			productRefGroup = 5008385522696106008EF69D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				5008385322696106008EF69D /* TC1-NG */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		5008385222696106008EF69D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5008386222696108008EF69D /* LaunchScreen.storyboard in Resources */,
+				5008385F22696108008EF69D /* Assets.xcassets in Resources */,
+				50777249226D6626000D37EF /* TCListStoryBoard.storyboard in Resources */,
+				5008385D22696107008EF69D /* TCDeviceMain.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		26F5569A96373F1942C9D8BB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-TC1-NG/Pods-TC1-NG-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework",
+				"${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework",
+				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/LKDBHelper/LKDBHelper.framework",
+				"${BUILT_PRODUCTS_DIR}/Moscapsule/Moscapsule.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FMDB.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LKDBHelper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moscapsule.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TC1-NG/Pods-TC1-NG-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8B535F4303A9A33CF13C3851 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TC1-NG-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5008385022696106008EF69D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5008385A22696106008EF69D /* TCDeviceMainViewController.swift in Sources */,
+				5008387522699D84008EF69D /* TC1MQTTManager.swift in Sources */,
+				50A79777227064CA005C706A /* SocketModel.m in Sources */,
+				50E8903B2271651500F37638 /* TCConfigViewController.swift in Sources */,
+				5008385822696106008EF69D /* AppDelegate.swift in Sources */,
+				50A7976622705867005C706A /* TCSQLManager.swift in Sources */,
+				50A7975F227045C1005C706A /* TCDeviceCell.swift in Sources */,
+				50A79776227064CA005C706A /* TCDeviceModel.m in Sources */,
+				5008387322696FC9008EF69D /* PowerProgressView.swift in Sources */,
+				50C6DD392271B3A400EC9366 /* MQTTModel.m in Sources */,
+				50A7976122704606005C706A /* TCListViewController.swift in Sources */,
+				50C6DD3B2271B6FA00EC9366 /* TCDeviceInfoTableViewController.swift in Sources */,
+				50A79763227055C0005C706A /* TCSocketItem.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		5008385B22696107008EF69D /* TCDeviceMain.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5008385C22696107008EF69D /* Base */,
+			);
+			name = TCDeviceMain.storyboard;
+			sourceTree = "<group>";
+		};
+		5008386022696108008EF69D /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5008386122696108008EF69D /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		5008386422696108008EF69D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		5008386522696108008EF69D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		5008386722696108008EF69D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 659E7832BD9F91A6639CDB64 /* Pods-TC1-NG.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "TC1-NG/TC1-NG.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YS9C6LSNU6;
+				INFOPLIST_FILE = "TC1-NG/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/TC1-NG/EasyLink",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "HuaZao.TC1-NG";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "TC1-NG/TC1-NG-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		5008386822696108008EF69D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 01D4B00DB74133A4DDCCC1B0 /* Pods-TC1-NG.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "TC1-NG/TC1-NG.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YS9C6LSNU6;
+				INFOPLIST_FILE = "TC1-NG/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/TC1-NG/EasyLink",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "HuaZao.TC1-NG";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "TC1-NG/TC1-NG-Bridging-Header.h";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5008384F22696106008EF69D /* Build configuration list for PBXProject "TC1-NG" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5008386422696108008EF69D /* Debug */,
+				5008386522696108008EF69D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5008386622696108008EF69D /* Build configuration list for PBXNativeTarget "TC1-NG" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5008386722696108008EF69D /* Debug */,
+				5008386822696108008EF69D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 5008384C22696106008EF69D /* Project object */;
+}

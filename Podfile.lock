@@ -1,0 +1,52 @@
+PODS:
+  - CocoaAsyncSocket (7.6.3)
+  - FMDB (2.7.5):
+    - FMDB/standard (= 2.7.5)
+  - FMDB/standard (2.7.5)
+  - IQKeyboardManagerSwift (6.2.0)
+  - LKDBHelper (2.5.1):
+    - LKDBHelper/standard (= 2.5.1)
+  - LKDBHelper/standard (2.5.1):
+    - FMDB
+  - Moscapsule (0.6.2)
+  - OpenSSL-Universal (1.0.2.13)
+  - SwiftyJSON (4.2.0)
+
+DEPENDENCIES:
+  - CocoaAsyncSocket
+  - IQKeyboardManagerSwift
+  - LKDBHelper
+  - Moscapsule (from `https://github.com/flightonary/Moscapsule.git`)
+  - OpenSSL-Universal
+  - SwiftyJSON
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - CocoaAsyncSocket
+    - FMDB
+    - IQKeyboardManagerSwift
+    - LKDBHelper
+    - OpenSSL-Universal
+    - SwiftyJSON
+
+EXTERNAL SOURCES:
+  Moscapsule:
+    :git: https://github.com/flightonary/Moscapsule.git
+
+CHECKOUT OPTIONS:
+  Moscapsule:
+    :commit: bd40e53e7153f3d3775f3727296640e7415fde93
+    :git: https://github.com/flightonary/Moscapsule.git
+
+SPEC CHECKSUMS:
+  CocoaAsyncSocket: eafaa68a7e0ec99ead0a7b35015e0bf25d2c8987
+  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
+  IQKeyboardManagerSwift: b07ccf9d8cafe993dcd6cb794eb4ba34611a0c4e
+  LKDBHelper: 9a276ba51f2e16263d46a9517e16cc9b03472664
+  Moscapsule: dbf891e0a6b75cbe63c98d9bdbbad6ff4aaf00e6
+  OpenSSL-Universal: 401888162f11c33ebbd46f782d9229da35c61327
+  SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
+
+PODFILE CHECKSUM: 4053fd6d6bb555e87f2c78399667d3a097c69d10
+
+COCOAPODS: 1.5.3
