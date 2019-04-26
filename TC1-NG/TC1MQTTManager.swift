@@ -9,6 +9,7 @@
 import UIKit
 import CocoaAsyncSocket
 import Moscapsule
+import SwiftyJSON
 
 protocol TC1MQTTManagerDelegate:class {
     func TC1MQTTManagerOnConnect(code:Int)
@@ -44,22 +45,22 @@ class TC1MQTTManager: NSObject {
     weak var delegate:TC1MQTTManagerDelegate?
     
     func connectTC1UdpService(){
-//        self.messageBlock = message
-//        //全网发送UDP配对
-//        let udpSocket = GCDAsyncUdpSocket(delegate: self, delegateQueue: DispatchQueue.global())
-//        do {
-//            try udpSocket.enableBroadcast(true)
-//            try udpSocket.bind(toPort: 10181)
-//            try udpSocket.beginReceiving()
-////            udpSocket.send(self.getJSONStringFromDictionary(dictionary: ["cmd":"device report"]), toHost: "192.168.50.255", port: 10182, withTimeout: 20, tag: 1)
-//        } catch  {
-//            print("UDP Error\(error.localizedDescription)")
-//        }
+        //        self.messageBlock = message
+        //        //全网发送UDP配对
+        //        let udpSocket = GCDAsyncUdpSocket(delegate: self, delegateQueue: DispatchQueue.global())
+        //        do {
+        //            try udpSocket.enableBroadcast(true)
+        //            try udpSocket.bind(toPort: 10181)
+        //            try udpSocket.beginReceiving()
+        ////            udpSocket.send(self.getJSONStringFromDictionary(dictionary: ["cmd":"device report"]), toHost: "192.168.50.255", port: 10182, withTimeout: 20, tag: 1)
+        //        } catch  {
+        //            print("UDP Error\(error.localizedDescription)")
+        //        }
     }
     
     func initTC1MQTTService(){
-         let mqttConfig = MQTTConfig(clientId: "clientId", host: "home.wula.vip", port: 1883, keepAlive: 60)
-        mqttConfig.mqttAuthOpts = MQTTAuthOpts(username: "WuLa", password: "23333333")
+        let mqttConfig = MQTTConfig(clientId: "", host: "", port: 1883, keepAlive: 60)
+        mqttConfig.mqttAuthOpts = MQTTAuthOpts(username: "", password: "")
         mqttConfig.onConnectCallback = {
             self.delegate?.TC1MQTTManagerOnConnect(code: $0.rawValue)
         }
@@ -88,6 +89,14 @@ class TC1MQTTManager: NSObject {
     func unSubscribeDeviceMessage(mac:String){
         self.mqttClient?.unsubscribe("device/ztc1/" + mac  + "/state")
     }
+    
+    
+    func publishMessage(_ message:[String:Any],qos:Int = 0){
+        if let jsonString = JSON(message).rawString(.utf8, options: .init(rawValue: 0)){
+            self.mqttClient?.publish(string:jsonString, topic: "device/ztc1/set", qos: Int32(qos), retain: true)
+        }
+    }
+    
     
     func sendDeviceReportCmd(){
         //QOS为2,确保扫描出全部设备而且消息不重复!
@@ -126,15 +135,15 @@ extension TC1MQTTManager:GCDAsyncUdpSocketDelegate{
     }
     
     func udpSocket(_ sock: GCDAsyncUdpSocket, didReceive data: Data, fromAddress address: Data, withFilterContext filterContext: Any?) {
-//        let ip = GCDAsyncUdpSocket.host(fromAddress: address)
-//        let port = GCDAsyncUdpSocket.port(fromAddress: address)
-//        print("收到回应-----> IP:\(String(describing: ip)) Port:\(port)")
-//        if let str = String(data: data, encoding: String.Encoding.utf8){
-//        DispatchQueue.main.async {
-//            self.messageBlock!(data)
-//        }
-//            print("接送到的字符串-> \(str)")
-//        }
+        //        let ip = GCDAsyncUdpSocket.host(fromAddress: address)
+        //        let port = GCDAsyncUdpSocket.port(fromAddress: address)
+        //        print("收到回应-----> IP:\(String(describing: ip)) Port:\(port)")
+        //        if let str = String(data: data, encoding: String.Encoding.utf8){
+        //        DispatchQueue.main.async {
+        //            self.messageBlock!(data)
+        //        }
+        //            print("接送到的字符串-> \(str)")
+        //        }
     }
     
 }

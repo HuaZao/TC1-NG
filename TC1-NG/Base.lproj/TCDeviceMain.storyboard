@@ -336,7 +336,7 @@
         <!--设置MQTT服务器-->
         <scene sceneID="UI6-OV-z8Y">
             <objects>
-                <viewController id="M27-p8-ddx" sceneMemberID="viewController">
+                <viewController id="M27-p8-ddx" customClass="TCSetMQTTServiceViewController" customModule="TC1_NG" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="JwT-fe-kmL"/>
                         <viewControllerLayoutGuide type="bottom" id="QGG-m9-Uu3"/>
@@ -485,6 +485,9 @@
                                 <state key="normal" title="保存">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="saveMQTTAction:" destination="M27-p8-ddx" eventType="touchUpInside" id="rlA-cc-lss"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -519,6 +522,12 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="host" destination="J8y-nB-4jl" id="NhF-SY-PaS"/>
+                        <outlet property="passWord" destination="96x-az-nsd" id="cXp-XM-Wfv"/>
+                        <outlet property="port" destination="l56-fz-6dr" id="kgD-Bj-fCx"/>
+                        <outlet property="userName" destination="i0e-jW-1yX" id="6Sc-KX-6cQ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0e2-U4-Nf7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

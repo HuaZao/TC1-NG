@@ -27,5 +27,11 @@ class TCDeviceInfoTableViewController: UITableViewController {
         self.version.text = self.deviceModel.version
         
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? TCSetMQTTServiceViewController{
+            vc.deviceModel = self.deviceModel
+        }
+    }
 
 }
