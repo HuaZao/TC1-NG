@@ -21,10 +21,13 @@ class TCDeviceMainViewController: UIViewController {
         super.viewDidLoad()
         powerView.setCircleColor(color: UIColor.purple)
         powerView.animateToProgress(progress: 0)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         TC1MQTTManager.share.delegate = self
         TC1MQTTManager.share.subscribeDeviceMessage(mac: self.deviceModel.mac)
         TC1MQTTManager.share.getDeviceFullState(name: self.deviceModel.name, mac: self.deviceModel.mac)
-
     }
     
     @IBAction func dimissViewController(_ sender: UIBarButtonItem) {

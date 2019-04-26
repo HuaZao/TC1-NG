@@ -11,4 +11,6 @@ pod 'OpenSSL-Universal'
 pod 'SwiftyJSON'
 pod 'LKDBHelper'
 pod 'IQKeyboardManagerSwift'
+pod 'PKHUD', '~> 5.0'
+
 end

@@ -26,6 +26,7 @@
 		50C6DD3222719FBD00EC9366 /* libEasyLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C6DD3122719FBD00EC9366 /* libEasyLink.a */; };
 		50C6DD392271B3A400EC9366 /* MQTTModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C6DD382271B3A400EC9366 /* MQTTModel.m */; };
 		50C6DD3B2271B6FA00EC9366 /* TCDeviceInfoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C6DD3A2271B6FA00EC9366 /* TCDeviceInfoTableViewController.swift */; };
+		50C6DD412272B0B600EC9366 /* TCSetMQTTServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C6DD402272B0B600EC9366 /* TCSetMQTTServiceViewController.swift */; };
 		50E8903B2271651500F37638 /* TCConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E8903A2271651500F37638 /* TCConfigViewController.swift */; };
 		5CB9C9FC603A96B93CA6D7FB /* Pods_TC1_NG.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4B04F00B0112D2186FEB698 /* Pods_TC1_NG.framework */; };
 /* End PBXBuildFile section */
@@ -60,6 +61,7 @@
 		50C6DD372271B3A400EC9366 /* MQTTModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MQTTModel.h; sourceTree = "<group>"; };
 		50C6DD382271B3A400EC9366 /* MQTTModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MQTTModel.m; sourceTree = "<group>"; };
 		50C6DD3A2271B6FA00EC9366 /* TCDeviceInfoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCDeviceInfoTableViewController.swift; sourceTree = "<group>"; };
+		50C6DD402272B0B600EC9366 /* TCSetMQTTServiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TCSetMQTTServiceViewController.swift; sourceTree = "<group>"; };
 		50E8903A2271651500F37638 /* TCConfigViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCConfigViewController.swift; sourceTree = "<group>"; };
 		659E7832BD9F91A6639CDB64 /* Pods-TC1-NG.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TC1-NG.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TC1-NG/Pods-TC1-NG.debug.xcconfig"; sourceTree = "<group>"; };
 		F4B04F00B0112D2186FEB698 /* Pods_TC1_NG.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TC1_NG.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -141,6 +143,7 @@
 		50C6DD332271AE2400EC9366 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				50C6DD402272B0B600EC9366 /* TCSetMQTTServiceViewController.swift */,
 				5008385922696106008EF69D /* TCDeviceMainViewController.swift */,
 				50A7976022704606005C706A /* TCListViewController.swift */,
 				50E8903A2271651500F37638 /* TCConfigViewController.swift */,
@@ -286,6 +289,7 @@
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/LKDBHelper/LKDBHelper.framework",
 				"${BUILT_PRODUCTS_DIR}/Moscapsule/Moscapsule.framework",
+				"${BUILT_PRODUCTS_DIR}/PKHUD/PKHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -295,6 +299,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LKDBHelper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moscapsule.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PKHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -337,6 +342,7 @@
 				50A79776227064CA005C706A /* TCDeviceModel.m in Sources */,
 				5008387322696FC9008EF69D /* PowerProgressView.swift in Sources */,
 				50C6DD392271B3A400EC9366 /* MQTTModel.m in Sources */,
+				50C6DD412272B0B600EC9366 /* TCSetMQTTServiceViewController.swift in Sources */,
 				50A7976122704606005C706A /* TCListViewController.swift in Sources */,
 				50C6DD3B2271B6FA00EC9366 /* TCDeviceInfoTableViewController.swift in Sources */,
 				50A79763227055C0005C706A /* TCSocketItem.swift in Sources */,

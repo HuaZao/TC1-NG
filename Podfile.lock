@@ -10,6 +10,7 @@ PODS:
     - FMDB
   - Moscapsule (0.6.2)
   - OpenSSL-Universal (1.0.2.13)
+  - PKHUD (5.2.0)
   - SwiftyJSON (4.2.0)
 
 DEPENDENCIES:
@@ -18,6 +19,7 @@ DEPENDENCIES:
   - LKDBHelper
   - Moscapsule (from `https://github.com/flightonary/Moscapsule.git`)
   - OpenSSL-Universal
+  - PKHUD (~> 5.0)
   - SwiftyJSON
 
 SPEC REPOS:
@@ -27,6 +29,7 @@ SPEC REPOS:
     - IQKeyboardManagerSwift
     - LKDBHelper
     - OpenSSL-Universal
+    - PKHUD
     - SwiftyJSON
 
 EXTERNAL SOURCES:
@@ -45,8 +48,9 @@ SPEC CHECKSUMS:
   LKDBHelper: 9a276ba51f2e16263d46a9517e16cc9b03472664
   Moscapsule: dbf891e0a6b75cbe63c98d9bdbbad6ff4aaf00e6
   OpenSSL-Universal: 401888162f11c33ebbd46f782d9229da35c61327
+  PKHUD: dd5357ac65f26115c35c4a68e9b328053326c5fe
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
 
-PODFILE CHECKSUM: 4053fd6d6bb555e87f2c78399667d3a097c69d10
+PODFILE CHECKSUM: 53b5e39dab1a38b0ba3e3ddad8654610e48b1b89
 
 COCOAPODS: 1.5.3
