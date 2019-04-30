@@ -21,4 +21,3 @@
 ![](https://github.com/HuaZao/TC1-NG/blob/master/ScreenShot4.png)
 ![](https://github.com/HuaZao/TC1-NG/blob/master/ScreenShot5.png)
 ![](https://github.com/HuaZao/TC1-NG/blob/master/ScreenShot6.png)
-![](https://github.com/HuaZao/TC1-NG/blob/master/ScreenShot7.png)
