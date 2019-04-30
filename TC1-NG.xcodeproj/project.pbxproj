@@ -28,6 +28,9 @@
 		50C6DD3B2271B6FA00EC9366 /* TCDeviceInfoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C6DD3A2271B6FA00EC9366 /* TCDeviceInfoTableViewController.swift */; };
 		50C6DD412272B0B600EC9366 /* TCSetMQTTServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C6DD402272B0B600EC9366 /* TCSetMQTTServiceViewController.swift */; };
 		50E8903B2271651500F37638 /* TCConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E8903A2271651500F37638 /* TCConfigViewController.swift */; };
+		50FBB4AF22770CFF004713EC /* TCSocketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FBB4AE22770CFF004713EC /* TCSocketViewController.swift */; };
+		50FBB4B12277FD73004713EC /* TCTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FBB4B02277FD73004713EC /* TCTaskCell.swift */; };
+		50FBB4B322782D64004713EC /* TCSocketTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FBB4B222782D64004713EC /* TCSocketTaskViewController.swift */; };
 		5CB9C9FC603A96B93CA6D7FB /* Pods_TC1_NG.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4B04F00B0112D2186FEB698 /* Pods_TC1_NG.framework */; };
 /* End PBXBuildFile section */
 
@@ -63,6 +66,9 @@
 		50C6DD3A2271B6FA00EC9366 /* TCDeviceInfoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCDeviceInfoTableViewController.swift; sourceTree = "<group>"; };
 		50C6DD402272B0B600EC9366 /* TCSetMQTTServiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TCSetMQTTServiceViewController.swift; sourceTree = "<group>"; };
 		50E8903A2271651500F37638 /* TCConfigViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCConfigViewController.swift; sourceTree = "<group>"; };
+		50FBB4AE22770CFF004713EC /* TCSocketViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCSocketViewController.swift; sourceTree = "<group>"; };
+		50FBB4B02277FD73004713EC /* TCTaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCTaskCell.swift; sourceTree = "<group>"; };
+		50FBB4B222782D64004713EC /* TCSocketTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCSocketTaskViewController.swift; sourceTree = "<group>"; };
 		659E7832BD9F91A6639CDB64 /* Pods-TC1-NG.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TC1-NG.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TC1-NG/Pods-TC1-NG.debug.xcconfig"; sourceTree = "<group>"; };
 		F4B04F00B0112D2186FEB698 /* Pods_TC1_NG.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TC1_NG.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -103,6 +109,7 @@
 		5008385622696106008EF69D /* TC1-NG */ = {
 			isa = PBXGroup;
 			children = (
+				50FBB4AB2276E5AA004713EC /* Tool */,
 				50C6DD332271AE2400EC9366 /* Controller */,
 				50C6DD362271AE5300EC9366 /* View */,
 				50C6DD352271AE4300EC9366 /* Model */,
@@ -143,11 +150,9 @@
 		50C6DD332271AE2400EC9366 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				50C6DD402272B0B600EC9366 /* TCSetMQTTServiceViewController.swift */,
-				5008385922696106008EF69D /* TCDeviceMainViewController.swift */,
-				50A7976022704606005C706A /* TCListViewController.swift */,
-				50E8903A2271651500F37638 /* TCConfigViewController.swift */,
-				50C6DD3A2271B6FA00EC9366 /* TCDeviceInfoTableViewController.swift */,
+				50FBB4B622782D7E004713EC /* Device */,
+				50FBB4B522782D73004713EC /* MainList */,
+				50FBB4B422782D6A004713EC /* Timer */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -157,6 +162,7 @@
 			children = (
 				50A79762227055C0005C706A /* TCSocketItem.swift */,
 				50A7975E227045C1005C706A /* TCDeviceCell.swift */,
+				50FBB4B02277FD73004713EC /* TCTaskCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -180,6 +186,41 @@
 				5008387222696FC9008EF69D /* PowerProgressView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		50FBB4AB2276E5AA004713EC /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Tool;
+			sourceTree = "<group>";
+		};
+		50FBB4B422782D6A004713EC /* Timer */ = {
+			isa = PBXGroup;
+			children = (
+				50FBB4AE22770CFF004713EC /* TCSocketViewController.swift */,
+				50FBB4B222782D64004713EC /* TCSocketTaskViewController.swift */,
+			);
+			path = Timer;
+			sourceTree = "<group>";
+		};
+		50FBB4B522782D73004713EC /* MainList */ = {
+			isa = PBXGroup;
+			children = (
+				50A7976022704606005C706A /* TCListViewController.swift */,
+			);
+			path = MainList;
+			sourceTree = "<group>";
+		};
+		50FBB4B622782D7E004713EC /* Device */ = {
+			isa = PBXGroup;
+			children = (
+				50C6DD402272B0B600EC9366 /* TCSetMQTTServiceViewController.swift */,
+				50C6DD3A2271B6FA00EC9366 /* TCDeviceInfoTableViewController.swift */,
+				5008385922696106008EF69D /* TCDeviceMainViewController.swift */,
+				50E8903A2271651500F37638 /* TCConfigViewController.swift */,
+			);
+			path = Device;
 			sourceTree = "<group>";
 		};
 		9C1D6EF9D3E749FE61818A7C /* Frameworks */ = {
@@ -290,6 +331,7 @@
 				"${BUILT_PRODUCTS_DIR}/LKDBHelper/LKDBHelper.framework",
 				"${BUILT_PRODUCTS_DIR}/Moscapsule/Moscapsule.framework",
 				"${BUILT_PRODUCTS_DIR}/PKHUD/PKHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/RealReachability/RealReachability.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -300,6 +342,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LKDBHelper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moscapsule.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PKHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealReachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -337,6 +380,7 @@
 				50A79777227064CA005C706A /* SocketModel.m in Sources */,
 				50E8903B2271651500F37638 /* TCConfigViewController.swift in Sources */,
 				5008385822696106008EF69D /* AppDelegate.swift in Sources */,
+				50FBB4B12277FD73004713EC /* TCTaskCell.swift in Sources */,
 				50A7976622705867005C706A /* TCSQLManager.swift in Sources */,
 				50A7975F227045C1005C706A /* TCDeviceCell.swift in Sources */,
 				50A79776227064CA005C706A /* TCDeviceModel.m in Sources */,
@@ -346,6 +390,8 @@
 				50A7976122704606005C706A /* TCListViewController.swift in Sources */,
 				50C6DD3B2271B6FA00EC9366 /* TCDeviceInfoTableViewController.swift in Sources */,
 				50A79763227055C0005C706A /* TCSocketItem.swift in Sources */,
+				50FBB4AF22770CFF004713EC /* TCSocketViewController.swift in Sources */,
+				50FBB4B322782D64004713EC /* TCSocketTaskViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

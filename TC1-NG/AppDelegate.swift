@@ -14,9 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        TC1MQTTManager.share.initTC1MQTTService()
         IQKeyboardManager.shared.enable = true
-
         return true
     }
 

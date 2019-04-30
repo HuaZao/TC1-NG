@@ -42,25 +42,29 @@ class TC1MQTTManager: NSObject {
     
     static let share = TC1MQTTManager()
     private var mqttClient: MQTTClient?
+    var isUDP = true
+    private var udpSocket:GCDAsyncUdpSocket?
+    private var mac = String()
     weak var delegate:TC1MQTTManagerDelegate?
     
-    func connectTC1UdpService(){
-        //        self.messageBlock = message
-        //        //全网发送UDP配对
-        //        let udpSocket = GCDAsyncUdpSocket(delegate: self, delegateQueue: DispatchQueue.global())
-        //        do {
-        //            try udpSocket.enableBroadcast(true)
-        //            try udpSocket.bind(toPort: 10181)
-        //            try udpSocket.beginReceiving()
-        ////            udpSocket.send(self.getJSONStringFromDictionary(dictionary: ["cmd":"device report"]), toHost: "192.168.50.255", port: 10182, withTimeout: 20, tag: 1)
-        //        } catch  {
-        //            print("UDP Error\(error.localizedDescription)")
-        //        }
+    func initTC1Service(_ service:MQTTModel? = nil,mac:String){
+        //UDP广播的地址为255.255.255.255,局域网内的TC1都会发送响应,通过MAC判断是否返回给前端处理d0bae463c730
+        self.mac = mac
+        if let service = service{
+            //初始化UDP和MQTT服务器
+//            self.useMQTTService(service: service)
+            self.useUDPService()
+        }else{
+            //没有设置MQTT服务器只初始化UDP
+            self.useUDPService()
+        }
     }
     
-    func initTC1MQTTService(){
-        let mqttConfig = MQTTConfig(clientId: "", host: "", port: 1883, keepAlive: 60)
-        mqttConfig.mqttAuthOpts = MQTTAuthOpts(username: "", password: "")
+    private func useMQTTService(service:MQTTModel){
+        self.isUDP = false
+        self.mqttClient?.disconnect()
+        let mqttConfig = MQTTConfig(clientId: service.clientId, host: service.host, port: Int32(service.port), keepAlive: 60)
+        mqttConfig.mqttAuthOpts = MQTTAuthOpts(username:service.username, password:service.password)
         mqttConfig.onConnectCallback = {
             self.delegate?.TC1MQTTManagerOnConnect(code: $0.rawValue)
         }
@@ -68,7 +72,7 @@ class TC1MQTTManager: NSObject {
             self.delegate?.TC1MQTTManagerDidConnect(code: $0.rawValue)
         }
         mqttConfig.onMessageCallback = {
-            self.delegate?.TC1MQTTManagerReceivedMessage(message: $0.payload ?? Data())
+             self.delegate?.TC1MQTTManagerReceivedMessage(message: $0.payload ?? Data())
         }
         mqttConfig.onSubscribeCallback = {
             self.delegate?.TC1MQTTManagerSubscribe(messageId: $0, grantedQos: $1)
@@ -82,30 +86,99 @@ class TC1MQTTManager: NSObject {
         self.mqttClient = MQTT.newConnection(mqttConfig)
     }
     
+    private func useUDPService(){
+        self.isUDP = true
+        self.udpSocket?.close()
+        if self.udpSocket == nil {
+            self.udpSocket = GCDAsyncUdpSocket(delegate: self, delegateQueue: DispatchQueue.global())
+        }
+        do {
+            try self.udpSocket?.enableBroadcast(true)
+            try self.udpSocket?.bind(toPort: 10181)
+            try self.udpSocket?.beginReceiving()
+            self.sendDeviceReportCmd()
+        } catch  {
+            print("UDP Error\(error.localizedDescription)")
+        }
+    }
+    
     func subscribeDeviceMessage(mac:String,qos:Int = 0){
+        if self.isUDP{
+            return;
+        }
         self.mqttClient?.subscribe("device/ztc1/" + mac  + "/state", qos: Int32(qos))
     }
     
     func unSubscribeDeviceMessage(mac:String){
+        if self.isUDP{
+            return
+        }
         self.mqttClient?.unsubscribe("device/ztc1/" + mac  + "/state")
     }
     
     
     func publishMessage(_ message:[String:Any],qos:Int = 0){
         if let jsonString = JSON(message).rawString(.utf8, options: .init(rawValue: 0)){
-            self.mqttClient?.publish(string:jsonString, topic: "device/ztc1/set", qos: Int32(qos), retain: true)
+            print("publishMessage String -> \(jsonString)")
+            if self.isUDP{
+                self.udpSocket?.send(jsonString.data(using: String.Encoding.utf8)!, toHost: "255.255.255.255", port: 10182, withTimeout: 60, tag: Int.random(in: 1...100))
+            }else{
+                self.mqttClient?.publish(string:jsonString, topic: "device/ztc1/set", qos: Int32(qos), retain: true)
+            }
         }
     }
     
+    func switchDevice(state:Bool,index:Int,mac:String){
+        var cmd = [String:Any]()
+        if state{
+            cmd = ["mac":mac,"plug_\(index)":["on":1]] as [String : Any]
+        }else{
+            cmd = ["mac":mac,"plug_\(index)":["on":0]] as [String : Any]
+        }
+        self.publishMessage(cmd,qos: 1)
+    }
+    
+    func queryTask(index:Int){
+        let cmd = ["mac":self.mac,
+                   "plug_\(index)":[
+                    "name":nil,
+                    "setting":[
+                        "task_0":nil,
+                        "task_1":nil,
+                        "task_2":nil,
+                        "task_3":nil,
+                        "task_4":nil
+                    ]
+            ]
+            ] as [String : Any]
+        self.publishMessage(cmd,qos: 1)
+    }
+    
+    func taskDevice(task:TCTask,index:Int,taskIndex:Int){
+        let cmd = ["mac":self.mac,
+                   "plug_\(index)":[
+                    "setting":[
+                        "task_\(taskIndex)":[
+                            "hour":task.hour,
+                            "minute":task.minute,
+                            "repeat":task.repeat,
+                            "action":task.action,
+                            "on":task.on
+                        ]
+                    ]
+            ]
+            ] as [String : Any]
+        self.publishMessage(cmd,qos: 1)
+    }
     
     func sendDeviceReportCmd(){
-        //QOS为2,确保扫描出全部设备而且消息不重复!
-        self.mqttClient?.publish(string: "{\"cmd\":\"device report\"}", topic: "device/ztc1/set", qos: Int32(2), retain: true)
+        let cmd = ["cmd":"device report"]
+        self.publishMessage(cmd,qos: 2)
     }
     
     func getDeviceFullState(name:String,mac:String){
-        let cmd = "{\"name\":\"\(name)\",\"mac\":\"\(mac)\",\"version\":null,\"setting\":{\"mqtt_uri\":null,\"mqtt_port\":null,\"mqtt_user\":null,\"mqtt_password\":null}}"
-        self.mqttClient?.publish(string:cmd, topic: "device/ztc1/set", qos: Int32(1), retain: true)
+        let cmd = ["name":name,"mac":mac,"version":nil,"setting":["mqtt_uri":nil,"mqtt_port":nil,"mqtt_user":nil,"mqtt_password":nil]] as [String : Any?]
+        self.publishMessage(cmd as [String : Any],qos: 1)
     }
     
 }
@@ -115,19 +188,19 @@ extension TC1MQTTManager:GCDAsyncUdpSocketDelegate{
     
     //UDP
     func udpSocket(_ sock: GCDAsyncUdpSocket, didSendDataWithTag tag: Int) {
-        print("Tag为\(tag) 已发送!")
+        self.delegate?.TC1MQTTManagerPublish(messageId: tag)
     }
     
     func udpSocket(_ sock: GCDAsyncUdpSocket, didNotConnect error: Error?) {
-        print("1!")
+        self.delegate?.TC1MQTTManagerDidConnect(code: 0)
     }
     
     func udpSocketDidClose(_ sock: GCDAsyncUdpSocket, withError error: Error?) {
-        print("close")
+        self.delegate?.TC1MQTTManagerDidConnect(code: 0)
     }
     
     func udpSocket(_ sock: GCDAsyncUdpSocket, didConnectToAddress address: Data) {
-        print("c")
+        self.delegate?.TC1MQTTManagerOnConnect(code: 0)
     }
     
     func udpSocket(_ sock: GCDAsyncUdpSocket, didNotSendDataWithTag tag: Int, dueToError error: Error?) {
@@ -135,15 +208,9 @@ extension TC1MQTTManager:GCDAsyncUdpSocketDelegate{
     }
     
     func udpSocket(_ sock: GCDAsyncUdpSocket, didReceive data: Data, fromAddress address: Data, withFilterContext filterContext: Any?) {
-        //        let ip = GCDAsyncUdpSocket.host(fromAddress: address)
-        //        let port = GCDAsyncUdpSocket.port(fromAddress: address)
-        //        print("收到回应-----> IP:\(String(describing: ip)) Port:\(port)")
-        //        if let str = String(data: data, encoding: String.Encoding.utf8){
-        //        DispatchQueue.main.async {
-        //            self.messageBlock!(data)
-        //        }
-        //            print("接送到的字符串-> \(str)")
-        //        }
+        DispatchQueue.main.async {
+            self.delegate?.TC1MQTTManagerReceivedMessage(message:data)
+        }
     }
     
 }

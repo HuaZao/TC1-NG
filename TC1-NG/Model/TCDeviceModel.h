@@ -28,6 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) MQTTModel *mqtt;
 //各个插座的数据
 @property (nonatomic,strong) NSArray <SocketModel *>*sockets;
+//是否局域网在线
+@property (nonatomic,assign) BOOL isOnline;
 
 @end
 

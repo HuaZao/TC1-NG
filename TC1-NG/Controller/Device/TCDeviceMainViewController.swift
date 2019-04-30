@@ -19,6 +19,7 @@ class TCDeviceMainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        TC1MQTTManager.share.initTC1Service(deviceModel.mqtt, mac: deviceModel.mac)
         powerView.setCircleColor(color: UIColor.purple)
         powerView.animateToProgress(progress: 0)
     }
@@ -41,6 +42,12 @@ class TCDeviceMainViewController: UIViewController {
             let vc = segue.destination as? TCDeviceInfoTableViewController
             vc?.deviceModel = self.deviceModel
         }
+        
+        if let vc = segue.destination as? TCSocketViewController,let sender = sender as? UIButton{
+            vc.plug = sender.tag
+            vc.title = self.deviceModel.sockets[sender.tag].sockeTtitle
+        }
+        
     }
         
     
@@ -124,12 +131,19 @@ extension TCDeviceMainViewController:UICollectionViewDelegateFlowLayout,UICollec
         let item = collectionView.dequeueReusableCell(withReuseIdentifier: "socketItem", for: indexPath) as! TCSocketItem
         item.titleLabel.text = self.deviceModel.sockets[indexPath.row].sockeTtitle
         item.socketButton.isSelected = self.deviceModel.sockets[indexPath.row].isOn
+        item.moreButton.tag = indexPath.row
         return item
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = self.view.frame.width / 3
         return CGSize(width: width, height: width)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let model = self.deviceModel.sockets[indexPath.row]
+        TC1MQTTManager.share.switchDevice(state: !model.isOn, index: indexPath.row, mac: self.deviceModel.mac)
+        
     }
     
     

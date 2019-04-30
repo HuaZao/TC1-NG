@@ -12,5 +12,6 @@ class TCSocketItem: UICollectionViewCell {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var socketButton: UIButton!
+    @IBOutlet weak var moreButton: UIButton!
     
 }

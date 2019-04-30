@@ -67,6 +67,14 @@ class TCSQLManager: NSObject {
         model.updateToDB()
     }
     
+    static func deciveisExist(_ mac:String)->Bool{
+        if let all = self.queryAllTCDevice(){
+           return all.filter({$0.mac == mac}).count > 0
+        }else{
+            return false
+        }
+    }
+    
     static func getDBPath() -> String{
         NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let documentDirPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
