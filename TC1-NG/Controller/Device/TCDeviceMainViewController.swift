@@ -96,6 +96,9 @@ extension TCDeviceMainViewController:TC1MQTTManagerDelegate{
     func TC1MQTTManagerReceivedMessage(message: Data) {
         DispatchQueue.main.async {
             let messageJSON = try! JSON(data: message)
+            if messageJSON["mac"].stringValue != self.deviceModel.mac{
+                return
+            }
             let power = messageJSON["power"].floatValue
             if power > 0 {
                 self.powerView.animateToProgress(progress: 1/2500 * power)
