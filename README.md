@@ -12,7 +12,7 @@
 - [x] 定时功能
 - [x] 设置MQTT服务器
 - [x] OTA更新
-- [ ] 多设备支持
+- [x] 多设备支持
 
 ### 预览图
 ![](https://github.com/HuaZao/TC1-NG/blob/master/ScreenShot1.png)
