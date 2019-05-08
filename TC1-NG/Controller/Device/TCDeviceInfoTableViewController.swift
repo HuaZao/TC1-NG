@@ -37,7 +37,23 @@ class TCDeviceInfoTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0{
-            
+            let alert = UIAlertController(title: "重命名", message: "请输入新名字", preferredStyle: .alert)
+            alert.addTextField { (textField) in
+                textField.placeholder = "请输入新名字"
+            }
+            alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+            let reNameAction = UIAlertAction(title: "确认", style: .destructive, handler: { (_) in
+                if let name = alert.textFields!.first?.text,name.count > 0{
+                    TC1MQTTManager.share.publishMessage(["mac":self.deviceModel.mac,"name":name],qos:1)
+                    HUD.flash(.labeledSuccess(title: nil, subtitle: "请求已发送"), delay: 2)
+                    self.deviceModel.name = name
+                    TCSQLManager.updateTCDevice(self.deviceModel)
+                }else{
+                    HUD.flash(.labeledError(title: nil, subtitle: "请输入新名字"), delay: 2)
+                }
+            })
+            alert.addAction(reNameAction)
+            self.present(alert, animated: true, completion: nil)
         }
         if indexPath.row == 4{
             self.checkForUpdates()
@@ -86,7 +102,7 @@ extension TCDeviceInfoTableViewController:TC1MQTTManagerDelegate{
     }
     
     func TC1MQTTManagerPublish(messageId: Int) {
-        print("更新指令已经发送!")
+        print("指令已经发送!")
     }
     
     

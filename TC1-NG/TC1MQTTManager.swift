@@ -177,7 +177,15 @@ class TC1MQTTManager: NSObject {
     }
     
     func getDeviceFullState(name:String,mac:String){
-        let cmd = ["name":name,"mac":mac,"version":nil,"setting":["mqtt_uri":nil,"mqtt_port":nil,"mqtt_user":nil,"mqtt_password":nil]] as [String : Any?]
+        let cmd = ["name":name,"mac":mac,"version":nil,
+                   "setting":["mqtt_uri":nil,"mqtt_port":nil,"mqtt_user":nil,"mqtt_password":nil],
+                   "plug_0":["setting":["name":nil]],
+                   "plug_1":["setting":["name":nil]],
+                   "plug_2":["setting":["name":nil]],
+                   "plug_3":["setting":["name":nil]],
+                   "plug_4":["setting":["name":nil]],
+                   "plug_5":["setting":["name":nil]]
+            ] as [String : Any?]
         self.publishMessage(cmd as [String : Any],qos: 1)
     }
     

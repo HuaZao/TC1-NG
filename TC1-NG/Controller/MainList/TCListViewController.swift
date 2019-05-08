@@ -19,14 +19,14 @@ class TCListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //    自动发现未添加的设备
         self.netServiceBrowser = NetServiceBrowser()
-        self.netServiceBrowser?.searchForServices(ofType: "_easylink._tcp", inDomain: "local")
         self.netServiceBrowser?.delegate = self
+        self.netServiceBrowser?.schedule(in: RunLoop.main, forMode: .common)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.netServiceBrowser?.searchForServices(ofType: "_easylink._tcp", inDomain: "local")
         self.dataSource = TCSQLManager.queryAllTCDevice() ?? [TCDeviceModel]()
         self.noDeviceBg.isHidden = !self.dataSource.isEmpty
         self.tableView.reloadData()
@@ -53,6 +53,7 @@ class TCListViewController: UIViewController {
             model.sockets.append(socket)
         }
         TCSQLManager.addTCDevice(model)
+        print("MAC:\(model.mac) 设备已经添加到本地")
         DispatchQueue.main.async {
             self.dataSource.append(model)
             self.noDeviceBg.isHidden = true
@@ -104,9 +105,11 @@ extension TCListViewController:TC1MQTTManagerDelegate,NetServiceBrowserDelegate,
                 serviceDic["IP"] = self.getIPV4StringfromAddress(address: ipData)
             }
             serviceDic["Port"] = "\(sender.port)"
-            if let mac = serviceDic["MAC"]{
-                if TCSQLManager.deciveisExist(mac.replacingOccurrences(of: ":", with: "").lowercased()) {
-                    print("设备已存在!")
+            print("发现设备->\(serviceDic)")
+            if var mac = serviceDic["MAC"]{
+                mac = mac.replacingOccurrences(of: ":", with: "").lowercased()
+                if TCSQLManager.deciveisExist(mac) {
+                    print("MAC:\(mac) 设备已存在,跳过添加")
                     return
                 }
             }
@@ -118,15 +121,7 @@ extension TCListViewController:TC1MQTTManagerDelegate,NetServiceBrowserDelegate,
             }
         }
     }
-    
-    func netServiceDidStop(_ sender: NetService) {
-        print("\(sender.name) 连接超时!")
-    }
-    
-    func netService(_ sender: NetService, didNotResolve errorDict: [String : NSNumber]) {
-        print("\(sender.name) 无法解析-> \(errorDict)")
-    }
-    
+
     func netServiceBrowser(_ browser: NetServiceBrowser, didFind service: NetService, moreComing: Bool) {
         self.serviceDataSource.append(service)
         service.delegate = self

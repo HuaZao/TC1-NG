@@ -44,6 +44,7 @@
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstItem="SDM-0f-Ryq" firstAttribute="leading" secondItem="nao-EG-pLq" secondAttribute="leading" constant="12" id="8a9-sO-afj"/>
                                     <constraint firstItem="lLF-pd-o1f" firstAttribute="centerY" secondItem="RNT-Yq-vSc" secondAttribute="centerY" id="MOg-my-y2O"/>
@@ -53,6 +54,9 @@
                                     <constraint firstAttribute="trailing" secondItem="RNT-Yq-vSc" secondAttribute="trailing" constant="12" id="sZO-hS-wdM"/>
                                     <constraint firstAttribute="height" constant="45" id="sdw-mW-PgG"/>
                                 </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="mtF-NI-YCd" appends="YES" id="8MJ-ct-GFy"/>
+                                </connections>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="130" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="TWn-xR-SKF">
                                 <rect key="frame" x="0.0" y="125" width="375" height="542"/>
@@ -76,10 +80,10 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ln9-Vb-wHf">
-                                                    <rect key="frame" x="12" y="0.0" width="296" height="122"/>
+                                                    <rect key="frame" x="12" y="0.0" width="351" height="122"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GIL-4Q-erw">
-                                                            <rect key="frame" x="0.0" y="40" width="296" height="0.5"/>
+                                                            <rect key="frame" x="0.0" y="40" width="351" height="0.5"/>
                                                             <color key="backgroundColor" white="0.66666666666666663" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="0.5" id="Ldj-R7-6H7"/>
@@ -92,7 +96,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2OG-ej-68M">
-                                                            <rect key="frame" x="254" y="5.5" width="30" height="29"/>
+                                                            <rect key="frame" x="309" y="5.5" width="30" height="29"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <state key="normal" title="编辑"/>
                                                             <connections>
@@ -112,7 +116,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hIj-w6-8mk">
-                                                            <rect key="frame" x="235" y="66.5" width="51" height="31"/>
+                                                            <rect key="frame" x="290" y="66.5" width="51" height="31"/>
                                                             <connections>
                                                                 <action selector="switchTaskAction:" destination="Agi-dF-omx" eventType="valueChanged" id="dnK-lX-E8E"/>
                                                             </connections>
@@ -195,13 +199,17 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TRm-jb-NpO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="mtF-NI-YCd" userLabel="ReName">
+                    <connections>
+                        <action selector="renameSocketTap:" destination="Agi-dF-omx" id="ftR-sn-542"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="493.60000000000002" y="162.3688155922039"/>
         </scene>
         <!--添加定时-->
         <scene sceneID="lYS-WS-Pln">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="7Pr-gQ-uxW" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="C8W-lv-k9o" customClass="TCSocketTaskViewController" customModule="TC1_NG" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="GhQ-9a-fLw"/>
@@ -427,6 +435,7 @@
                         <outlet property="pickTimer" destination="nMd-cP-Rb8" id="3p8-BQ-fz8"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7Pr-gQ-uxW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1324" y="161.46926536731635"/>
         </scene>

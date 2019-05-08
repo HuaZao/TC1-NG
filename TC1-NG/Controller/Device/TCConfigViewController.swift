@@ -23,9 +23,9 @@ class TCConfigViewController: UIViewController {
         super.viewDidLoad()
         TC1MQTTManager.share.delegate = self
         //不知道什么问题使用easyLink配网是不会触发官方的任何代理协议,这里使用BonjourService发现设备!
-        self.netServiceBrowser = NetServiceBrowser()
-        self.netServiceBrowser?.searchForServices(ofType: "_easylink._tcp", inDomain: "local")
-        self.netServiceBrowser?.delegate = self
+//        self.netServiceBrowser = NetServiceBrowser()
+//        self.netServiceBrowser?.searchForServices(ofType: "_easylink._tcp", inDomain: "local")
+//        self.netServiceBrowser?.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -127,15 +127,16 @@ class TCConfigViewController: UIViewController {
             self.easyLink?.unInit()
             //        Step1: 初始化EasyLink实例
             self.easyLink = EASYLINK(forDebug: true, withDelegate: self)
+             self.easyLink?.setDelegate(self)
             //        Step2: 设置配置参数
             let ssidData = EASYLINK.ssidDataForConnectedNetwork()
             //        EASYLINK AWS模式中使用UDP广播实现,其余的配网方式使用mDNS实现
-            self.easyLink?.prepareEasyLink(["SSID":ssidData!,"PASSWORD":password,"DHCP":NSNumber(booleanLiteral: true)], info: nil, mode: EASYLINK_AWS)
+            self.easyLink?.prepareEasyLink(["SSID":ssidData!,"PASSWORD":password,"DHCP":NSNumber(booleanLiteral: true)], info: nil, mode: EASYLINK_V2_PLUS)
             //        Step3: 开始发送配网信息
             self.easyLink?.transmitSettings()
             
             //不知道什么问题使用easyLink配网是不会触发官方的任何代理协议,这里使用BonjourService发现设备!
-            self.netServiceBrowser?.searchForServices(ofType: "_easylink._tcp", inDomain: "local")
+//            self.netServiceBrowser?.searchForServices(ofType: "_easylink._tcp", inDomain: "local")
         }
     }
     
@@ -171,7 +172,8 @@ extension TCConfigViewController:TC1MQTTManagerDelegate,EasyLinkFTCDelegate,NetS
             }
             serviceDic["Port"] = "\(sender.port)"
             if let mac = serviceDic["MAC"]{
-                if TCSQLManager.deciveisExist(mac.replacingOccurrences(of: ":", with: "").lowercased()) {
+                serviceDic["MAC"] = mac.replacingOccurrences(of: ":", with: "").lowercased()
+                if TCSQLManager.deciveisExist(serviceDic["MAC"]!) {
                     print("设备已存在!")
                 }else{
                     self.serviceInfoDataSource.append(serviceDic)
@@ -224,8 +226,12 @@ extension TCConfigViewController:TC1MQTTManagerDelegate,EasyLinkFTCDelegate,NetS
         
     }
     
+    func onEasyLinkSoftApStageChanged(_ stage: EasyLinkSoftApStage) {
+        
+    }
+    
     /**
-     @brief 新设备发现回调
+     @brief 新设备发现回调 通过Bonjour服务查找MiCO设备的地址
      @param client: 客户端编号（可以忽略）
      @param name: 设备名称，就是设备在mDNS服务中提供的实例名称
      @param mataDataDict: 元数据，即使设备在mDNS服务中提供的TXT Record，或者UDP广播中提供的JSON数据

@@ -46,6 +46,7 @@ class TCDeviceMainViewController: UIViewController {
         if let vc = segue.destination as? TCSocketViewController,let sender = sender as? UIButton{
             vc.plug = sender.tag
             vc.title = self.deviceModel.sockets[sender.tag].sockeTtitle
+            vc.deviceModel = self.deviceModel
         }
         
     }
@@ -55,30 +56,30 @@ class TCDeviceMainViewController: UIViewController {
         if let string = message.rawString(),string.contains("plug") == false{
             return
         }
-        if let plug_0 = message["plug_0"].dictionaryValue["on"]?.boolValue{
-            self.deviceModel.sockets[0].isOn = plug_0
-        }
-        if let plug_1 = message["plug_1"].dictionaryValue["on"]?.boolValue{
-            self.deviceModel.sockets[1].isOn = plug_1
-        }
-        if let plug_2 = message["plug_2"].dictionaryValue["on"]?.boolValue{
-            self.deviceModel.sockets[2].isOn = plug_2
-        }
-        if let plug_3 = message["plug_3"].dictionaryValue["on"]?.boolValue{
-            self.deviceModel.sockets[3].isOn = plug_3
-        }
-        if let plug_4 = message["plug_4"].dictionaryValue["on"]?.boolValue{
-            self.deviceModel.sockets[4].isOn = plug_4
-        }
-        if let plug_5 = message["plug_5"].dictionaryValue["on"]?.boolValue{
-            self.deviceModel.sockets[5].isOn = plug_5
-        }
+        if let plug_0 = message["plug_0"].dictionary{
+            self.deviceModel.sockets[0].isOn = plug_0["on"]?.boolValue ?? false
+            self.deviceModel.sockets[0].sockeTtitle =  plug_0["setting"]?.dictionaryValue["name"]?.stringValue ?? self.deviceModel.sockets[0].sockeTtitle      }
+        if let plug_1 = message["plug_1"].dictionary{
+            self.deviceModel.sockets[1].isOn = plug_1["on"]?.boolValue ?? false
+            self.deviceModel.sockets[1].sockeTtitle =  plug_1["setting"]?.dictionaryValue["name"]?.stringValue ?? self.deviceModel.sockets[1].sockeTtitle       }
+        if let plug_2 = message["plug_2"].dictionary{
+            self.deviceModel.sockets[2].isOn = plug_2["on"]?.boolValue ?? false
+            self.deviceModel.sockets[2].sockeTtitle =  plug_2["setting"]?.dictionaryValue["name"]?.stringValue ?? self.deviceModel.sockets[2].sockeTtitle      }
+        if let plug_3 = message["plug_3"].dictionary{
+            self.deviceModel.sockets[3].isOn = plug_3["on"]?.boolValue ?? false
+            self.deviceModel.sockets[3].sockeTtitle =  plug_3["setting"]?.dictionaryValue["name"]?.stringValue ?? self.deviceModel.sockets[3].sockeTtitle      }
+        if let plug_4 = message["plug_4"].dictionary{
+            self.deviceModel.sockets[4].isOn = plug_4["on"]?.boolValue ?? false
+            self.deviceModel.sockets[4].sockeTtitle =  plug_4["setting"]?.dictionaryValue["name"]?.stringValue ?? self.deviceModel.sockets[4].sockeTtitle      }
+        if let plug_5 = message["plug_5"].dictionary{
+            self.deviceModel.sockets[5].isOn = plug_5["on"]?.boolValue ?? false
+            self.deviceModel.sockets[5].sockeTtitle =  plug_5["setting"]?.dictionaryValue["name"]?.stringValue ?? self.deviceModel.sockets[5].sockeTtitle      }
         print(message)
         //更新这个设备的信息
         let mqtt = MQTTModel()
         self.deviceModel.version = message["version"].stringValue
         self.deviceModel.name = message["name"].stringValue
-        mqtt.clientId = self.deviceModel.name
+        mqtt.clientId = self.deviceModel.mac
         mqtt.host = message["setting"]["mqtt_uri"].stringValue
         mqtt.port = message["setting"]["mqtt_port"].intValue
         mqtt.username = message["setting"]["mqtt_user"].stringValue

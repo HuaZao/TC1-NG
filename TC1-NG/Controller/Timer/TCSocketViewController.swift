@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftyJSON
+import PKHUD
 
 struct TCTask {
     var id = 0
@@ -47,6 +48,8 @@ class TCSocketViewController: UIViewController {
     
     var plug = 0
     var taskDataSource = [TCTask]()
+    var deviceModel = TCDeviceModel()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         TC1MQTTManager.share.delegate = self
@@ -55,6 +58,27 @@ class TCSocketViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         TC1MQTTManager.share.queryTask(index: plug)
+    }
+    
+    @IBAction func renameSocketTap(_ sender: UITapGestureRecognizer) {
+        let alert = UIAlertController(title: "重命名", message: "请输入新名字", preferredStyle: .alert)
+        alert.addTextField { (textField) in
+            textField.placeholder = "请输入新名字"
+        }
+        alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+        let reNameAction = UIAlertAction(title: "确认", style: .destructive, handler: { (_) in
+            if let name = alert.textFields!.first?.text,name.count > 0{
+                TC1MQTTManager.share.publishMessage(["mac":self.deviceModel.mac,"plug_\(self.plug)":["setting":["name":name]]],qos:1)
+                HUD.flash(.labeledSuccess(title: nil, subtitle: "请求已发送"), delay: 2)
+                self.title = name
+                self.deviceModel.sockets[self.plug].sockeTtitle = name
+                TCSQLManager.updateTCDevice(self.deviceModel)
+            }else{
+                HUD.flash(.labeledError(title: nil, subtitle: "请输入新名字"), delay: 2)
+            }
+        })
+        alert.addAction(reNameAction)
+        self.present(alert, animated: true, completion: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

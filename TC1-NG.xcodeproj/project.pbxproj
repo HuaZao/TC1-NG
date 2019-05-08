@@ -12,7 +12,6 @@
 		5008385D22696107008EF69D /* TCDeviceMain.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5008385B22696107008EF69D /* TCDeviceMain.storyboard */; };
 		5008385F22696108008EF69D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5008385E22696108008EF69D /* Assets.xcassets */; };
 		5008386222696108008EF69D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5008386022696108008EF69D /* LaunchScreen.storyboard */; };
-		5008386B22696577008EF69D /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5008386A22696577008EF69D /* ExternalAccessory.framework */; };
 		5008387122696693008EF69D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5008387022696693008EF69D /* SystemConfiguration.framework */; };
 		5008387322696FC9008EF69D /* PowerProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5008387222696FC9008EF69D /* PowerProgressView.swift */; };
 		5008387522699D84008EF69D /* TC1MQTTManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5008387422699D84008EF69D /* TC1MQTTManager.swift */; };
@@ -44,7 +43,6 @@
 		5008386122696108008EF69D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5008386322696108008EF69D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5008386922696576008EF69D /* TC1-NG.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "TC1-NG.entitlements"; sourceTree = "<group>"; };
-		5008386A22696577008EF69D /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		5008387022696693008EF69D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		5008387222696FC9008EF69D /* PowerProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerProgressView.swift; sourceTree = "<group>"; };
 		5008387422699D84008EF69D /* TC1MQTTManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TC1MQTTManager.swift; sourceTree = "<group>"; };
@@ -59,7 +57,6 @@
 		50A79774227064C9005C706A /* SocketModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketModel.m; sourceTree = "<group>"; };
 		50A79775227064C9005C706A /* TCDeviceModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCDeviceModel.h; sourceTree = "<group>"; };
 		50C6DD2F22719FBD00EC9366 /* EasyLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyLink.h; sourceTree = "<group>"; };
-		50C6DD3022719FBD00EC9366 /* route.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = route.h; sourceTree = "<group>"; };
 		50C6DD3122719FBD00EC9366 /* libEasyLink.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libEasyLink.a; sourceTree = "<group>"; };
 		50C6DD372271B3A400EC9366 /* MQTTModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MQTTModel.h; sourceTree = "<group>"; };
 		50C6DD382271B3A400EC9366 /* MQTTModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MQTTModel.m; sourceTree = "<group>"; };
@@ -79,7 +76,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5008387122696693008EF69D /* SystemConfiguration.framework in Frameworks */,
-				5008386B22696577008EF69D /* ExternalAccessory.framework in Frameworks */,
 				5CB9C9FC603A96B93CA6D7FB /* Pods_TC1_NG.framework in Frameworks */,
 				50C6DD3222719FBD00EC9366 /* libEasyLink.a in Frameworks */,
 			);
@@ -141,7 +137,6 @@
 			isa = PBXGroup;
 			children = (
 				50C6DD2F22719FBD00EC9366 /* EasyLink.h */,
-				50C6DD3022719FBD00EC9366 /* route.h */,
 				50C6DD3122719FBD00EC9366 /* libEasyLink.a */,
 			);
 			path = EasyLink;
@@ -227,7 +222,6 @@
 			isa = PBXGroup;
 			children = (
 				5008387022696693008EF69D /* SystemConfiguration.framework */,
-				5008386A22696577008EF69D /* ExternalAccessory.framework */,
 				F4B04F00B0112D2186FEB698 /* Pods_TC1_NG.framework */,
 			);
 			name = Frameworks;
@@ -278,8 +272,11 @@
 						CreatedOnToolsVersion = 10.1;
 						LastSwiftMigration = 1010;
 						SystemCapabilities = {
-							com.apple.WAC = {
+							com.apple.AccessWiFi = {
 								enabled = 1;
+							};
+							com.apple.WAC = {
+								enabled = 0;
 							};
 						};
 					};
@@ -541,8 +538,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "TC1-NG/TC1-NG.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = YS9C6LSNU6;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = ZUZ489476A;
 				INFOPLIST_FILE = "TC1-NG/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -553,9 +550,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/TC1-NG/EasyLink",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "HuaZao.TC1-NG";
+				PRODUCT_BUNDLE_IDENTIFIER = com.huazao.testapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = huazao;
 				SWIFT_OBJC_BRIDGING_HEADER = "TC1-NG/TC1-NG-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
@@ -571,8 +568,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "TC1-NG/TC1-NG.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = YS9C6LSNU6;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = ZUZ489476A;
 				INFOPLIST_FILE = "TC1-NG/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -583,9 +580,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/TC1-NG/EasyLink",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "HuaZao.TC1-NG";
+				PRODUCT_BUNDLE_IDENTIFIER = com.huazao.testapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = huazao;
 				SWIFT_OBJC_BRIDGING_HEADER = "TC1-NG/TC1-NG-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
