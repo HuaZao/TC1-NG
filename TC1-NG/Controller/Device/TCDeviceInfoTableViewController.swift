@@ -29,6 +29,17 @@ class TCDeviceInfoTableViewController: UITableViewController {
         TC1MQTTManager.share.subscribeDeviceMessage(mac: self.deviceModel.mac)
     }
     
+    @IBAction func rebootAction(_ sender: UIBarButtonItem) {
+        let alert = UIAlertController(title: "警告", message: "是否立即重启设备?(需要版本v0.10.1及以上版本)", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+        let reboot = UIAlertAction(title: "确认", style: .destructive, handler: { (_) in
+            TC1MQTTManager.share.publishMessage(["mac":self.deviceModel.mac,"cmd":"restart"],qos:1)
+            HUD.flash(.labeledSuccess(title: nil, subtitle: "请求已发送"), delay: 2)
+        })
+        alert.addAction(reboot)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? TCSetMQTTServiceViewController{
             vc.deviceModel = self.deviceModel
@@ -44,7 +55,7 @@ class TCDeviceInfoTableViewController: UITableViewController {
             alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
             let reNameAction = UIAlertAction(title: "确认", style: .destructive, handler: { (_) in
                 if let name = alert.textFields!.first?.text,name.count > 0{
-                    TC1MQTTManager.share.publishMessage(["mac":self.deviceModel.mac,"name":name],qos:1)
+                    TC1MQTTManager.share.publishMessage(["mac":self.deviceModel.mac,"setting":["name":name]],qos:1)
                     HUD.flash(.labeledSuccess(title: nil, subtitle: "请求已发送"), delay: 2)
                     self.deviceModel.name = name
                     TCSQLManager.updateTCDevice(self.deviceModel)
@@ -54,9 +65,14 @@ class TCDeviceInfoTableViewController: UITableViewController {
             })
             alert.addAction(reNameAction)
             self.present(alert, animated: true, completion: nil)
-        }
-        if indexPath.row == 4{
+        }else if indexPath.row == 4{
             self.checkForUpdates()
+        }else if indexPath.row == 1 || indexPath.row == 2{
+            if let cell = tableView.cellForRow(at: indexPath),let content = cell.textLabel?.text{
+                let pasteboard = UIPasteboard.general
+                pasteboard.string = content
+                HUD.flash(.labeledSuccess(title: nil, subtitle: "复制成功"), delay: 1)
+            }
         }
     }
     

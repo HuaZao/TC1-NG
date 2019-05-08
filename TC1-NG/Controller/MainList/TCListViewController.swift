@@ -49,7 +49,7 @@ class TCListViewController: UIViewController {
             let socket = SocketModel()
             socket.isOn = false
             socket.socketId = model.mac + "_\(i)"
-            socket.sockeTtitle = "插座S\(i)"
+            socket.sockeTtitle = "插座\(i)"
             model.sockets.append(socket)
         }
         TCSQLManager.addTCDevice(model)

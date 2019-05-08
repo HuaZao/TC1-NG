@@ -616,7 +616,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <view key="tableFooterView" contentMode="scaleToFill" id="wIU-1Q-d7H">
+                        <view key="tableFooterView" contentMode="scaleToFill" id="4P6-C7-WUp">
                             <rect key="frame" x="0.0" y="220" width="375" height="0.0"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -764,6 +764,12 @@
                                 <action selector="popActionWithSender:" destination="Yq7-oc-i6P" id="UJO-NH-9Rz"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="重启" id="NbE-CI-ATJ">
+                            <color key="tintColor" red="0.97647058819999999" green="0.61568627450000002" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="rebootAction:" destination="Yq7-oc-i6P" id="mT4-Dw-nAe"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="ipAddress" destination="y4X-4T-ge6" id="PqP-jZ-8OZ"/>
@@ -774,7 +780,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M7q-fh-LYM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1756" y="-660"/>
+            <point key="canvasLocation" x="1756" y="-660.71964017991013"/>
         </scene>
         <!--设置MQTT服务器-->
         <scene sceneID="UI6-OV-z8Y">
