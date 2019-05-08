@@ -16,6 +16,7 @@ class TCDeviceInfoTableViewController: UITableViewController {
     @IBOutlet weak var macAddress: UILabel!
     @IBOutlet weak var mqttAddress: UILabel!
     @IBOutlet weak var version: UILabel!
+    @IBOutlet weak var deviceName: UILabel!
     
     var deviceModel = TCDeviceModel()
     
@@ -25,8 +26,10 @@ class TCDeviceInfoTableViewController: UITableViewController {
         self.macAddress.text = self.deviceModel.mac
         self.mqttAddress.text = self.deviceModel.mqtt.host
         self.version.text = self.deviceModel.version
+        self.deviceName.text = self.deviceModel.name
         TC1MQTTManager.share.delegate = self
         TC1MQTTManager.share.subscribeDeviceMessage(mac: self.deviceModel.mac)
+        self.tableView.reloadData()
     }
     
     @IBAction func rebootAction(_ sender: UIBarButtonItem) {
@@ -58,6 +61,8 @@ class TCDeviceInfoTableViewController: UITableViewController {
                     TC1MQTTManager.share.publishMessage(["mac":self.deviceModel.mac,"setting":["name":name]],qos:1)
                     HUD.flash(.labeledSuccess(title: nil, subtitle: "请求已发送"), delay: 2)
                     self.deviceModel.name = name
+                    self.deviceName.text = self.deviceModel.name
+                    self.tableView.reloadData()
                     TCSQLManager.updateTCDevice(self.deviceModel)
                 }else{
                     HUD.flash(.labeledError(title: nil, subtitle: "请输入新名字"), delay: 2)

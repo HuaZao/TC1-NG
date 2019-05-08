@@ -15,6 +15,8 @@
 		5008387122696693008EF69D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5008387022696693008EF69D /* SystemConfiguration.framework */; };
 		5008387322696FC9008EF69D /* PowerProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5008387222696FC9008EF69D /* PowerProgressView.swift */; };
 		5008387522699D84008EF69D /* TC1MQTTManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5008387422699D84008EF69D /* TC1MQTTManager.swift */; };
+		50445B6A2282CB3E00AAF4DD /* TCSocketWeekListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50445B692282CB3E00AAF4DD /* TCSocketWeekListViewController.swift */; };
+		50445B6C2282D32F00AAF4DD /* TCTimerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50445B6B2282D32F00AAF4DD /* TCTimerCell.swift */; };
 		50777249226D6626000D37EF /* TCListStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50777248226D6626000D37EF /* TCListStoryBoard.storyboard */; };
 		50A7975F227045C1005C706A /* TCDeviceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A7975E227045C1005C706A /* TCDeviceCell.swift */; };
 		50A7976122704606005C706A /* TCListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A7976022704606005C706A /* TCListViewController.swift */; };
@@ -46,6 +48,8 @@
 		5008387022696693008EF69D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		5008387222696FC9008EF69D /* PowerProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerProgressView.swift; sourceTree = "<group>"; };
 		5008387422699D84008EF69D /* TC1MQTTManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TC1MQTTManager.swift; sourceTree = "<group>"; };
+		50445B692282CB3E00AAF4DD /* TCSocketWeekListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCSocketWeekListViewController.swift; sourceTree = "<group>"; };
+		50445B6B2282D32F00AAF4DD /* TCTimerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCTimerCell.swift; sourceTree = "<group>"; };
 		50777248226D6626000D37EF /* TCListStoryBoard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TCListStoryBoard.storyboard; sourceTree = "<group>"; };
 		50A7975E227045C1005C706A /* TCDeviceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCDeviceCell.swift; sourceTree = "<group>"; };
 		50A7976022704606005C706A /* TCListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCListViewController.swift; sourceTree = "<group>"; };
@@ -158,6 +162,7 @@
 				50A79762227055C0005C706A /* TCSocketItem.swift */,
 				50A7975E227045C1005C706A /* TCDeviceCell.swift */,
 				50FBB4B02277FD73004713EC /* TCTaskCell.swift */,
+				50445B6B2282D32F00AAF4DD /* TCTimerCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -195,6 +200,7 @@
 			children = (
 				50FBB4AE22770CFF004713EC /* TCSocketViewController.swift */,
 				50FBB4B222782D64004713EC /* TCSocketTaskViewController.swift */,
+				50445B692282CB3E00AAF4DD /* TCSocketWeekListViewController.swift */,
 			);
 			path = Timer;
 			sourceTree = "<group>";
@@ -382,12 +388,14 @@
 				50A7975F227045C1005C706A /* TCDeviceCell.swift in Sources */,
 				50A79776227064CA005C706A /* TCDeviceModel.m in Sources */,
 				5008387322696FC9008EF69D /* PowerProgressView.swift in Sources */,
+				50445B6A2282CB3E00AAF4DD /* TCSocketWeekListViewController.swift in Sources */,
 				50C6DD392271B3A400EC9366 /* MQTTModel.m in Sources */,
 				50C6DD412272B0B600EC9366 /* TCSetMQTTServiceViewController.swift in Sources */,
 				50A7976122704606005C706A /* TCListViewController.swift in Sources */,
 				50C6DD3B2271B6FA00EC9366 /* TCDeviceInfoTableViewController.swift in Sources */,
 				50A79763227055C0005C706A /* TCSocketItem.swift in Sources */,
 				50FBB4AF22770CFF004713EC /* TCSocketViewController.swift in Sources */,
+				50445B6C2282D32F00AAF4DD /* TCTimerCell.swift in Sources */,
 				50FBB4B322782D64004713EC /* TCSocketTaskViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
