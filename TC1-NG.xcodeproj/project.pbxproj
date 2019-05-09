@@ -109,7 +109,6 @@
 		5008385622696106008EF69D /* TC1-NG */ = {
 			isa = PBXGroup;
 			children = (
-				50FBB4AB2276E5AA004713EC /* Tool */,
 				50C6DD332271AE2400EC9366 /* Controller */,
 				50C6DD362271AE5300EC9366 /* View */,
 				50C6DD352271AE4300EC9366 /* Model */,
@@ -186,13 +185,6 @@
 				5008387222696FC9008EF69D /* PowerProgressView.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		50FBB4AB2276E5AA004713EC /* Tool */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Tool;
 			sourceTree = "<group>";
 		};
 		50FBB4B422782D6A004713EC /* Timer */ = {
@@ -328,6 +320,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-TC1-NG/Pods-TC1-NG-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Bitter/Bitter.framework",
 				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework",
 				"${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
@@ -339,6 +332,7 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bitter.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FMDB.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",

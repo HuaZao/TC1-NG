@@ -15,11 +15,12 @@ class TCSocketTaskViewController: UIViewController {
     @IBOutlet weak var onButton: UIButton!
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var onSwitch: UISwitch!
-
+    @IBOutlet weak var repeatLabel: UILabel!
+    
     var task = TCTask()
     var taskIndex = 0
     var plug = 0
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.initTask()
@@ -39,6 +40,7 @@ class TCSocketTaskViewController: UIViewController {
             self.closeButton.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         }
         self.onSwitch.isOn = (self.task.on == 1)
+        self.repeatLabel.text = TCTask.getWeek(self.task.repeat)
     }
     
     @IBAction func onAction(_ sender: UIButton) {
@@ -69,5 +71,15 @@ class TCSocketTaskViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
         HUD.flash(.labeledSuccess(title: "保存请求已经发送!", subtitle: nil), delay: 2)
     }
+    
+    
+    @IBAction func unwindForWeek(segue: UIStoryboardSegue) {
+        if let weekVc = segue.source as? TCSocketWeekListViewController{
+            print("r -> \(weekVc.week)  d - > \(weekVc.weekDetail)")
+            self.repeatLabel.text = weekVc.weekDetail
+            self.task.repeat = weekVc.week
+        }
+    }
+    
     
 }

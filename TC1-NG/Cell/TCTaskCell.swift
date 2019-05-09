@@ -28,7 +28,7 @@ class TCTaskCell: UITableViewCell {
 
     }
     
-    func message(task:TCTask,index:Int){
+    func message(task:TCTask,socketName:String,index:Int){
         self.task = task
         self.editButton.tag = index
         self.stateSwitch.tag = index
@@ -38,9 +38,9 @@ class TCTaskCell: UITableViewCell {
             self.stateSwitch.isOn = false
         }
         if task.action == 1 {
-            self.stateLabel.text = "开启"
+            self.stateLabel.text = "开启\(socketName)"
         }else{
-            self.stateLabel.text = "关闭"
+            self.stateLabel.text = "关闭\(socketName)"
         }
         self.timerDetail.text = String(format: "%02d:%02d", task.hour,task.minute)
         self.stateDetail.text = TCTask.getWeek(task.repeat)

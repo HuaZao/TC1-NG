@@ -13,5 +13,6 @@ pod 'LKDBHelper'
 pod 'IQKeyboardManagerSwift'
 pod 'PKHUD', '~> 5.0'
 pod 'RealReachability'
+pod 'Bitter'
 
 end

@@ -1,4 +1,5 @@
 PODS:
+  - Bitter (3.1.1)
   - CocoaAsyncSocket (7.6.3)
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
@@ -19,6 +20,7 @@ PODS:
   - SwiftyJSON (4.2.0)
 
 DEPENDENCIES:
+  - Bitter
   - CocoaAsyncSocket
   - IQKeyboardManagerSwift
   - LKDBHelper
@@ -30,6 +32,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - Bitter
     - CocoaAsyncSocket
     - FMDB
     - IQKeyboardManagerSwift
@@ -49,6 +52,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/flightonary/Moscapsule.git
 
 SPEC CHECKSUMS:
+  Bitter: 9a6aa16f2c4e4303720c441108581b27c400ec27
   CocoaAsyncSocket: eafaa68a7e0ec99ead0a7b35015e0bf25d2c8987
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   IQKeyboardManagerSwift: b07ccf9d8cafe993dcd6cb794eb4ba34611a0c4e
@@ -59,6 +63,6 @@ SPEC CHECKSUMS:
   RealReachability: eae9c58d2db52fadd8e1cba4b5d4c028454fbc47
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
 
-PODFILE CHECKSUM: 464e252aeb3cf831b4249a8a36db8f7682ba2734
+PODFILE CHECKSUM: 3abda61081dad9deed5580d92e90e0e614fb4f22
 
 COCOAPODS: 1.5.3

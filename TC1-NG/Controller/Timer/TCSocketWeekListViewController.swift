@@ -7,8 +7,7 @@
 //
 
 import UIKit
-
-
+import Bitter
 
 class TCSocketWeekListViewController: UIViewController {
     
@@ -19,18 +18,41 @@ class TCSocketWeekListViewController: UIViewController {
     }
     
     
+    @IBOutlet weak var timerSwitch: UISwitch!
     @IBOutlet weak var tableView: UITableView!
     
     private var dateSource = [Week]()
     
+    /*bit0-bit6分别表示周一 ~ 周日
+     值为85(二进制1010101->十进制0),表示星期一,星期三,星期五,星期天有效
+     ........
+     ........
+     值为0(二进制0000000->十进制0),表示仅一次有效
+     值为127(二进制1111111->十进制127),表示重复*/
+    var week = 0
+    var weekDetail = String()
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        for i in 1...8{
-            let date = Week(title: self.intToString(number: i), tag: i,isSelector:false)
+        self.initDataSource()
+    }
+    
+    
+    private func initDataSource(){
+        self.week = 0
+        self.weekDetail = "执行一次"
+        self.dateSource.removeAll()
+        if self.timerSwitch.isOn {
+            for i in 1...7{
+                let date = Week(title: self.intToString(number: i), tag: i,isSelector:false)
+                self.dateSource.append(date)
+            }
+        }else{
+            let date = Week(title: "执行一次", tag: 8,isSelector:true)
             self.dateSource.append(date)
         }
-        
+        self.tableView.reloadData()
     }
     
     
@@ -51,34 +73,47 @@ class TCSocketWeekListViewController: UIViewController {
             string = "星期六"
         case 7:
             string = "星期日"
-        case 8:
-            string = "一次"
         default:
             break
         }
         return string
     }
     
-    func transformWeekToBit(week:[Int])->String{
-        var str = String()
-//        var repetition = r_epeat
-//        let week = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]
-//        repetition &= 0x7f
-//        if repetition == 0{
-//            str = "一次"
-//            return str
-//        }else if (repetition & 0x7f) == 0x7f{
-//            str = "每天"
-//            return str
-//        }else{
-//            for i in 0...6{
-//                if (repetition & (1 << i)) != 0{
-//                    str = str + "," + week[i]
-//                }
-//            }
-//            str.removeFirst()
-//        }
-//        return str
+    @IBAction func switchTimerAction(_ sender: UISwitch) {
+        self.initDataSource()
+    }
+    
+    //bit0~bit6
+    private func transformWeekToBit(){
+        var weekBit:UInt8 = 0b00000000
+        var weekDescription = String()
+        let selectorSource = self.dateSource.filter{$0.isSelector}
+        for i in selectorSource {
+            weekDescription = weekDescription + "," + i.title
+            switch i.title {
+            case "星期一":
+                weekBit = weekBit.setb0(1)
+            case "星期二":
+                weekBit = weekBit.setb1(1)
+            case "星期三":
+                weekBit = weekBit.setb2(1)
+            case "星期四":
+                weekBit = weekBit.setb3(1)
+            case "星期五":
+                weekBit = weekBit.setb4(1)
+            case "星期六":
+                weekBit = weekBit.setb5(1)
+            case "星期日":
+                weekBit = weekBit.setb6(1)
+            case "一次":
+                weekBit = 0b00000000
+            default:
+                break
+            }
+        }
+        self.weekDetail = weekDescription.replacingOccurrences(of: "星期", with: "周")
+        self.weekDetail.removeFirst()
+        self.week = Int(weekBit.to16)
     }
     
     
@@ -102,8 +137,12 @@ extension TCSocketWeekListViewController:UITableViewDelegate,UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if self.timerSwitch.isOn == false {
+            return
+        }
         self.dateSource[indexPath.row].isSelector = !self.dateSource[indexPath.row].isSelector
         self.tableView.reloadRows(at: [indexPath], with: .automatic)
+        self.transformWeekToBit()
     }
     
     

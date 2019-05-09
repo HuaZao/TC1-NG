@@ -53,6 +53,14 @@ class TCSocketViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         TC1MQTTManager.share.delegate = self
+        //硬件数据有时候无响应,这里用暴力刷新
+        DispatchQueue.global().async {
+            while self.taskDataSource.count == 0 {
+                TC1MQTTManager.share.queryTask(index: self.plug)
+                sleep(1)
+            }
+        }
+       
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -129,7 +137,9 @@ extension TCSocketViewController:TC1MQTTManagerDelegate,UITableViewDelegate,UITa
         if power > 0 {
             return
         }
-        self.reloadTaskList(messag: messageJSON)
+        DispatchQueue.main.async {
+            self.reloadTaskList(messag: messageJSON)
+        }
     }
     
     
@@ -139,7 +149,7 @@ extension TCSocketViewController:TC1MQTTManagerDelegate,UITableViewDelegate,UITa
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "task", for: indexPath) as! TCTaskCell
-        cell.message(task: self.taskDataSource[indexPath.row], index: indexPath.row)
+        cell.message(task: self.taskDataSource[indexPath.row], socketName: self.title ?? "", index: indexPath.row)
         return cell
     }
     
