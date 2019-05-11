@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftyJSON
+import AudioToolbox
 
 class TCDeviceMainViewController: UIViewController {
     
@@ -27,8 +28,9 @@ class TCDeviceMainViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         TC1MQTTManager.share.delegate = self
-        TC1MQTTManager.share.subscribeDeviceMessage(mac: self.deviceModel.mac)
+//        TC1MQTTManager.share.subscribeDeviceMessage(mac: self.deviceModel.mac)
         TC1MQTTManager.share.getDeviceFullState(name: self.deviceModel.name, mac: self.deviceModel.mac)
+
     }
     
     @IBAction func dimissViewController(_ sender: UIBarButtonItem) {
@@ -93,6 +95,11 @@ class TCDeviceMainViewController: UIViewController {
 }
 
 extension TCDeviceMainViewController:TC1MQTTManagerDelegate{
+    
+    func TC1MQTTManagerOnConnect(code: Int) {
+//        TC1MQTTManager.share.subscribeDeviceMessage(mac: self.deviceModel.mac)
+//        TC1MQTTManager.share.getDeviceFullState(name: self.deviceModel.name, mac: self.deviceModel.mac)
+    }
 
     func TC1MQTTManagerReceivedMessage(message: Data) {
         DispatchQueue.main.async {
@@ -145,9 +152,15 @@ extension TCDeviceMainViewController:UICollectionViewDelegateFlowLayout,UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if #available(iOS 10.0, *) {
+            let impactFeedBack = UIImpactFeedbackGenerator(style: .light)
+            impactFeedBack.prepare()
+            impactFeedBack.impactOccurred()
+        }else{
+            AudioServicesPlaySystemSound(1519);
+        }
         let model = self.deviceModel.sockets[indexPath.row]
         TC1MQTTManager.share.switchDevice(state: !model.isOn, index: indexPath.row, mac: self.deviceModel.mac)
-        
     }
     
     

@@ -23,9 +23,9 @@ class TCConfigViewController: UIViewController {
         super.viewDidLoad()
         TC1MQTTManager.share.delegate = self
         //不知道什么问题使用easyLink配网是不会触发官方的任何代理协议,这里使用BonjourService发现设备!
-//        self.netServiceBrowser = NetServiceBrowser()
-//        self.netServiceBrowser?.searchForServices(ofType: "_easylink._tcp", inDomain: "local")
-//        self.netServiceBrowser?.delegate = self
+        self.netServiceBrowser = NetServiceBrowser()
+        self.netServiceBrowser?.searchForServices(ofType: "_easylink._tcp", inDomain: "local")
+        self.netServiceBrowser?.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -136,7 +136,7 @@ class TCConfigViewController: UIViewController {
             self.easyLink?.transmitSettings()
             
             //不知道什么问题使用easyLink配网是不会触发官方的任何代理协议,这里使用BonjourService发现设备!
-//            self.netServiceBrowser?.searchForServices(ofType: "_easylink._tcp", inDomain: "local")
+            self.netServiceBrowser?.searchForServices(ofType: "_easylink._tcp", inDomain: "local")
         }
     }
     
