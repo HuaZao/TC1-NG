@@ -83,7 +83,6 @@ class PowerProgressView: UIView {
     
 //    跳转到某个进度
     public func animateToProgress(progress:Float){
-        
         if self.shapeLayer.strokeEnd != 0{
             self.animateToZero()
         }

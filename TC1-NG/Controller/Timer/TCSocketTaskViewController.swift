@@ -67,7 +67,7 @@ class TCSocketTaskViewController: UIViewController {
         }
         self.task.on = self.onSwitch.isOn ? 1:0
         self.task.action = self.onButton.isSelected ? 1:0
-        TC1MQTTManager.share.taskDevice(task: self.task, index: self.plug, taskIndex: self.taskIndex)
+        TC1ServiceManager.share.taskDevice(task: self.task, index: self.plug, taskIndex: self.taskIndex)
         self.navigationController?.popViewController(animated: true)
         HUD.flash(.labeledSuccess(title: "保存请求已经发送!", subtitle: nil), delay: 2)
     }

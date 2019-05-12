@@ -64,7 +64,9 @@ class TCSQLManager: NSObject {
     }
     
     static func updateTCDevice(_ model:TCDeviceModel){
-        model.updateToDB()
+        DispatchQueue.global().async {
+            model.updateToDB()
+        }
     }
     
     static func deciveisExist(_ mac:String)->Bool{

@@ -21,7 +21,7 @@ class TCConfigViewController: UIViewController {
     fileprivate var moreComing = true
     override func viewDidLoad() {
         super.viewDidLoad()
-        TC1MQTTManager.share.delegate = self
+        TC1ServiceManager.share.delegate = self
         //不知道什么问题使用easyLink配网是不会触发官方的任何代理协议,这里使用BonjourService发现设备!
         self.netServiceBrowser = NetServiceBrowser()
         self.netServiceBrowser?.searchForServices(ofType: "_easylink._tcp", inDomain: "local")
@@ -82,22 +82,22 @@ class TCConfigViewController: UIViewController {
             guard let mac = alert.textFields?.first(where: {$0.tag == 1005})?.text else{
                 return
             }
-            let model = MQTTModel()
-            model.clientId = "clientId"
-            model.host = host
-            model.port = iPort
-            model.username = userName
-            model.password = userPassword
-            self?.discoverDevices(mac:mac, service: model)
+//            let model = MQTTModel()
+//            model.clientId = "clientId"
+//            model.host = host
+//            model.port = iPort
+//            model.username = userName
+//            model.password = userPassword
+//            self?.discoverDevices(mac:mac, service: model)
         }))
         alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
     
-    private func discoverDevices(mac:String,service:MQTTModel? = nil){
+    private func discoverDevices(mac:String){
         //请求设备info
-        TC1MQTTManager.share.initTC1Service(service,mac: mac)
-        TC1MQTTManager.share.sendDeviceReportCmd()
+        TC1ServiceManager.share.connectService()
+        TC1ServiceManager.share.sendDeviceReportCmd()
     }
     
     fileprivate func addTC(message:JSON){
@@ -115,7 +115,7 @@ class TCConfigViewController: UIViewController {
             model.sockets.append(socket)
         }
         TCSQLManager.addTCDevice(model)
-        TC1MQTTManager.share.unSubscribeDeviceMessage(mac: model.mac)
+        TC1ServiceManager.share.unSubscribeDeviceMessage(mac: model.mac)
         DispatchQueue.main.async {
             self.navigationController?.popToRootViewController(animated: true)
         }
@@ -142,7 +142,7 @@ class TCConfigViewController: UIViewController {
     
 }
 
-extension TCConfigViewController:TC1MQTTManagerDelegate,EasyLinkFTCDelegate,NetServiceBrowserDelegate,NetServiceDelegate{
+extension TCConfigViewController:TC1ServiceReceiveDelegate,EasyLinkFTCDelegate,NetServiceBrowserDelegate,NetServiceDelegate{
     
     func getIPV4StringfromAddress(address: [Data]) -> String{
         let data = address.first! as NSData;
@@ -246,7 +246,7 @@ extension TCConfigViewController:TC1MQTTManagerDelegate,EasyLinkFTCDelegate,NetS
     }
     
     
-    func TC1MQTTManagerReceivedMessage(message: Data) {
+    func TC1ServiceReceivedMessage(message: Data) {
         let messageJSON = try! JSON(data: message)
         //如果有IP信息,则添加设备!
         let ip = messageJSON["ip"].stringValue

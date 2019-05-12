@@ -6,7 +6,7 @@ target 'TC1-NG' do
   use_frameworks!
   # Pods for TC1-NG
 pod 'CocoaAsyncSocket'
-pod 'Moscapsule', :git => 'https://github.com/flightonary/Moscapsule.git'
+pod 'CocoaMQTT'
 pod 'OpenSSL-Universal'
 pod 'SwiftyJSON'
 pod 'LKDBHelper'

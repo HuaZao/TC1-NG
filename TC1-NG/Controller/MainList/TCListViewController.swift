@@ -33,9 +33,9 @@ class TCListViewController: UIViewController {
     }
     
     private func discoverDevices(mac:String){
-        TC1MQTTManager.share.delegate = self
-        TC1MQTTManager.share.initTC1Service(nil,mac: mac)
-        TC1MQTTManager.share.sendDeviceReportCmd()
+        TC1ServiceManager.share.delegate = self
+        TC1ServiceManager.share.connectService()
+        TC1ServiceManager.share.sendDeviceReportCmd()
     }
     
     fileprivate func addTC(message:JSON){
@@ -63,9 +63,9 @@ class TCListViewController: UIViewController {
     
 }
 
-extension TCListViewController:TC1MQTTManagerDelegate,NetServiceBrowserDelegate,NetServiceDelegate{
+extension TCListViewController:TC1ServiceReceiveDelegate,NetServiceBrowserDelegate,NetServiceDelegate{
     
-    func TC1MQTTManagerReceivedMessage(message: Data) {
+    func TC1ServiceReceivedMessage(message: Data) {
         let messageJSON = try! JSON(data: message)
         //如果有IP信息,则添加设备!
         let ip = messageJSON["ip"].stringValue
@@ -74,7 +74,7 @@ extension TCListViewController:TC1MQTTManagerDelegate,NetServiceBrowserDelegate,
         }
     }
     
-    func TC1MQTTManagerPublish(messageId: Int) {
+    func TC1ServicePublish(messageId: Int) {
         print("消息已经发送--> \(messageId)")
     }
     

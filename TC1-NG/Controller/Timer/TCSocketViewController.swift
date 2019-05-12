@@ -52,11 +52,11 @@ class TCSocketViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        TC1MQTTManager.share.delegate = self
+        TC1ServiceManager.share.delegate = self
         //硬件数据有时候无响应,这里用暴力刷新
         DispatchQueue.global().async {
             while self.taskDataSource.count == 0 {
-                TC1MQTTManager.share.queryTask(index: self.plug)
+                TC1ServiceManager.share.queryTask(index: self.plug)
                 sleep(1)
             }
         }
@@ -65,7 +65,7 @@ class TCSocketViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        TC1MQTTManager.share.queryTask(index: plug)
+        TC1ServiceManager.share.queryTask(index: plug)
     }
     
     @IBAction func renameSocketTap(_ sender: UITapGestureRecognizer) {
@@ -76,7 +76,7 @@ class TCSocketViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
         let reNameAction = UIAlertAction(title: "确认", style: .destructive, handler: { (_) in
             if let name = alert.textFields!.first?.text,name.count > 0{
-                TC1MQTTManager.share.publishMessage(["mac":self.deviceModel.mac,"plug_\(self.plug)":["setting":["name":name]]],qos:1)
+                TC1ServiceManager.share.publishMessage(["mac":self.deviceModel.mac,"plug_\(self.plug)":["setting":["name":name]]],qos:1)
                 HUD.flash(.labeledSuccess(title: nil, subtitle: "请求已发送"), delay: 2)
                 self.title = name
                 self.deviceModel.sockets[self.plug].sockeTtitle = name
@@ -123,14 +123,14 @@ class TCSocketViewController: UIViewController {
     @IBAction func switchTaskAction(_ sender: UISwitch) {
         var task = self.taskDataSource[sender.tag]
         task.on = sender.isOn ? 1:0
-        TC1MQTTManager.share.taskDevice(task: task, index: self.plug, taskIndex: sender.tag)
+        TC1ServiceManager.share.taskDevice(task: task, index: self.plug, taskIndex: sender.tag)
     }
     
 }
 
-extension TCSocketViewController:TC1MQTTManagerDelegate,UITableViewDelegate,UITableViewDataSource{
+extension TCSocketViewController:TC1ServiceReceiveDelegate,UITableViewDelegate,UITableViewDataSource{
     
-    func TC1MQTTManagerReceivedMessage(message: Data) {
+    func TC1ServiceReceivedMessage(message: Data) {
         let messageJSON = try! JSON(data: message)
         let power = messageJSON["power"].floatValue
         //过滤Power信息

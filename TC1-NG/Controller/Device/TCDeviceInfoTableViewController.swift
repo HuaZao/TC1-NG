@@ -24,11 +24,11 @@ class TCDeviceInfoTableViewController: UITableViewController {
         super.viewDidLoad()
         self.ipAddress.text = self.deviceModel.ip
         self.macAddress.text = self.deviceModel.mac
-        self.mqttAddress.text = self.deviceModel.mqtt.host
+        self.mqttAddress.text = self.deviceModel.host
         self.version.text = self.deviceModel.version
         self.deviceName.text = self.deviceModel.name
-        TC1MQTTManager.share.delegate = self
-        TC1MQTTManager.share.subscribeDeviceMessage(mac: self.deviceModel.mac)
+        TC1ServiceManager.share.delegate = self
+        TC1ServiceManager.share.subscribeDeviceMessage(mac: self.deviceModel.mac)
         self.tableView.reloadData()
     }
     
@@ -36,7 +36,7 @@ class TCDeviceInfoTableViewController: UITableViewController {
         let alert = UIAlertController(title: "警告", message: "是否立即重启设备?(需要版本v0.10.1及以上版本)", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
         let reboot = UIAlertAction(title: "确认", style: .destructive, handler: { (_) in
-            TC1MQTTManager.share.publishMessage(["mac":self.deviceModel.mac,"cmd":"restart"],qos:1)
+            TC1ServiceManager.share.publishMessage(["mac":self.deviceModel.mac,"cmd":"restart"],qos:1)
             HUD.flash(.labeledSuccess(title: nil, subtitle: "请求已发送"), delay: 2)
         })
         alert.addAction(reboot)
@@ -58,7 +58,7 @@ class TCDeviceInfoTableViewController: UITableViewController {
             alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
             let reNameAction = UIAlertAction(title: "确认", style: .destructive, handler: { (_) in
                 if let name = alert.textFields!.first?.text,name.count > 0{
-                    TC1MQTTManager.share.publishMessage(["mac":self.deviceModel.mac,"setting":["name":name]],qos:1)
+                    TC1ServiceManager.share.publishMessage(["mac":self.deviceModel.mac,"setting":["name":name]],qos:1)
                     HUD.flash(.labeledSuccess(title: nil, subtitle: "请求已发送"), delay: 2)
                     self.deviceModel.name = name
                     self.deviceName.text = self.deviceModel.name
@@ -91,7 +91,7 @@ class TCDeviceInfoTableViewController: UITableViewController {
                         let alert = UIAlertController(title: "检测到新版本", message: "服务器最新版本为\(version),是否马上更新?", preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "暂不更新", style: .cancel, handler: nil))
                         let update = UIAlertAction(title: "马上更新", style: .destructive, handler: { (_) in
-                            TC1MQTTManager.share.publishMessage(["mac":self.deviceModel.mac,"setting":["ota":"http://home.wula.vip:4380/TC1_OTA.bin"]])
+                            TC1ServiceManager.share.publishMessage(["mac":self.deviceModel.mac,"setting":["ota":"http://home.wula.vip:4380/TC1_OTA.bin"]])
                             DispatchQueue.main.async {
                                 HUD.flash(.labeledProgress(title: "正在更新", subtitle: "请勿退出程序"), delay: 2)
                             }
@@ -115,14 +115,14 @@ class TCDeviceInfoTableViewController: UITableViewController {
 }
 
 
-extension TCDeviceInfoTableViewController:TC1MQTTManagerDelegate{
+extension TCDeviceInfoTableViewController:TC1ServiceReceiveDelegate{
     
-    func TC1MQTTManagerReceivedMessage(message: Data) {
+    func TC1ServiceReceivedMessage(message: Data) {
         let messageJSON = try! JSON(data: message)
         print(messageJSON)
     }
     
-    func TC1MQTTManagerPublish(messageId: Int) {
+    func TC1ServicePublish(messageId: Int) {
         print("指令已经发送!")
     }
     

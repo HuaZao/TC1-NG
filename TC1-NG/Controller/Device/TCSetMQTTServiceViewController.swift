@@ -20,10 +20,10 @@ class TCSetMQTTServiceViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.host.text = self.deviceModel.mqtt.host
-        self.port.text = "\(self.deviceModel.mqtt.port)"
-        self.userName.text = self.deviceModel.mqtt.username
-        self.passWord.text = self.deviceModel.mqtt.password
+        self.host.text = self.deviceModel.host
+        self.port.text = "\(self.deviceModel.port)"
+        self.userName.text = self.deviceModel.username
+        self.passWord.text = self.deviceModel.password
     }
     
     @IBAction func saveMQTTAction(_ sender: UIButton) {
@@ -46,7 +46,7 @@ class TCSetMQTTServiceViewController: UIViewController {
             ]
         ]
         //QOS使用1,保证消息能d到达
-        TC1MQTTManager.share.publishMessage(cmd,qos: 1)
+        TC1ServiceManager.share.publishMessage(cmd,qos: 1)
         HUD.flash(.labeledSuccess(title: "请求已经发送", subtitle: "请耐心等待生效"), delay: 2.0)
         self.navigationController?.popViewController(animated: true)
     }

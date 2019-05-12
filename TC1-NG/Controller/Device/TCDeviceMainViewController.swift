@@ -15,26 +15,40 @@ class TCDeviceMainViewController: UIViewController {
     @IBOutlet weak var powerLabel: UILabel!
     @IBOutlet weak var powerView: PowerProgressView!
     @IBOutlet weak var socketCollectionView: UICollectionView!
-    
+    private var isReload = true
     var deviceModel = TCDeviceModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        TC1MQTTManager.share.initTC1Service(deviceModel.mqtt, mac: deviceModel.mac)
+        TC1ServiceManager.share.connectService(device: self.deviceModel, ip: self.deviceModel.ip)
         powerView.setCircleColor(color: UIColor.purple)
         powerView.animateToProgress(progress: 0)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        TC1MQTTManager.share.delegate = self
-//        TC1MQTTManager.share.subscribeDeviceMessage(mac: self.deviceModel.mac)
-        TC1MQTTManager.share.getDeviceFullState(name: self.deviceModel.name, mac: self.deviceModel.mac)
-
+        self.isReload = true
+        TC1ServiceManager.share.delegate = self
+        if TC1ServiceManager.share.isLocal {
+            TC1ServiceManager.share.getDeviceFullState(name: self.deviceModel.name, mac: self.deviceModel.mac)
+            DispatchQueue.global().async {
+                while self.isReload{
+                    TC1ServiceManager.share.publishMessage(["mac":self.deviceModel.mac as Any,"power":nil])
+                    sleep(1)
+                }
+            }
+        }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.isReload = false
+    }
+    
+    
     @IBAction func dimissViewController(_ sender: UIBarButtonItem) {
-        TC1MQTTManager.share.unSubscribeDeviceMessage(mac: self.deviceModel.mac)
+        self.isReload = false
+        TC1ServiceManager.share.unSubscribeDeviceMessage(mac: self.deviceModel.mac)
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -52,7 +66,7 @@ class TCDeviceMainViewController: UIViewController {
         }
         
     }
-        
+    
     
     fileprivate func plugMessageReload(message:JSON){
         if let string = message.rawString(),string.contains("plug") == false{
@@ -76,32 +90,43 @@ class TCDeviceMainViewController: UIViewController {
         if let plug_5 = message["plug_5"].dictionary{
             self.deviceModel.sockets[5].isOn = plug_5["on"]?.boolValue ?? false
             self.deviceModel.sockets[5].sockeTtitle =  plug_5["setting"]?.dictionaryValue["name"]?.stringValue ?? self.deviceModel.sockets[5].sockeTtitle      }
-        print(message)
+        if let version = message["version"].string{
+            self.deviceModel.version = version
+        }
+        if let mqtt_uri = message["setting"]["mqtt_uri"].string{
+            self.deviceModel.host = mqtt_uri
+        }
+        if let mqtt_port = message["setting"]["mqtt_port"].int{
+            self.deviceModel.port = mqtt_port
+        }
+        if let mqtt_user = message["setting"]["mqtt_user"].string{
+            self.deviceModel.username = mqtt_user
+        }
+        if let mqtt_password = message["setting"]["mqtt_password"].string{
+            self.deviceModel.password = mqtt_password
+        }
         //更新这个设备的信息
-        let mqtt = MQTTModel()
-        self.deviceModel.version = message["version"].stringValue
         self.deviceModel.name = message["name"].stringValue
-        mqtt.clientId = self.deviceModel.mac
-        mqtt.host = message["setting"]["mqtt_uri"].stringValue
-        mqtt.port = message["setting"]["mqtt_port"].intValue
-        mqtt.username = message["setting"]["mqtt_user"].stringValue
-        mqtt.password = message["setting"]["mqtt_password"].stringValue
-        self.deviceModel.mqtt = mqtt
+        self.deviceModel.clientId = self.deviceModel.mac
         TCSQLManager.updateTCDevice(self.deviceModel)
         self.socketCollectionView.reloadData()
+//        print("⚠️\(self.deviceModel.name)设备状态更新")
     }
     
-
+    
 }
 
-extension TCDeviceMainViewController:TC1MQTTManagerDelegate{
+extension TCDeviceMainViewController:TC1ServiceReceiveDelegate{
     
-    func TC1MQTTManagerOnConnect(code: Int) {
-//        TC1MQTTManager.share.subscribeDeviceMessage(mac: self.deviceModel.mac)
-//        TC1MQTTManager.share.getDeviceFullState(name: self.deviceModel.name, mac: self.deviceModel.mac)
+    func TC1ServiceOnConnect() {
+        if !TC1ServiceManager.share.isLocal{
+            print("MQTT服务器连接成功!")
+            TC1ServiceManager.share.subscribeDeviceMessage(mac: self.deviceModel.mac)
+            TC1ServiceManager.share.getDeviceFullState(name: self.deviceModel.name, mac: self.deviceModel.mac)
+        }
     }
 
-    func TC1MQTTManagerReceivedMessage(message: Data) {
+    func TC1ServiceReceivedMessage(message: Data) {
         DispatchQueue.main.async {
             let messageJSON = try! JSON(data: message)
             if messageJSON["mac"].stringValue != self.deviceModel.mac{
@@ -116,16 +141,8 @@ extension TCDeviceMainViewController:TC1MQTTManagerDelegate{
         }
     }
     
-    func TC1MQTTManagerSubscribe(messageId: Int, grantedQos: Array<Int32>) {
-        
-    }
-    
-    func TC1MQTTManagerUnSubscribe(messageId: Int) {
-        print("退订成功!")
-    }
-    
-    func TC1MQTTManagerPublish(messageId: Int) {
-        
+    func TC1ServiceUnSubscribe(topic: String) {
+        print("退订成功! \(topic)")
     }
     
     
@@ -160,7 +177,7 @@ extension TCDeviceMainViewController:UICollectionViewDelegateFlowLayout,UICollec
             AudioServicesPlaySystemSound(1519);
         }
         let model = self.deviceModel.sockets[indexPath.row]
-        TC1MQTTManager.share.switchDevice(state: !model.isOn, index: indexPath.row, mac: self.deviceModel.mac)
+        TC1ServiceManager.share.switchDevice(state: !model.isOn, index: indexPath.row, mac: self.deviceModel.mac)
     }
     
     

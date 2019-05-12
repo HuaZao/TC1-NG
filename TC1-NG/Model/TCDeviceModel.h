@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "SocketModel.h"
-#import "MQTTModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TCDeviceModel : NSObject
@@ -24,12 +23,17 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,copy) NSString *ip;
 //设备版本
 @property (nonatomic,copy) NSString *version;
-//mqtt服务器
-@property (nonatomic,strong) MQTTModel *mqtt;
 //各个插座的数据
 @property (nonatomic,strong) NSArray <SocketModel *>*sockets;
 //是否局域网在线
 @property (nonatomic,assign) BOOL isOnline;
+
+//mqtt服务器
+@property (nonatomic,copy) NSString *clientId;
+@property (nonatomic,copy) NSString *host;
+@property (nonatomic,assign) NSInteger port;
+@property (nonatomic,copy) NSString *username;
+@property (nonatomic,copy) NSString *password;
 
 @end
 

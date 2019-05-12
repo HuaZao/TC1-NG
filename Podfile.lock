@@ -1,6 +1,8 @@
 PODS:
   - Bitter (3.1.1)
   - CocoaAsyncSocket (7.6.3)
+  - CocoaMQTT (1.1.3):
+    - CocoaAsyncSocket (~> 7.6.3)
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
@@ -9,7 +11,6 @@ PODS:
     - LKDBHelper/standard (= 2.5.1)
   - LKDBHelper/standard (2.5.1):
     - FMDB
-  - Moscapsule (0.6.2)
   - OpenSSL-Universal (1.0.2.13)
   - PKHUD (5.2.0)
   - RealReachability (1.3.0):
@@ -22,9 +23,9 @@ PODS:
 DEPENDENCIES:
   - Bitter
   - CocoaAsyncSocket
+  - CocoaMQTT
   - IQKeyboardManagerSwift
   - LKDBHelper
-  - Moscapsule (from `https://github.com/flightonary/Moscapsule.git`)
   - OpenSSL-Universal
   - PKHUD (~> 5.0)
   - RealReachability
@@ -34,6 +35,7 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Bitter
     - CocoaAsyncSocket
+    - CocoaMQTT
     - FMDB
     - IQKeyboardManagerSwift
     - LKDBHelper
@@ -42,27 +44,18 @@ SPEC REPOS:
     - RealReachability
     - SwiftyJSON
 
-EXTERNAL SOURCES:
-  Moscapsule:
-    :git: https://github.com/flightonary/Moscapsule.git
-
-CHECKOUT OPTIONS:
-  Moscapsule:
-    :commit: bd40e53e7153f3d3775f3727296640e7415fde93
-    :git: https://github.com/flightonary/Moscapsule.git
-
 SPEC CHECKSUMS:
   Bitter: 9a6aa16f2c4e4303720c441108581b27c400ec27
   CocoaAsyncSocket: eafaa68a7e0ec99ead0a7b35015e0bf25d2c8987
+  CocoaMQTT: b506d38ad3bbe1c55a4f8ee8c9fd02c35da1a7d8
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   IQKeyboardManagerSwift: b07ccf9d8cafe993dcd6cb794eb4ba34611a0c4e
   LKDBHelper: 9a276ba51f2e16263d46a9517e16cc9b03472664
-  Moscapsule: dbf891e0a6b75cbe63c98d9bdbbad6ff4aaf00e6
   OpenSSL-Universal: 401888162f11c33ebbd46f782d9229da35c61327
   PKHUD: dd5357ac65f26115c35c4a68e9b328053326c5fe
   RealReachability: eae9c58d2db52fadd8e1cba4b5d4c028454fbc47
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
 
-PODFILE CHECKSUM: 3abda61081dad9deed5580d92e90e0e614fb4f22
+PODFILE CHECKSUM: 42cc2299b60f5410227590a6e186e6c262c0a66f
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.0
