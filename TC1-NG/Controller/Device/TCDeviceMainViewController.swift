@@ -49,6 +49,7 @@ class TCDeviceMainViewController: UIViewController {
     @IBAction func dimissViewController(_ sender: UIBarButtonItem) {
         self.isReload = false
         TC1ServiceManager.share.unSubscribeDeviceMessage(mac: self.deviceModel.mac)
+        TC1ServiceManager.share.closeService()
         self.navigationController?.popViewController(animated: true)
     }
     

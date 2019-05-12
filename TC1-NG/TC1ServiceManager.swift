@@ -65,6 +65,14 @@ class TC1ServiceManager: NSObject {
         }
     }
     
+    func closeService(){
+        print("close service")
+        self.mqttClient?.disconnect()
+        self.udpSocket?.close()
+        self.mqttClient = nil
+        self.udpSocket = nil
+    }
+    
     
     private func initTC1MQTTService(device:TCDeviceModel?){
         guard let device = device else {
@@ -76,8 +84,6 @@ class TC1ServiceManager: NSObject {
         guard device.host != "" else {
             return
         }
-        self.mqttClient?.disconnect()
-        self.mqttClient = nil
         self.mac = device.mac
         self.mqttClient = CocoaMQTT(clientID: "CocoaMQTT" + device.clientId, host: device.host, port: UInt16(device.port))
         self.mqttClient?.username = device.username
@@ -91,10 +97,7 @@ class TC1ServiceManager: NSObject {
     }
     
     private func initTC1UDPService(){
-        self.udpSocket?.close()
-        if self.udpSocket == nil {
-            self.udpSocket = GCDAsyncUdpSocket(delegate: self, delegateQueue: DispatchQueue.global())
-        }
+        self.udpSocket = GCDAsyncUdpSocket(delegate: self, delegateQueue: DispatchQueue.global())
         do {
             try self.udpSocket?.enableBroadcast(true)
             try self.udpSocket?.bind(toPort: 10181)
@@ -106,24 +109,20 @@ class TC1ServiceManager: NSObject {
     
     //    判断是否在同一个局域网,IP为空则默认为UDP通讯!
     private func isLan(ip:String?,_ realReachabilitySatas:@escaping (Bool)->Void){
-        guard EASYLINK.ssidForConnectedNetwork() != "" else {
+        guard EASYLINK.getIPAddress() != "" else {
             //WIFI没有开启或者SSID为空
             realReachabilitySatas(false)
             return
         }
         
         if let ip = ip{
-            let realReachability = RealReachability.sharedInstance()
-            realReachability?.hostForPing = ip
-            realReachability?.startNotifier()
-            realReachability?.reachability({ (status) in
-                print("网络状态变化!---> \(status.rawValue)")
-                if status == .RealStatusNotReachable{
-                    realReachabilitySatas(false)
-                }else{
-                    realReachabilitySatas(true)
-                }
-            })
+            //这里先用ping判断,不太严谨凑合用
+            let pingHelper = PingHelper()
+            pingHelper.host = ip
+            pingHelper.timeout = 1
+            pingHelper.ping { (isReach) in
+                realReachabilitySatas(isReach)
+            }
         }else{
             realReachabilitySatas(true)
         }
