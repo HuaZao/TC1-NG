@@ -27,7 +27,7 @@
 - [x] 设置MQTT服务器
 - [x] OTA更新
 - [x] 多设备支持
-- [] DC1支持
+- [ ] DC1支持
 
 ### 预览图
 ![](https://github.com/HuaZao/TC1-NG/blob/master/ScreenShot1.png)
