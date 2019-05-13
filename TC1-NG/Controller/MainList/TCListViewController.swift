@@ -32,11 +32,6 @@ class TCListViewController: UIViewController {
         self.tableView.reloadData()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        TC1ServiceManager.share.closeService()
-    }
-    
     private func discoverDevices(mac:String){
         TC1ServiceManager.share.delegate = self
         TC1ServiceManager.share.connectService()
@@ -153,6 +148,7 @@ extension TCListViewController:UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let vc = UIStoryboard(name: "TCDeviceMain", bundle: nil).instantiateInitialViewController() as? TCDeviceMainViewController{
+            TC1ServiceManager.share.closeService()
             vc.deviceModel = self.dataSource[indexPath.row]
             vc.title = self.dataSource[indexPath.row].name
             self.navigationController?.pushViewController(vc, animated: true)

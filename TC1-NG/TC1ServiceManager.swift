@@ -218,6 +218,7 @@ extension TC1ServiceManager{
                    "plug_5":["setting":["name":nil]]
             ] as [String : Any?]
         self.publishMessage(cmd as [String : Any],qos: 1)
+        self.sendDeviceReportCmd()
     }
 }
 

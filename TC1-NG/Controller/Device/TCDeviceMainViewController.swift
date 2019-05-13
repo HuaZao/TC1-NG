@@ -151,6 +151,10 @@ extension TCDeviceMainViewController:TC1ServiceReceiveDelegate{
                 self.powerView.animateToProgress(progress: 1/2500 * power)
                 self.powerLabel.text = "\(power)W";
             }
+            if let ip = messageJSON["ip"].string{
+                self.deviceModel.ip = ip
+                TCSQLManager.updateTCDevice(self.deviceModel)
+            }
             self.plugMessageReload(message: messageJSON)
         }
     }

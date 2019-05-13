@@ -93,7 +93,7 @@ class TCDeviceInfoTableViewController: UITableViewController {
                         let update = UIAlertAction(title: "马上更新", style: .destructive, handler: { (_) in
                             TC1ServiceManager.share.publishMessage(["mac":self.deviceModel.mac,"setting":["ota":"http://home.wula.vip:4380/TC1_OTA.bin"]])
                             DispatchQueue.main.async {
-                                HUD.flash(.labeledProgress(title: "正在更新", subtitle: "请勿退出程序"), delay: 2)
+                                HUD.show(.labeledProgress(title: "正在更新", subtitle: "请勿断开设备电源!"))
                             }
                         })
                         alert.addAction(update)
@@ -119,7 +119,16 @@ extension TCDeviceInfoTableViewController:TC1ServiceReceiveDelegate{
     
     func TC1ServiceReceivedMessage(message: Data) {
         let messageJSON = try! JSON(data: message)
-        print(messageJSON)
+        let otaProgress = messageJSON["ota_progress"].floatValue
+        if otaProgress > 0{
+            print("OTA 进度 ---> \(otaProgress)")
+        }
+        if otaProgress == 100 {
+            DispatchQueue.main.async {
+                HUD.flash(.labeledSuccess(title: "更新成功!", subtitle: nil))
+            }
+        }
+        
     }
     
     func TC1ServicePublish(messageId: Int) {
