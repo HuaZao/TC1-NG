@@ -7,7 +7,6 @@ target 'TC1-NG' do
   # Pods for TC1-NG
 pod 'CocoaAsyncSocket'
 pod 'CocoaMQTT'
-pod 'OpenSSL-Universal'
 pod 'SwiftyJSON'
 pod 'LKDBHelper'
 pod 'IQKeyboardManagerSwift'
