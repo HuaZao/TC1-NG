@@ -9,7 +9,7 @@
 
 ## 关于TC1配网
 
-目前APP使用官方EasyLink_SDK,硬件配网成功但无任何回调,暂时无解.    
+目前APP使用官方EasyLink_SDK,硬件配网成功但无任何回调
 **解决办法:**   
 1. 使用安卓APP配网 -> 打开本APP -> APP通过局域网自动识别出设备 -> 设置完成  
 2. 使用本APP配网,进入配网页面 -> 输入WIFI密码 -> 点击配置 -> 观察TC1的指示灯,快闪然后常亮则配网成功,此时APP无任何反应 -> 直接退出配网页面 -> APP通过局域网自动识别出设备 -> 设置完成
@@ -27,6 +27,7 @@
 - [x] 设置MQTT服务器
 - [x] OTA更新
 - [x] 多设备支持
+- [] DC1支持
 
 ### 预览图
 ![](https://github.com/HuaZao/TC1-NG/blob/master/ScreenShot1.png)

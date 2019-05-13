@@ -40,7 +40,7 @@ class TCConfigViewController: UIViewController {
     }
     
     @IBAction func discoverLocalDevice(_ sender: UIBarButtonItem) {
-        let alert = UIAlertController(title: "添加已配对设备", message: "请确保设备已经配对,并且接入MQTT服务器🍭", preferredStyle: .alert)
+        let alert = UIAlertController(title: "添加已配对设备", message: "请确保设备已经配对,并且接入MQTT服务器或处在同一个局域网", preferredStyle: .alert)
         alert.addTextField { (textField) in
             textField.keyboardType = .asciiCapable
             textField.placeholder = "输入Host"
@@ -63,6 +63,11 @@ class TCConfigViewController: UIViewController {
         }
         alert.addTextField { (textField) in
             textField.keyboardType = .asciiCapable
+            textField.placeholder = "输入设备局域网IP地址"
+            textField.tag = 1006
+        }
+        alert.addTextField { (textField) in
+            textField.keyboardType = .asciiCapable
             textField.placeholder = "输入设备mac地址"
             textField.tag = 1005
         }
@@ -73,22 +78,19 @@ class TCConfigViewController: UIViewController {
             guard let port = alert.textFields?.first(where: {$0.tag == 1002})?.text,let iPort = Int(port) else{
                 return
             }
-            guard let userName = alert.textFields?.first(where: {$0.tag == 1003})?.text else{
+            guard let username = alert.textFields?.first(where: {$0.tag == 1003})?.text else{
                 return
             }
-            guard let userPassword = alert.textFields?.first(where: {$0.tag == 1004})?.text else{
+            guard let password = alert.textFields?.first(where: {$0.tag == 1004})?.text else{
+                return
+            }
+            guard let ip = alert.textFields?.first(where: {$0.tag == 1006})?.text else{
                 return
             }
             guard let mac = alert.textFields?.first(where: {$0.tag == 1005})?.text else{
                 return
             }
-//            let model = MQTTModel()
-//            model.clientId = "clientId"
-//            model.host = host
-//            model.port = iPort
-//            model.username = userName
-//            model.password = userPassword
-//            self?.discoverDevices(mac:mac, service: model)
+            self?.addTC(message: JSON(["name":mac,"ip":ip,"mac":mac,"host":host,"port":iPort,"username":username,"password":password]))
         }))
         alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
@@ -105,6 +107,10 @@ class TCConfigViewController: UIViewController {
         model.name = message["name"].stringValue
         model.mac = message["mac"].stringValue
         model.ip = message["ip"].stringValue
+        model.host = message["host"].stringValue
+        model.port = message["port"].intValue
+        model.username = message["username"].stringValue
+        model.password = message["password"].stringValue
         model.sockets = [SocketModel]()
         //初始化6个插座
         for i in 1...6{
@@ -167,7 +173,7 @@ extension TCConfigViewController:TC1ServiceReceiveDelegate,EasyLinkFTCDelegate,N
                     serviceDic[dic.key] = value
                 }
             }
-            if let ipData = sender.addresses{
+            if let ipData = sender.addresses,ipData.count > 0{
                 serviceDic["IP"] = self.getIPV4StringfromAddress(address: ipData)
             }
             serviceDic["Port"] = "\(sender.port)"

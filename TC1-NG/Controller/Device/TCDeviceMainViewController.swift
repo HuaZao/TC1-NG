@@ -9,6 +9,7 @@
 import UIKit
 import SwiftyJSON
 import AudioToolbox
+import RealReachability
 
 class TCDeviceMainViewController: UIViewController {
     
@@ -23,21 +24,14 @@ class TCDeviceMainViewController: UIViewController {
         TC1ServiceManager.share.connectService(device: self.deviceModel, ip: self.deviceModel.ip)
         powerView.setCircleColor(color: UIColor.purple)
         powerView.animateToProgress(progress: 0)
+        self.obNetworkStateChange()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.title = self.deviceModel.name
         self.isReload = true
         TC1ServiceManager.share.delegate = self
-        if TC1ServiceManager.share.isLocal {
-            TC1ServiceManager.share.getDeviceFullState(name: self.deviceModel.name, mac: self.deviceModel.mac)
-            DispatchQueue.global().async {
-                while self.isReload{
-                    TC1ServiceManager.share.publishMessage(["mac":self.deviceModel.mac as Any,"power":nil])
-                    sleep(1)
-                }
-            }
-        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -45,6 +39,17 @@ class TCDeviceMainViewController: UIViewController {
         self.isReload = false
     }
     
+    private func obNetworkStateChange(){
+        let realReachability = RealReachability.sharedInstance()
+        realReachability?.hostForPing = "www.baidu.com"
+        realReachability?.startNotifier()
+        NotificationCenter.default.addObserver(self, selector: #selector(self.networkStateChange(sender:)), name: NSNotification.Name.realReachabilityChanged, object: nil)
+    }
+    
+    @objc private func networkStateChange(sender:NotificationCenter){
+        TC1ServiceManager.share.closeService()
+        TC1ServiceManager.share.connectService(device: self.deviceModel, ip: self.deviceModel.ip)
+    }
     
     @IBAction func dimissViewController(_ sender: UIBarButtonItem) {
         self.isReload = false
@@ -123,8 +128,16 @@ extension TCDeviceMainViewController:TC1ServiceReceiveDelegate{
         if !TC1ServiceManager.share.isLocal{
             print("MQTT服务器连接成功!")
             TC1ServiceManager.share.subscribeDeviceMessage(mac: self.deviceModel.mac)
-            TC1ServiceManager.share.getDeviceFullState(name: self.deviceModel.name, mac: self.deviceModel.mac)
+        }else{
+            print("UDP已经准备就绪!")
+            DispatchQueue.global().async {
+                while self.isReload{
+                    TC1ServiceManager.share.publishMessage(["mac":self.deviceModel.mac ,"power":nil])
+                    sleep(1)
+                }
+            }
         }
+        TC1ServiceManager.share.getDeviceFullState(name: self.deviceModel.name, mac: self.deviceModel.mac)
     }
 
     func TC1ServiceReceivedMessage(message: Data) {

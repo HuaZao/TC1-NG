@@ -32,6 +32,11 @@ class TCListViewController: UIViewController {
         self.tableView.reloadData()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        TC1ServiceManager.share.closeService()
+    }
+    
     private func discoverDevices(mac:String){
         TC1ServiceManager.share.delegate = self
         TC1ServiceManager.share.connectService()
@@ -101,7 +106,7 @@ extension TCListViewController:TC1ServiceReceiveDelegate,NetServiceBrowserDelega
                     serviceDic[dic.key] = value
                 }
             }
-            if let ipData = sender.addresses{
+            if let ipData = sender.addresses,ipData.count > 0{
                 serviceDic["IP"] = self.getIPV4StringfromAddress(address: ipData)
             }
             serviceDic["Port"] = "\(sender.port)"
@@ -152,6 +157,29 @@ extension TCListViewController:UITableViewDelegate,UITableViewDataSource{
             vc.title = self.dataSource[indexPath.row].name
             self.navigationController?.pushViewController(vc, animated: true)
         }
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete{
+            let alert = UIAlertController(title: "移除设备", message: "确定要删除此设备?(\(self.dataSource[indexPath.row].name))", preferredStyle: .alert)
+            let cancel = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+            alert.addAction(cancel)
+            let remove = UIAlertAction(title: "确认", style: .destructive) { (_) in
+                TCSQLManager.removeTCDevice(self.dataSource[indexPath.row])
+                self.dataSource.remove(at: indexPath.row)
+                self.tableView.reloadData()
+            }
+            alert.addAction(remove)
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
+        return "移除设备"
     }
     
     

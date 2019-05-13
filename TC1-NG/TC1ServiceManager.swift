@@ -11,6 +11,7 @@ import CocoaAsyncSocket
 import CocoaMQTT
 import SwiftyJSON
 import RealReachability
+import PKHUD
 
 protocol TC1ServiceReceiveDelegate:class {
     func TC1ServiceOnConnect()
@@ -78,10 +79,11 @@ class TC1ServiceManager: NSObject {
         guard let device = device else {
             return
         }
-        guard device.port != 0 else{
+        guard device.host != "" else {
+            HUD.flash(HUDContentType.labeledError(title: "获取数据失败", subtitle: "当前设备没有配置MQTT服务器,无法在外网中获取到数据!"))
             return
         }
-        guard device.host != "" else {
+        guard device.port != 0 else{
             return
         }
         self.mac = device.mac
@@ -90,7 +92,7 @@ class TC1ServiceManager: NSObject {
         self.mqttClient?.password = device.password
         self.mqttClient?.keepAlive = 60
         self.mqttClient?.delegate = self
-        self.mqttClient?.logLevel = .debug
+        self.mqttClient?.logLevel = .warning
         self.mqttClient?.cleanSession = true
         self.mqttClient?.autoReconnect = true
         self.mqttClient?.connect()
@@ -102,6 +104,8 @@ class TC1ServiceManager: NSObject {
             try self.udpSocket?.enableBroadcast(true)
             try self.udpSocket?.bind(toPort: 10181)
             try self.udpSocket?.beginReceiving()
+            //UDP只是接受数据用,所以不会触发连接成功的代理
+            self.delegate?.TC1ServiceOnConnect()
         } catch  {
             print("UDP Error\(error.localizedDescription)")
         }
@@ -132,7 +136,7 @@ class TC1ServiceManager: NSObject {
 
 extension TC1ServiceManager{
     func subscribeDeviceMessage(mac:String,qos:Int = 0){
-        self.mqttClient?.subscribe("device/ztc1/" + self.mac + "/state")
+        self.mqttClient?.subscribe("device/ztc1/" + self.mac + "/state", qos: CocoaMQTTQOS.init(rawValue: UInt8(qos))!)
     }
     
     func unSubscribeDeviceMessage(mac:String){
