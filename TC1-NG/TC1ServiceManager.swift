@@ -54,8 +54,12 @@ class TC1ServiceManager: NSObject {
     //不传入设备则代表使用UDP广播
     //ip用于判断使用UDP还是MQTT
     func connectService(device:TCDeviceModel? = nil,ip:String? = nil){
+        if device?.isOnline == true{
+            print("当前强制MQTT环境")
+            self.initTC1MQTTService(device: device)
+            return
+        }
         self.isLan(ip: ip) { [unowned self] (isLocal) in
-            self.isLocal = isLocal
             if isLocal{
                 print("当前为局域网环境")
                 self.initTC1UDPService()
@@ -86,6 +90,7 @@ class TC1ServiceManager: NSObject {
         guard device.port != 0 else{
             return
         }
+        self.isLocal = false
         self.mac = device.mac
         self.mqttClient = CocoaMQTT(clientID: "CocoaMQTT" + device.clientId, host: device.host, port: UInt16(device.port))
         self.mqttClient?.username = device.username
@@ -99,6 +104,7 @@ class TC1ServiceManager: NSObject {
     }
     
     private func initTC1UDPService(){
+        self.isLocal = true
         self.udpSocket = GCDAsyncUdpSocket(delegate: self, delegateQueue: DispatchQueue.global())
         do {
             try self.udpSocket?.enableBroadcast(true)

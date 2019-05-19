@@ -17,6 +17,8 @@ class TCDeviceInfoTableViewController: UITableViewController {
     @IBOutlet weak var mqttAddress: UILabel!
     @IBOutlet weak var version: UILabel!
     @IBOutlet weak var deviceName: UILabel!
+    @IBOutlet weak var connectLabel: UILabel!
+    @IBOutlet weak var isMQTT: UISwitch!
     
     var deviceModel = TCDeviceModel()
     
@@ -27,7 +29,13 @@ class TCDeviceInfoTableViewController: UITableViewController {
         self.mqttAddress.text = self.deviceModel.host
         self.version.text = self.deviceModel.version
         self.deviceName.text = self.deviceModel.name
+        self.isMQTT.isOn = self.deviceModel.isOnline
         TC1ServiceManager.share.delegate = self
+        if TC1ServiceManager.share.isLocal{
+            self.connectLabel.text = "UDP"
+        }else{
+            self.connectLabel.text = "MQTT"
+        }
         TC1ServiceManager.share.subscribeDeviceMessage(mac: self.deviceModel.mac)
         self.tableView.reloadData()
     }
@@ -46,6 +54,19 @@ class TCDeviceInfoTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? TCSetMQTTServiceViewController{
             vc.deviceModel = self.deviceModel
+        }
+    }
+    
+    
+    @IBAction func alwaysUseMQTTAction(_ sender: UISwitch) {
+        if self.deviceModel.host != ""{
+            self.deviceModel.isOnline = sender.isOn
+            TCSQLManager.updateTCDevice(self.deviceModel)
+            HUD.flash(.labeledSuccess(title: "设置成功", subtitle: "重新打开APP之后生效!"), delay: 1)
+        }else{
+            if sender.isOn{
+                HUD.flash(HUDContentType.labeledError(title: "无法设置", subtitle: "MQTT服务端尚未设置!"), delay: 1)
+            }
         }
     }
     
@@ -70,7 +91,7 @@ class TCDeviceInfoTableViewController: UITableViewController {
             })
             alert.addAction(reNameAction)
             self.present(alert, animated: true, completion: nil)
-        }else if indexPath.row == 4{
+        }else if indexPath.row == 5{
             self.checkForUpdates()
         }else if indexPath.row == 1 || indexPath.row == 2{
             if let cell = tableView.cellForRow(at: indexPath),let content = cell.textLabel?.text{

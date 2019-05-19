@@ -314,7 +314,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-TC1-NG/Pods-TC1-NG-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-TC1-NG/Pods-TC1-NG-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Bitter/Bitter.framework",
 				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework",
 				"${BUILT_PRODUCTS_DIR}/CocoaMQTT/CocoaMQTT.framework",
@@ -339,7 +339,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TC1-NG/Pods-TC1-NG-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TC1-NG/Pods-TC1-NG-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		8B535F4303A9A33CF13C3851 /* [CP] Check Pods Manifest.lock */ = {
