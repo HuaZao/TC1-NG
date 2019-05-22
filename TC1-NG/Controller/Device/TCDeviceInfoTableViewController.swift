@@ -18,6 +18,7 @@ class TCDeviceInfoTableViewController: UITableViewController {
     @IBOutlet weak var version: UILabel!
     @IBOutlet weak var deviceName: UILabel!
     @IBOutlet weak var connectLabel: UILabel!
+    @IBOutlet weak var runTimerLabel: UILabel!
     @IBOutlet weak var isMQTT: UISwitch!
     
     var deviceModel = TCDeviceModel()
@@ -91,7 +92,7 @@ class TCDeviceInfoTableViewController: UITableViewController {
             })
             alert.addAction(reNameAction)
             self.present(alert, animated: true, completion: nil)
-        }else if indexPath.row == 5{
+        }else if indexPath.row == 7{
             self.checkForUpdates()
         }else if indexPath.row == 1 || indexPath.row == 2{
             if let cell = tableView.cellForRow(at: indexPath),let content = cell.textLabel?.text{
@@ -140,6 +141,14 @@ extension TCDeviceInfoTableViewController:TC1ServiceReceiveDelegate{
     
     func TC1ServiceReceivedMessage(message: Data) {
         let messageJSON = try! JSON(data: message)
+        let totalTimer = messageJSON["total_time"].int32Value
+        if totalTimer > 0 {
+            let days = totalTimer / (3600 * 24);
+            let hours = (totalTimer / 3600) % 24;
+            let minutes = (totalTimer / 60) % 60;
+            let seconds = totalTimer % 60;
+            self.runTimerLabel.text = String(format: "%02d天%02d时%02d分%02d秒", days,hours,minutes,seconds)
+        }
         let otaProgress = messageJSON["ota_progress"].floatValue
         if otaProgress > 0{
             print("OTA 进度 ---> \(otaProgress)")

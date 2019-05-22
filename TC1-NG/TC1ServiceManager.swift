@@ -81,10 +81,10 @@ class TC1ServiceManager: NSObject {
     
     private func initTC1MQTTService(device:TCDeviceModel?){
         guard let device = device else {
+            HUD.flash(HUDContentType.labeledError(title: "获取数据失败", subtitle: "当前设备没有配置MQTT服务器,无法在外网中获取到数据!"))
             return
         }
         guard device.host != "" else {
-            HUD.flash(HUDContentType.labeledError(title: "获取数据失败", subtitle: "当前设备没有配置MQTT服务器,无法在外网中获取到数据!"))
             return
         }
         guard device.port != 0 else{
@@ -101,6 +101,7 @@ class TC1ServiceManager: NSObject {
         self.mqttClient?.password = device.password
         self.mqttClient?.clientId = "TC1" + device.mac
         self.mqttClient?.delegate = self
+        MQTTLog.setLogLevel(.info)
         self.mqttClient?.connect(connectHandler: { (error) in
             self.delegate?.TC1ServiceOnConnect()
         })
@@ -126,12 +127,6 @@ class TC1ServiceManager: NSObject {
     
     //    判断是否在同一个局域网,IP为空则默认为UDP通讯!
     private func isLan(ip:String?,_ realReachabilitySatas:@escaping (Bool)->Void){
-        guard EASYLINK.getIPAddress() != "" else {
-            //WIFI没有开启或者SSID为空
-            realReachabilitySatas(false)
-            return
-        }
-        
         if let ip = ip{
             //这里先用ping判断,不太严谨凑合用
             let pingHelper = PingHelper()
@@ -271,55 +266,6 @@ extension TC1ServiceManager:MQTTSessionDelegate{
         self.isConnect = false
         self.delegate?.TC1ServiceDidDisconnect(error: nil)
     }
-    
-    
-//    func mqtt(_ mqtt: CocoaMQTT, didConnectAck ack: CocoaMQTTConnAck) {
-//        if ack == .accept {
-//            self.isConnect = true
-//            self.delegate?.TC1ServiceOnConnect()
-//        }else{
-//            print("连接MQTT异常--->\(ack.description)")
-//        }
-//
-//    }
-//
-//    func mqtt(_ mqtt: CocoaMQTT, didPublishMessage message: CocoaMQTTMessage, id: UInt16) {
-//        self.delegate?.TC1ServicePublish(messageId: Int(id))
-//    }
-//
-//
-//    func mqtt(_ mqtt: CocoaMQTT, didPublishAck id: UInt16) {
-//
-//    }
-//
-//    func mqtt(_ mqtt: CocoaMQTT, didReceiveMessage message: CocoaMQTTMessage, id: UInt16) {
-//        if let string = message.string,let messageData = string.data(using: .utf8){
-//          self.delegate?.TC1ServiceReceivedMessage(message: messageData)
-//        }
-//    }
-//
-//    func mqtt(_ mqtt: CocoaMQTT, didSubscribeTopic topics: [String]) {
-//        print("订阅---> \(topics)")
-//        self.delegate?.TC1ServiceSubscribe(topics: topics)
-//    }
-//
-//
-//    func mqtt(_ mqtt: CocoaMQTT, didUnsubscribeTopic topic: String) {
-//        self.delegate?.TC1ServiceUnSubscribe(topic: topic)
-//    }
-//
-//    func mqttDidPing(_ mqtt: CocoaMQTT) {
-//
-//    }
-//
-//    func mqttDidReceivePong(_ mqtt: CocoaMQTT) {
-//
-//    }
-//
-//    func mqttDidDisconnect(_ mqtt: CocoaMQTT, withError err: Error?) {
-//        self.isConnect = false
-//        self.delegate?.TC1ServiceDidDisconnect(error: err)
-//    }
     
     
 }
