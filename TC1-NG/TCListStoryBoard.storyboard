@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bfE-Bi-gb1">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bfE-Bi-gb1">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -169,15 +169,25 @@
                                             <constraint firstAttribute="width" constant="86" id="N3S-R0-Dp6"/>
                                         </constraints>
                                     </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ASF-oN-71L">
+                                        <rect key="frame" x="144.5" y="21.5" width="86" height="97"/>
+                                        <connections>
+                                            <action selector="wifiCustomAction:" destination="kB8-i7-sVH" eventType="touchUpInside" id="ifL-rt-qhB"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="Fi2-UY-Wnn" firstAttribute="centerX" secondItem="Yiu-9r-NXg" secondAttribute="centerX" id="4AJ-vm-d9R"/>
                                     <constraint firstItem="Yiu-9r-NXg" firstAttribute="top" secondItem="9cF-zK-VXj" secondAttribute="bottom" constant="12" id="IiG-gQ-Y0w"/>
                                     <constraint firstAttribute="height" constant="210" id="QD7-WN-NvC"/>
+                                    <constraint firstItem="ASF-oN-71L" firstAttribute="centerY" secondItem="9cF-zK-VXj" secondAttribute="centerY" id="S4w-mT-wEB"/>
                                     <constraint firstItem="Yiu-9r-NXg" firstAttribute="centerX" secondItem="9cF-zK-VXj" secondAttribute="centerX" id="SLz-Ze-eoK"/>
+                                    <constraint firstItem="ASF-oN-71L" firstAttribute="height" secondItem="9cF-zK-VXj" secondAttribute="height" id="eV8-tN-oFu"/>
                                     <constraint firstItem="9cF-zK-VXj" firstAttribute="centerY" secondItem="YZe-QO-X03" secondAttribute="centerY" constant="-35" id="fkU-nF-pYM"/>
+                                    <constraint firstItem="ASF-oN-71L" firstAttribute="centerX" secondItem="9cF-zK-VXj" secondAttribute="centerX" id="iaD-Db-efT"/>
                                     <constraint firstItem="9cF-zK-VXj" firstAttribute="centerX" secondItem="YZe-QO-X03" secondAttribute="centerX" id="igk-vX-bGd"/>
+                                    <constraint firstItem="ASF-oN-71L" firstAttribute="width" secondItem="9cF-zK-VXj" secondAttribute="width" id="uAT-x2-pE1"/>
                                     <constraint firstItem="Fi2-UY-Wnn" firstAttribute="top" secondItem="Yiu-9r-NXg" secondAttribute="bottom" constant="8" id="ykl-sJ-t7V"/>
                                 </constraints>
                             </view>

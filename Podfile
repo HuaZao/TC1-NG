@@ -6,7 +6,7 @@ target 'TC1-NG' do
   use_frameworks!
   # Pods for TC1-NG
 pod 'CocoaAsyncSocket'
-pod 'CocoaMQTT'
+pod 'MQTTClient/Min'
 pod 'SwiftyJSON'
 pod 'LKDBHelper'
 pod 'IQKeyboardManagerSwift'

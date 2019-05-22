@@ -28,7 +28,7 @@ class TCDeviceInfoTableViewController: UITableViewController {
         self.version.text = self.deviceModel.version
         self.deviceName.text = self.deviceModel.name
         TC1ServiceManager.share.delegate = self
-        TC1ServiceManager.share.subscribeDeviceMessage(mac: self.deviceModel.mac)
+        TC1ServiceManager.share.subscribeDeviceMessage()
         self.tableView.reloadData()
     }
     

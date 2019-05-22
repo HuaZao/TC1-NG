@@ -53,7 +53,7 @@ class TCDeviceMainViewController: UIViewController {
     
     @IBAction func dimissViewController(_ sender: UIBarButtonItem) {
         self.isReload = false
-        TC1ServiceManager.share.unSubscribeDeviceMessage(mac: self.deviceModel.mac)
+        TC1ServiceManager.share.unSubscribeDeviceMessage()
         TC1ServiceManager.share.closeService()
         self.navigationController?.popViewController(animated: true)
     }
@@ -127,7 +127,7 @@ extension TCDeviceMainViewController:TC1ServiceReceiveDelegate{
     func TC1ServiceOnConnect() {
         if !TC1ServiceManager.share.isLocal{
             print("MQTT服务器连接成功!")
-            TC1ServiceManager.share.subscribeDeviceMessage(mac: self.deviceModel.mac)
+            TC1ServiceManager.share.subscribeDeviceMessage()
         }else{
             print("UDP已经准备就绪!")
             DispatchQueue.global().async {
@@ -137,7 +137,7 @@ extension TCDeviceMainViewController:TC1ServiceReceiveDelegate{
                 }
             }
         }
-        TC1ServiceManager.share.getDeviceFullState(name: self.deviceModel.name, mac: self.deviceModel.mac)
+        TC1ServiceManager.share.getDeviceFullState(name: self.deviceModel.name)
     }
 
     func TC1ServiceReceivedMessage(message: Data) {
@@ -195,7 +195,7 @@ extension TCDeviceMainViewController:UICollectionViewDelegateFlowLayout,UICollec
             AudioServicesPlaySystemSound(1519);
         }
         let model = self.deviceModel.sockets[indexPath.row]
-        TC1ServiceManager.share.switchDevice(state: !model.isOn, index: indexPath.row, mac: self.deviceModel.mac)
+        TC1ServiceManager.share.switchDevice(state: !model.isOn, index: indexPath.row)
     }
     
     

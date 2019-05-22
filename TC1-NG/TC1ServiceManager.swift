@@ -8,7 +8,7 @@
 
 import UIKit
 import CocoaAsyncSocket
-import CocoaMQTT
+import MQTTClient
 import SwiftyJSON
 import RealReachability
 import PKHUD
@@ -18,7 +18,7 @@ protocol TC1ServiceReceiveDelegate:class {
     func TC1ServiceDidDisconnect(error:Error?)
     func TC1ServiceReceivedMessage(message:Data)
     //MQTT Only
-    func TC1ServiceSubscribe(topic: String)
+    func TC1ServiceSubscribe(topics: [String])
     func TC1ServiceUnSubscribe(topic: String)
     func TC1ServicePublish(messageId: Int)
 }
@@ -30,7 +30,7 @@ extension TC1ServiceReceiveDelegate{
     func TC1ServiceDidDisconnect(error:Error?){
         
     }
-    func TC1ServiceSubscribe(topic: String){
+    func TC1ServiceSubscribe(topics: [String]){
         
     }
     func TC1ServiceUnSubscribe(topic: String){
@@ -44,7 +44,7 @@ extension TC1ServiceReceiveDelegate{
 class TC1ServiceManager: NSObject {
     
     static let share = TC1ServiceManager()
-    private var mqttClient: CocoaMQTT?
+    private var mqttClient: MQTTSession?
     private var udpSocket:GCDAsyncUdpSocket?
     private var mac = String()
     private(set) var isLocal = true
@@ -87,14 +87,21 @@ class TC1ServiceManager: NSObject {
             return
         }
         self.mac = device.mac
-        self.mqttClient = CocoaMQTT(clientID: "CocoaMQTT" + device.clientId, host: device.host, port: UInt16(device.port))
-        self.mqttClient?.username = device.username
+        let transport = MQTTCFSocketTransport()
+        transport.host = device.host
+        transport.port = UInt32(device.port)
+        self.mqttClient = MQTTSession()
+        self.mqttClient?.transport = transport
+        self.mqttClient?.userName = device.username
         self.mqttClient?.password = device.password
-        self.mqttClient?.keepAlive = 60
+        self.mqttClient?.clientId = "TC1" + device.mac
         self.mqttClient?.delegate = self
-        self.mqttClient?.logLevel = .warning
-        self.mqttClient?.cleanSession = true
-        self.mqttClient?.autoReconnect = true
+        self.mqttClient?.connect(connectHandler: { (error) in
+            self.delegate?.TC1ServiceOnConnect()
+        })
+        self.mqttClient?.close(disconnectHandler: { (error) in
+            self.delegate?.TC1ServiceDidDisconnect(error: error)
+        })
         self.mqttClient?.connect()
     }
     
@@ -135,12 +142,18 @@ class TC1ServiceManager: NSObject {
 }
 
 extension TC1ServiceManager{
-    func subscribeDeviceMessage(mac:String,qos:Int = 0){
-        self.mqttClient?.subscribe("device/ztc1/" + self.mac + "/state", qos: CocoaMQTTQOS.init(rawValue: UInt8(qos))!)
+    func subscribeDeviceMessage(qos:Int = 0){
+        let topic = "device/ztc1/" + self.mac + "/state"
+        self.mqttClient?.subscribe(toTopic: topic, at: MQTTQosLevel.init(rawValue: UInt8(qos))!, subscribeHandler: { (error, tops) in
+            self.delegate?.TC1ServiceSubscribe(topics:[topic])
+        })
     }
     
-    func unSubscribeDeviceMessage(mac:String){
-        self.mqttClient?.unsubscribe("device/ztc1/" + mac  + "/state")
+    func unSubscribeDeviceMessage(){
+        let topic = "device/ztc1/" + self.mac  + "/state"
+        self.mqttClient?.unsubscribeTopic("device/ztc1/" + self.mac  + "/state", unsubscribeHandler: { (error) in
+            self.delegate?.TC1ServiceUnSubscribe(topic: topic)
+        })
     }
     
     
@@ -151,7 +164,9 @@ extension TC1ServiceManager{
                 print("publishMessage With UDP -> \(jsonString)")
             }else{
                 if self.isConnect{
-                    self.mqttClient!.publish("device/ztc1/set", withString: jsonString, qos: CocoaMQTTQOS(rawValue: UInt8(qos))!, retained: true, dup: true)
+                    self.mqttClient?.publishData(jsonString.data(using: .utf8)!, onTopic: "device/ztc1/set", retain: true, qos: MQTTQosLevel.init(rawValue: UInt8(qos))!,publishHandler:{ (error) in
+                        self.delegate?.TC1ServicePublish(messageId: 0)
+                    })
                     print("publishMessage With MQTT -> \(jsonString)")
                 }
             }
@@ -159,12 +174,12 @@ extension TC1ServiceManager{
         }
     }
     
-    func switchDevice(state:Bool,index:Int,mac:String){
+    func switchDevice(state:Bool,index:Int){
         var cmd = [String:Any]()
         if state{
-            cmd = ["mac":mac,"plug_\(index)":["on":1]] as [String : Any]
+            cmd = ["mac":self.mac,"plug_\(index)":["on":1]] as [String : Any]
         }else{
-            cmd = ["mac":mac,"plug_\(index)":["on":0]] as [String : Any]
+            cmd = ["mac":self.mac,"plug_\(index)":["on":0]] as [String : Any]
         }
         self.publishMessage(cmd,qos: 1)
     }
@@ -207,8 +222,8 @@ extension TC1ServiceManager{
         self.publishMessage(cmd,qos: 2)
     }
     
-    func getDeviceFullState(name:String,mac:String){
-        let cmd = ["name":name,"mac":mac,"version":nil,
+    func getDeviceFullState(name:String){
+        let cmd = ["name":name,"mac":self.mac,"version":nil,
                    "setting":["mqtt_uri":nil,"mqtt_port":nil,"mqtt_user":nil,"mqtt_password":nil],
                    "plug_0":["setting":["name":nil]],
                    "plug_1":["setting":["name":nil]],
@@ -222,53 +237,83 @@ extension TC1ServiceManager{
     }
 }
 
-extension TC1ServiceManager:CocoaMQTTDelegate{
+extension TC1ServiceManager:MQTTSessionDelegate{
     
-    func mqtt(_ mqtt: CocoaMQTT, didConnectAck ack: CocoaMQTTConnAck) {
-        if ack == .accept {
-            self.isConnect = true
-            self.delegate?.TC1ServiceOnConnect()
-        }else{
-            print("连接MQTT异常--->\(ack.description)")
-        }
+    func connected(_ session: MQTTSession!) {
+         self.isConnect = true
+          self.delegate?.TC1ServiceOnConnect()
+    }
+    
+    func newMessage(_ session: MQTTSession!, data: Data!, onTopic topic: String!, qos: MQTTQosLevel, retained: Bool, mid: UInt32) {
+        self.delegate?.TC1ServiceReceivedMessage(message: data)
+    }
+    
+    func subAckReceived(_ session: MQTTSession!, msgID: UInt16, grantedQoss qoss: [NSNumber]!) {
         
     }
     
-    func mqtt(_ mqtt: CocoaMQTT, didPublishMessage message: CocoaMQTTMessage, id: UInt16) {
-        self.delegate?.TC1ServicePublish(messageId: Int(id))
-    }
-    
-    func mqtt(_ mqtt: CocoaMQTT, didPublishAck id: UInt16) {
+    func unsubAckReceived(_ session: MQTTSession!, msgID: UInt16) {
         
     }
     
-    func mqtt(_ mqtt: CocoaMQTT, didReceiveMessage message: CocoaMQTTMessage, id: UInt16) {
-        if let string = message.string,let messageData = string.data(using: .utf8){
-          self.delegate?.TC1ServiceReceivedMessage(message: messageData)
-        }
-    }
-    
-    func mqtt(_ mqtt: CocoaMQTT, didSubscribeTopic topic: String) {
-        print("订阅---> \(topic)")
-        self.delegate?.TC1ServiceSubscribe(topic: topic)
-    }
-    
-    func mqtt(_ mqtt: CocoaMQTT, didUnsubscribeTopic topic: String) {
-        self.delegate?.TC1ServiceUnSubscribe(topic: topic)
-    }
-    
-    func mqttDidPing(_ mqtt: CocoaMQTT) {
-        
-    }
-    
-    func mqttDidReceivePong(_ mqtt: CocoaMQTT) {
-        
-    }
-    
-    func mqttDidDisconnect(_ mqtt: CocoaMQTT, withError err: Error?) {
+    func connectionError(_ session: MQTTSession!, error: Error!) {
         self.isConnect = false
-        self.delegate?.TC1ServiceDidDisconnect(error: err)
+        self.delegate?.TC1ServiceDidDisconnect(error: error)
     }
+    
+    func connectionClosed(_ session: MQTTSession!) {
+        self.isConnect = false
+        self.delegate?.TC1ServiceDidDisconnect(error: nil)
+    }
+    
+    
+//    func mqtt(_ mqtt: CocoaMQTT, didConnectAck ack: CocoaMQTTConnAck) {
+//        if ack == .accept {
+//            self.isConnect = true
+//            self.delegate?.TC1ServiceOnConnect()
+//        }else{
+//            print("连接MQTT异常--->\(ack.description)")
+//        }
+//
+//    }
+//
+//    func mqtt(_ mqtt: CocoaMQTT, didPublishMessage message: CocoaMQTTMessage, id: UInt16) {
+//        self.delegate?.TC1ServicePublish(messageId: Int(id))
+//    }
+//
+//
+//    func mqtt(_ mqtt: CocoaMQTT, didPublishAck id: UInt16) {
+//
+//    }
+//
+//    func mqtt(_ mqtt: CocoaMQTT, didReceiveMessage message: CocoaMQTTMessage, id: UInt16) {
+//        if let string = message.string,let messageData = string.data(using: .utf8){
+//          self.delegate?.TC1ServiceReceivedMessage(message: messageData)
+//        }
+//    }
+//
+//    func mqtt(_ mqtt: CocoaMQTT, didSubscribeTopic topics: [String]) {
+//        print("订阅---> \(topics)")
+//        self.delegate?.TC1ServiceSubscribe(topics: topics)
+//    }
+//
+//
+//    func mqtt(_ mqtt: CocoaMQTT, didUnsubscribeTopic topic: String) {
+//        self.delegate?.TC1ServiceUnSubscribe(topic: topic)
+//    }
+//
+//    func mqttDidPing(_ mqtt: CocoaMQTT) {
+//
+//    }
+//
+//    func mqttDidReceivePong(_ mqtt: CocoaMQTT) {
+//
+//    }
+//
+//    func mqttDidDisconnect(_ mqtt: CocoaMQTT, withError err: Error?) {
+//        self.isConnect = false
+//        self.delegate?.TC1ServiceDidDisconnect(error: err)
+//    }
     
     
 }

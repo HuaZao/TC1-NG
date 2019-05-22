@@ -49,13 +49,14 @@ class TCSocketViewController: UIViewController {
     var plug = 0
     var taskDataSource = [TCTask]()
     var deviceModel = TCDeviceModel()
+    var isReload = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
         TC1ServiceManager.share.delegate = self
         //硬件数据有时候无响应,这里用暴力刷新
         DispatchQueue.global().async {
-            while self.taskDataSource.count == 0 {
+            while self.isReload {
                 TC1ServiceManager.share.queryTask(index: self.plug)
                 sleep(1)
             }
@@ -65,7 +66,13 @@ class TCSocketViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.isReload = true
         TC1ServiceManager.share.queryTask(index: plug)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.isReload = false
     }
     
     @IBAction func renameSocketTap(_ sender: UITapGestureRecognizer) {
@@ -117,6 +124,7 @@ class TCSocketViewController: UIViewController {
             }
         }
         self.noTimerView.isHidden = (self.taskDataSource.count != 0)
+        self.isReload = false
         self.tableView.reloadData()
     }
     

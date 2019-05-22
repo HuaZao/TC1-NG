@@ -1,30 +1,29 @@
 PODS:
   - Bitter (3.1.1)
   - CocoaAsyncSocket (7.6.3)
-  - CocoaMQTT (1.1.3):
-    - CocoaAsyncSocket (~> 7.6.3)
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
-  - IQKeyboardManagerSwift (6.2.0)
+  - IQKeyboardManagerSwift (6.3.0)
   - LKDBHelper (2.5.1):
     - LKDBHelper/standard (= 2.5.1)
   - LKDBHelper/standard (2.5.1):
     - FMDB
-  - PKHUD (5.2.0)
+  - MQTTClient/Min (0.15.2)
+  - PKHUD (5.2.1)
   - RealReachability (1.3.0):
     - RealReachability/Connection (= 1.3.0)
     - RealReachability/Ping (= 1.3.0)
   - RealReachability/Connection (1.3.0)
   - RealReachability/Ping (1.3.0)
-  - SwiftyJSON (4.2.0)
+  - SwiftyJSON (5.0.0)
 
 DEPENDENCIES:
   - Bitter
   - CocoaAsyncSocket
-  - CocoaMQTT
   - IQKeyboardManagerSwift
   - LKDBHelper
+  - MQTTClient/Min
   - PKHUD (~> 5.0)
   - RealReachability
   - SwiftyJSON
@@ -33,10 +32,10 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Bitter
     - CocoaAsyncSocket
-    - CocoaMQTT
     - FMDB
     - IQKeyboardManagerSwift
     - LKDBHelper
+    - MQTTClient
     - PKHUD
     - RealReachability
     - SwiftyJSON
@@ -44,14 +43,14 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Bitter: 9a6aa16f2c4e4303720c441108581b27c400ec27
   CocoaAsyncSocket: eafaa68a7e0ec99ead0a7b35015e0bf25d2c8987
-  CocoaMQTT: b506d38ad3bbe1c55a4f8ee8c9fd02c35da1a7d8
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  IQKeyboardManagerSwift: b07ccf9d8cafe993dcd6cb794eb4ba34611a0c4e
+  IQKeyboardManagerSwift: a8228c257614af98743b4cd8584637025f36358f
   LKDBHelper: 9a276ba51f2e16263d46a9517e16cc9b03472664
-  PKHUD: dd5357ac65f26115c35c4a68e9b328053326c5fe
+  MQTTClient: 902c7bcac1501595f3d0b15178c7205b40331fb0
+  PKHUD: 4e6162c4c39ac367c6934e9855c6b4762ee16256
   RealReachability: eae9c58d2db52fadd8e1cba4b5d4c028454fbc47
-  SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
+  SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
 
-PODFILE CHECKSUM: 4dbe3ea7683b328e5fab9903fdeb2d1963ec7961
+PODFILE CHECKSUM: e74c7a9538c5d8d2407598ab95f3904f318dd378
 
 COCOAPODS: 1.5.3
