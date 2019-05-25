@@ -22,6 +22,8 @@ class TCDeviceInfoTableViewController: UITableViewController {
     @IBOutlet weak var isMQTT: UISwitch!
     
     var deviceModel = TCDeviceModel()
+    private var totalTimer:Int32 = 0
+    private var timer:Timer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +41,12 @@ class TCDeviceInfoTableViewController: UITableViewController {
             self.connectLabel.text = "MQTT"
         }
         self.tableView.reloadData()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.timer?.invalidate()
+        self.timer = nil
     }
     
     @IBAction func rebootAction(_ sender: UIBarButtonItem) {
@@ -104,6 +112,38 @@ class TCDeviceInfoTableViewController: UITableViewController {
     }
     
     private func checkForUpdates(){
+        let alert = UIAlertController(title: "OTA更新", message: "请选择更新方式", preferredStyle: .actionSheet)
+        let userAction = UIAlertAction(title: "自定义OTA地址", style: .default) { (_) in
+            self.userDefinedService()
+        }
+        let wulaAction = UIAlertAction(title: "软件内置OTA地址", style: .default) { (_) in
+            self.wulaService()
+        }
+        alert.addAction(userAction)
+        alert.addAction(wulaAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func userDefinedService(){
+        let alert = UIAlertController(title: "请输入OTA地址", message: "当前软件版本为\(self.version.text!)", preferredStyle: .alert)
+        alert.addTextField { (textField) in
+            textField.placeholder = "请输入OTA地址"
+        }
+        alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+        let update = UIAlertAction(title: "确认", style: .destructive, handler: { (_) in
+            if let otaString = alert.textFields?.first!.text,otaString.hasPrefix("http"){
+                TC1ServiceManager.share.publishMessage(["mac":self.deviceModel.mac,"setting":["ota":otaString]])
+                    HUD.show(.labeledProgress(title: "正在更新", subtitle: "请勿断开设备电源!"))
+            }else{
+                HUD.flash(.labeledError(title: "OTA失败", subtitle: "OTA地址输入有误"))
+            }
+        })
+        alert.addAction(update)
+        self.present(alert, animated: true, completion: nil)
+
+    }
+    
+    private func wulaService(){
         DispatchQueue.global().async {
             do{
                 let url = URL(string: "http://home.wula.vip:4380/TC.json")
@@ -133,6 +173,17 @@ class TCDeviceInfoTableViewController: UITableViewController {
             }
         }
     }
+    
+    @objc private func updateTotalTimer(timer:Timer){
+        if self.totalTimer > 0 {
+            self.totalTimer = self.totalTimer + 1
+            let days = self.totalTimer / (3600 * 24)
+            let hours = (self.totalTimer / 3600) % 24
+            let minutes = (self.totalTimer / 60) % 60
+            let seconds = self.totalTimer % 60
+            self.runTimerLabel.text = String(format: "%02d天%02d时%02d分%02d秒", days,hours,minutes,seconds)
+        }
+    }
 
 }
 
@@ -141,13 +192,11 @@ extension TCDeviceInfoTableViewController:TC1ServiceReceiveDelegate{
     
     func TC1ServiceReceivedMessage(message: Data) {
         let messageJSON = try! JSON(data: message)
-        let totalTimer = messageJSON["total_time"].int32Value
-        if totalTimer > 0 {
-            let days = totalTimer / (3600 * 24);
-            let hours = (totalTimer / 3600) % 24;
-            let minutes = (totalTimer / 60) % 60;
-            let seconds = totalTimer % 60;
-            self.runTimerLabel.text = String(format: "%02d天%02d时%02d分%02d秒", days,hours,minutes,seconds)
+        let  totalTimer = messageJSON["total_time"].int32Value
+        if totalTimer > 0 && self.timer == nil{
+            //只赋值一次,避免多次赋值,影响UI刷新
+            self.totalTimer = totalTimer
+            self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.updateTotalTimer(timer:)), userInfo: nil, repeats: true)
         }
         let otaProgress = messageJSON["ota_progress"].floatValue
         if otaProgress > 0{
