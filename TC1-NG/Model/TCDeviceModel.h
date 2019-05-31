@@ -27,6 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) NSArray <SocketModel *>*sockets;
 //是否局域网在线
 @property (nonatomic,assign) BOOL isOnline;
+//是否激活
+@property (nonatomic,assign) BOOL isActivate;
 
 //mqtt服务器
 @property (nonatomic,copy) NSString *clientId;

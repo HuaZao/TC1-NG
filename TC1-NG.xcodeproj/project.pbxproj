@@ -34,6 +34,19 @@
 		5CB9C9FC603A96B93CA6D7FB /* Pods_TC1_NG.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4B04F00B0112D2186FEB698 /* Pods_TC1_NG.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		506C0A5B22964440000237C0 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		01D4B00DB74133A4DDCCC1B0 /* Pods-TC1-NG.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TC1-NG.release.xcconfig"; path = "Pods/Target Support Files/Pods-TC1-NG/Pods-TC1-NG.release.xcconfig"; sourceTree = "<group>"; };
 		152FAB032287D52000504DCD /* TC1ServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TC1ServiceManager.swift; sourceTree = "<group>"; };
@@ -241,6 +254,7 @@
 				5008385122696106008EF69D /* Frameworks */,
 				5008385222696106008EF69D /* Resources */,
 				26F5569A96373F1942C9D8BB /* [CP] Embed Pods Frameworks */,
+				506C0A5B22964440000237C0 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -536,6 +550,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = ZUZ489476A;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/TC1-NG",
+				);
 				INFOPLIST_FILE = "TC1-NG/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -566,6 +584,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = ZUZ489476A;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/TC1-NG",
+				);
 				INFOPLIST_FILE = "TC1-NG/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (

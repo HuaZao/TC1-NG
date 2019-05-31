@@ -175,6 +175,11 @@ extension TC1ServiceManager{
         }
     }
     
+    func activateDevice(lock:String){
+        let cmd = ["mac":self.mac,"lock":lock]
+        self.publishMessage(cmd,qos: 1)
+    }
+    
     func switchDevice(state:Bool,index:Int){
         var cmd = [String:Any]()
         if state{
@@ -221,6 +226,8 @@ extension TC1ServiceManager{
     func sendDeviceReportCmd(){
         let cmd = ["cmd":"device report"]
         self.publishMessage(cmd,qos: 2)
+        let cmd2 = ["mac":self.mac,"lock":nil]
+        self.publishMessage(cmd2,qos: 2)
     }
     
     func getDeviceFullState(name:String){

@@ -20,6 +20,7 @@ class TCDeviceInfoTableViewController: UITableViewController {
     @IBOutlet weak var connectLabel: UILabel!
     @IBOutlet weak var runTimerLabel: UILabel!
     @IBOutlet weak var isMQTT: UISwitch!
+    @IBOutlet weak var deviceLock: UILabel!
     
     var deviceModel = TCDeviceModel()
     private var totalTimer:Int32 = 0
@@ -39,6 +40,11 @@ class TCDeviceInfoTableViewController: UITableViewController {
             self.connectLabel.text = "UDP"
         }else{
             self.connectLabel.text = "MQTT"
+        }
+        if self.deviceModel.isActivate{
+            self.deviceLock.text = "设备已激活"
+        }else{
+            self.deviceLock.text = "设备未激活"
         }
         self.tableView.reloadData()
     }
@@ -100,10 +106,10 @@ class TCDeviceInfoTableViewController: UITableViewController {
             })
             alert.addAction(reNameAction)
             self.present(alert, animated: true, completion: nil)
-        }else if indexPath.row == 7{
+        }else if indexPath.row == 8{
             self.checkForUpdates()
         }else if indexPath.row == 1 || indexPath.row == 2{
-            if let cell = tableView.cellForRow(at: indexPath),let content = cell.textLabel?.text{
+            if let cell = tableView.cellForRow(at: indexPath),let content = cell.detailTextLabel?.text{
                 let pasteboard = UIPasteboard.general
                 pasteboard.string = content
                 HUD.flash(.labeledSuccess(title: nil, subtitle: "复制成功"), delay: 1)
@@ -121,6 +127,7 @@ class TCDeviceInfoTableViewController: UITableViewController {
         }
         alert.addAction(userAction)
         alert.addAction(wulaAction)
+        alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
     

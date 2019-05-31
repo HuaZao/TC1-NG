@@ -10,6 +10,7 @@ import UIKit
 import SwiftyJSON
 import AudioToolbox
 import RealReachability
+import PKHUD
 
 class TCDeviceMainViewController: UIViewController {
     
@@ -120,6 +121,25 @@ class TCDeviceMainViewController: UIViewController {
     }
     
     
+    fileprivate func activateDevice(){
+        let alert = UIAlertController(title: "设备激活", message: "设备尚未激活(激活码和固件不需要任何费用,请勿上当受骗)", preferredStyle: .alert)
+        alert.addTextField { (textField) in
+            textField.placeholder = "请输入激活码"
+        }
+        alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+        let unLockAction = UIAlertAction(title: "激活", style: .destructive, handler: { (_) in
+            if let unLockString = alert.textFields!.first?.text,unLockString.count > 0{
+                TC1ServiceManager.share.activateDevice(lock: unLockString)
+                HUD.flash(.labeledSuccess(title: "成功", subtitle: "激活请求已发送,请耐心等待生效"), delay: 1)
+            }else{
+                HUD.flash(.labeledError(title: nil, subtitle: "请输入激活码"), delay: 1)
+            }
+        })
+        alert.addAction(unLockAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    
 }
 
 extension TCDeviceMainViewController:TC1ServiceReceiveDelegate{
@@ -150,9 +170,19 @@ extension TCDeviceMainViewController:TC1ServiceReceiveDelegate{
             if power > 0 {
                 self.powerView.animateToProgress(progress: 1/2500 * power)
                 self.powerLabel.text = "\(power)W";
+                return
             }
             if let ip = messageJSON["ip"].string{
                 self.deviceModel.ip = ip
+                TCSQLManager.updateTCDevice(self.deviceModel)
+            }
+            if let lock = messageJSON["lock"].string{
+                if lock == "false"{
+                    self.activateDevice()
+                    self.deviceModel.isActivate = false
+                }else{
+                    self.deviceModel.isActivate = true
+                }
                 TCSQLManager.updateTCDevice(self.deviceModel)
             }
             self.plugMessageReload(message: messageJSON)
