@@ -18,8 +18,6 @@ class TCDeviceCell: UITableViewCell {
         super.awakeFromNib()
         self.bgView.layer.masksToBounds = true
         self.bgView.layer.cornerRadius = 5
-//        self.iconImage.image?.renderingMode = .alwaysTemplate
-        self.iconImage.tintColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -27,5 +25,18 @@ class TCDeviceCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    func loadDeviceModel(_ model:TCDeviceModel){
+        self.deviceTitle?.text = model.name
+        switch model.type{
+        case .TC1:
+            self.iconImage.image = #imageLiteral(resourceName: "icon_plug_highlight")
+        case .DC1:
+            self.iconImage.image = #imageLiteral(resourceName: "DC1")
+        case .A1:
+            self.iconImage.image = #imageLiteral(resourceName: "addCleaner")
+        }
+    }
+    
 
 }

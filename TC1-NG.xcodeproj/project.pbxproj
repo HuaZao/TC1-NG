@@ -3,11 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		152FAB042287D52000504DCD /* TC1ServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152FAB032287D52000504DCD /* TC1ServiceManager.swift */; };
+		152FAB042287D52000504DCD /* APIServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152FAB032287D52000504DCD /* APIServiceManager.swift */; };
 		5008385822696106008EF69D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5008385722696106008EF69D /* AppDelegate.swift */; };
 		5008385A22696106008EF69D /* TCDeviceMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5008385922696106008EF69D /* TCDeviceMainViewController.swift */; };
 		5008385D22696107008EF69D /* TCDeviceMain.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5008385B22696107008EF69D /* TCDeviceMain.storyboard */; };
@@ -25,13 +25,19 @@
 		50A79776227064CA005C706A /* TCDeviceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 50A79772227064C9005C706A /* TCDeviceModel.m */; };
 		50A79777227064CA005C706A /* SocketModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 50A79774227064C9005C706A /* SocketModel.m */; };
 		50C6DD3222719FBD00EC9366 /* libEasyLink.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C6DD3122719FBD00EC9366 /* libEasyLink.a */; };
-		50C6DD3B2271B6FA00EC9366 /* TCDeviceInfoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C6DD3A2271B6FA00EC9366 /* TCDeviceInfoTableViewController.swift */; };
-		50C6DD412272B0B600EC9366 /* TCSetMQTTServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C6DD402272B0B600EC9366 /* TCSetMQTTServiceViewController.swift */; };
-		50E8903B2271651500F37638 /* TCConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E8903A2271651500F37638 /* TCConfigViewController.swift */; };
+		50C6DD3B2271B6FA00EC9366 /* FXDeviceInfoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C6DD3A2271B6FA00EC9366 /* FXDeviceInfoTableViewController.swift */; };
+		50C6DD412272B0B600EC9366 /* FXSetMQTTServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C6DD402272B0B600EC9366 /* FXSetMQTTServiceViewController.swift */; };
+		50E8903B2271651500F37638 /* FXDeviceConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E8903A2271651500F37638 /* FXDeviceConfigViewController.swift */; };
 		50FBB4AF22770CFF004713EC /* TCSocketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FBB4AE22770CFF004713EC /* TCSocketViewController.swift */; };
 		50FBB4B12277FD73004713EC /* TCTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FBB4B02277FD73004713EC /* TCTaskCell.swift */; };
 		50FBB4B322782D64004713EC /* TCSocketTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FBB4B222782D64004713EC /* TCSocketTaskViewController.swift */; };
 		5CB9C9FC603A96B93CA6D7FB /* Pods_TC1_NG.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4B04F00B0112D2186FEB698 /* Pods_TC1_NG.framework */; };
+		B81A9EF422F80B5E00FB65A8 /* JSON+Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81A9EF322F80B5E00FB65A8 /* JSON+Device.swift */; };
+		B81A9EF922F822C700FB65A8 /* A1Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81A9EF822F822C700FB65A8 /* A1Button.swift */; };
+		B81A9EFD22F8260000FB65A8 /* A1DeviceMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81A9EFC22F8260000FB65A8 /* A1DeviceMainViewController.swift */; };
+		B81A9F0022F8263700FB65A8 /* FXDeviceMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81A9EFF22F8263700FB65A8 /* FXDeviceMainViewController.swift */; };
+		B81A9F0322F8484D00FB65A8 /* A1MatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81A9F0222F8484D00FB65A8 /* A1MatchViewController.swift */; };
+		B81A9F0522F853B100FB65A8 /* URL+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81A9F0422F853B100FB65A8 /* URL+JSON.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -49,7 +55,7 @@
 
 /* Begin PBXFileReference section */
 		01D4B00DB74133A4DDCCC1B0 /* Pods-TC1-NG.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TC1-NG.release.xcconfig"; path = "Pods/Target Support Files/Pods-TC1-NG/Pods-TC1-NG.release.xcconfig"; sourceTree = "<group>"; };
-		152FAB032287D52000504DCD /* TC1ServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TC1ServiceManager.swift; sourceTree = "<group>"; };
+		152FAB032287D52000504DCD /* APIServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIServiceManager.swift; sourceTree = "<group>"; };
 		5008385422696106008EF69D /* TC1-NG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TC1-NG.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5008385722696106008EF69D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5008385922696106008EF69D /* TCDeviceMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCDeviceMainViewController.swift; sourceTree = "<group>"; };
@@ -74,13 +80,19 @@
 		50A79775227064C9005C706A /* TCDeviceModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCDeviceModel.h; sourceTree = "<group>"; };
 		50C6DD2F22719FBD00EC9366 /* EasyLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyLink.h; sourceTree = "<group>"; };
 		50C6DD3122719FBD00EC9366 /* libEasyLink.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libEasyLink.a; sourceTree = "<group>"; };
-		50C6DD3A2271B6FA00EC9366 /* TCDeviceInfoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCDeviceInfoTableViewController.swift; sourceTree = "<group>"; };
-		50C6DD402272B0B600EC9366 /* TCSetMQTTServiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TCSetMQTTServiceViewController.swift; sourceTree = "<group>"; };
-		50E8903A2271651500F37638 /* TCConfigViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCConfigViewController.swift; sourceTree = "<group>"; };
+		50C6DD3A2271B6FA00EC9366 /* FXDeviceInfoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FXDeviceInfoTableViewController.swift; sourceTree = "<group>"; };
+		50C6DD402272B0B600EC9366 /* FXSetMQTTServiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FXSetMQTTServiceViewController.swift; sourceTree = "<group>"; };
+		50E8903A2271651500F37638 /* FXDeviceConfigViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FXDeviceConfigViewController.swift; sourceTree = "<group>"; };
 		50FBB4AE22770CFF004713EC /* TCSocketViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCSocketViewController.swift; sourceTree = "<group>"; };
 		50FBB4B02277FD73004713EC /* TCTaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCTaskCell.swift; sourceTree = "<group>"; };
 		50FBB4B222782D64004713EC /* TCSocketTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCSocketTaskViewController.swift; sourceTree = "<group>"; };
 		659E7832BD9F91A6639CDB64 /* Pods-TC1-NG.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TC1-NG.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TC1-NG/Pods-TC1-NG.debug.xcconfig"; sourceTree = "<group>"; };
+		B81A9EF322F80B5E00FB65A8 /* JSON+Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSON+Device.swift"; sourceTree = "<group>"; };
+		B81A9EF822F822C700FB65A8 /* A1Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = A1Button.swift; sourceTree = "<group>"; };
+		B81A9EFC22F8260000FB65A8 /* A1DeviceMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = A1DeviceMainViewController.swift; sourceTree = "<group>"; };
+		B81A9EFF22F8263700FB65A8 /* FXDeviceMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FXDeviceMainViewController.swift; sourceTree = "<group>"; };
+		B81A9F0222F8484D00FB65A8 /* A1MatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = A1MatchViewController.swift; sourceTree = "<group>"; };
+		B81A9F0422F853B100FB65A8 /* URL+JSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+JSON.swift"; sourceTree = "<group>"; };
 		F4B04F00B0112D2186FEB698 /* Pods_TC1_NG.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TC1_NG.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -125,9 +137,10 @@
 				50C6DD342271AE3800EC9366 /* Cell */,
 				50C6DD2E22719FBD00EC9366 /* EasyLink */,
 				50A7976422705854005C706A /* SQL */,
+				B81A9EF222F80B2400FB65A8 /* Tool */,
 				5008386922696576008EF69D /* TC1-NG.entitlements */,
 				5008385722696106008EF69D /* AppDelegate.swift */,
-				152FAB032287D52000504DCD /* TC1ServiceManager.swift */,
+				152FAB032287D52000504DCD /* APIServiceManager.swift */,
 				5008385B22696107008EF69D /* TCDeviceMain.storyboard */,
 				50777248226D6626000D37EF /* TCListStoryBoard.storyboard */,
 				5008385E22696108008EF69D /* Assets.xcassets */,
@@ -191,6 +204,7 @@
 			isa = PBXGroup;
 			children = (
 				5008387222696FC9008EF69D /* PowerProgressView.swift */,
+				B81A9EF822F822C700FB65A8 /* A1Button.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -216,10 +230,10 @@
 		50FBB4B622782D7E004713EC /* Device */ = {
 			isa = PBXGroup;
 			children = (
-				50C6DD402272B0B600EC9366 /* TCSetMQTTServiceViewController.swift */,
-				50C6DD3A2271B6FA00EC9366 /* TCDeviceInfoTableViewController.swift */,
-				5008385922696106008EF69D /* TCDeviceMainViewController.swift */,
-				50E8903A2271651500F37638 /* TCConfigViewController.swift */,
+				B81A9F0122F8482800FB65A8 /* Matche */,
+				B81A9EFE22F8261800FB65A8 /* Base */,
+				B81A9EFA22F825C700FB65A8 /* TC1 */,
+				B81A9EFB22F825E400FB65A8 /* A1 */,
 			);
 			path = Device;
 			sourceTree = "<group>";
@@ -231,6 +245,50 @@
 				F4B04F00B0112D2186FEB698 /* Pods_TC1_NG.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B81A9EF222F80B2400FB65A8 /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				B81A9EF322F80B5E00FB65A8 /* JSON+Device.swift */,
+				B81A9F0422F853B100FB65A8 /* URL+JSON.swift */,
+			);
+			path = Tool;
+			sourceTree = "<group>";
+		};
+		B81A9EFA22F825C700FB65A8 /* TC1 */ = {
+			isa = PBXGroup;
+			children = (
+				5008385922696106008EF69D /* TCDeviceMainViewController.swift */,
+			);
+			path = TC1;
+			sourceTree = "<group>";
+		};
+		B81A9EFB22F825E400FB65A8 /* A1 */ = {
+			isa = PBXGroup;
+			children = (
+				B81A9EFC22F8260000FB65A8 /* A1DeviceMainViewController.swift */,
+			);
+			path = A1;
+			sourceTree = "<group>";
+		};
+		B81A9EFE22F8261800FB65A8 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				B81A9EFF22F8263700FB65A8 /* FXDeviceMainViewController.swift */,
+				50E8903A2271651500F37638 /* FXDeviceConfigViewController.swift */,
+				50C6DD402272B0B600EC9366 /* FXSetMQTTServiceViewController.swift */,
+				50C6DD3A2271B6FA00EC9366 /* FXDeviceInfoTableViewController.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		B81A9F0122F8482800FB65A8 /* Matche */ = {
+			isa = PBXGroup;
+			children = (
+				B81A9F0222F8484D00FB65A8 /* A1MatchViewController.swift */,
+			);
+			path = Matche;
 			sourceTree = "<group>";
 		};
 		D3C920977B31EFC8C2DE796F /* Pods */ = {
@@ -327,33 +385,16 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-TC1-NG/Pods-TC1-NG-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Bitter/Bitter.framework",
-				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework",
-				"${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework",
-				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/LKDBHelper/LKDBHelper.framework",
-				"${BUILT_PRODUCTS_DIR}/MQTTClient/MQTTClient.framework",
-				"${BUILT_PRODUCTS_DIR}/PKHUD/PKHUD.framework",
-				"${BUILT_PRODUCTS_DIR}/RealReachability/RealReachability.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TC1-NG/Pods-TC1-NG-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bitter.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FMDB.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LKDBHelper.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MQTTClient.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PKHUD.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealReachability.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TC1-NG/Pods-TC1-NG-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TC1-NG/Pods-TC1-NG-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TC1-NG/Pods-TC1-NG-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		8B535F4303A9A33CF13C3851 /* [CP] Check Pods Manifest.lock */ = {
@@ -382,19 +423,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				5008385A22696106008EF69D /* TCDeviceMainViewController.swift in Sources */,
-				152FAB042287D52000504DCD /* TC1ServiceManager.swift in Sources */,
+				152FAB042287D52000504DCD /* APIServiceManager.swift in Sources */,
 				50A79777227064CA005C706A /* SocketModel.m in Sources */,
-				50E8903B2271651500F37638 /* TCConfigViewController.swift in Sources */,
+				50E8903B2271651500F37638 /* FXDeviceConfigViewController.swift in Sources */,
 				5008385822696106008EF69D /* AppDelegate.swift in Sources */,
 				50FBB4B12277FD73004713EC /* TCTaskCell.swift in Sources */,
 				50A7976622705867005C706A /* TCSQLManager.swift in Sources */,
+				B81A9EF922F822C700FB65A8 /* A1Button.swift in Sources */,
+				B81A9F0322F8484D00FB65A8 /* A1MatchViewController.swift in Sources */,
+				B81A9F0522F853B100FB65A8 /* URL+JSON.swift in Sources */,
+				B81A9F0022F8263700FB65A8 /* FXDeviceMainViewController.swift in Sources */,
 				50A7975F227045C1005C706A /* TCDeviceCell.swift in Sources */,
 				50A79776227064CA005C706A /* TCDeviceModel.m in Sources */,
+				B81A9EFD22F8260000FB65A8 /* A1DeviceMainViewController.swift in Sources */,
 				5008387322696FC9008EF69D /* PowerProgressView.swift in Sources */,
+				B81A9EF422F80B5E00FB65A8 /* JSON+Device.swift in Sources */,
 				50445B6A2282CB3E00AAF4DD /* TCSocketWeekListViewController.swift in Sources */,
-				50C6DD412272B0B600EC9366 /* TCSetMQTTServiceViewController.swift in Sources */,
+				50C6DD412272B0B600EC9366 /* FXSetMQTTServiceViewController.swift in Sources */,
 				50A7976122704606005C706A /* TCListViewController.swift in Sources */,
-				50C6DD3B2271B6FA00EC9366 /* TCDeviceInfoTableViewController.swift in Sources */,
+				50C6DD3B2271B6FA00EC9366 /* FXDeviceInfoTableViewController.swift in Sources */,
 				50A79763227055C0005C706A /* TCSocketItem.swift in Sources */,
 				50FBB4AF22770CFF004713EC /* TCSocketViewController.swift in Sources */,
 				50445B6C2282D32F00AAF4DD /* TCTimerCell.swift in Sources */,
@@ -548,6 +595,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "TC1-NG/TC1-NG.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = ZUZ489476A;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -567,6 +615,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.huazao.testapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = huazao;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "TC1-NG/TC1-NG-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
@@ -582,6 +632,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "TC1-NG/TC1-NG.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = ZUZ489476A;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -601,6 +652,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.huazao.testapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = huazao;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "TC1-NG/TC1-NG-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";

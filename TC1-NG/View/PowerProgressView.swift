@@ -14,7 +14,7 @@ class PowerProgressView: UIView {
    private var gradientLayer:CAGradientLayer!
    private var shapeLayer:CAShapeLayer!
    private var powerLabel:UILabel!
-    var timer:Timer?
+   private var timer:Timer?
     
     
     override func awakeFromNib() {

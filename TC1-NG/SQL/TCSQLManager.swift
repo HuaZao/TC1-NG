@@ -9,42 +9,6 @@
 import UIKit
 import LKDBHelper
 
-//class SocketModel:NSObject{
-//    var title = String()
-//    var socketId = 1
-//    var isOn = 0
-//
-//    override static func getPrimaryKey() -> String {
-//        return "socketId"
-//    }
-//
-//    override static func getUsingLKDBHelper() -> LKDBHelper {
-//        return LKDBHelper(dbPath: TCSQLManager.getDBPath())
-//    }
-//
-//}
-//
-//class TCDeviceModel:NSObject{
-//    //当前设备名称
-//    var name = String()
-//    //设备类型编号,1表示zTC1排插
-//    let type = 1
-//    //设备类型名称
-//    var type_name = "zTC1"
-//    //当前设备的mac地址
-//    var mac = String()
-//    //各个插座的数据
-//    var sockets = [SocketModel]()
-//
-//    override static func getPrimaryKey() -> String {
-//        return "mac"
-//    }
-//
-//    override static func getUsingLKDBHelper() -> LKDBHelper {
-//        return LKDBHelper(dbPath: TCSQLManager.getDBPath())
-//    }
-//
-//}
 
 class TCSQLManager: NSObject {
     
@@ -56,11 +20,11 @@ class TCSQLManager: NSObject {
         model.deleteToDB()
     }
     
-    static  func queryAllTCDevice()-> [TCDeviceModel]?{
+    static  func queryAllTCDevice()-> [TCDeviceModel]{
         if let objects = TCDeviceModel.search(withWhere: nil, orderBy: nil, offset: 0, count: 0) as? [TCDeviceModel]{
             return objects
         }
-        return nil
+        return [TCDeviceModel]()
     }
     
     static func updateTCDevice(_ model:TCDeviceModel){
@@ -70,11 +34,8 @@ class TCSQLManager: NSObject {
     }
     
     static func deciveisExist(_ mac:String)->Bool{
-        if let all = self.queryAllTCDevice(){
-           return all.filter({$0.mac == mac}).count > 0
-        }else{
-            return false
-        }
+        let all = self.queryAllTCDevice()
+        return all.contains(where: {$0.mac == mac})
     }
     
     static func getDBPath() -> String{

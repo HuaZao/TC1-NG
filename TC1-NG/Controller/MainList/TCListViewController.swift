@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftyJSON
+import PKHUD
 
 class TCListViewController: UIViewController {
     
@@ -27,54 +28,36 @@ class TCListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.netServiceBrowser?.searchForServices(ofType: "_easylink._tcp", inDomain: "local")
-        self.dataSource = TCSQLManager.queryAllTCDevice() ?? [TCDeviceModel]()
+        self.dataSource = TCSQLManager.queryAllTCDevice()
         self.noDeviceBg.isHidden = !self.dataSource.isEmpty
         self.tableView.reloadData()
     }
     
-    private func discoverDevices(mac:String){
-        TC1ServiceManager.share.delegate = self
-        TC1ServiceManager.share.connectService()
-        TC1ServiceManager.share.sendDeviceReportCmd()
-    }
-    
-    fileprivate func addTC(message:JSON){
-        let model = TCDeviceModel()
-        model.name = message["name"].stringValue
-        model.mac = message["mac"].stringValue
-        model.ip = message["ip"].stringValue
-        model.sockets = [SocketModel]()
-        //初始化6个插座
-        for i in 1...6{
-            let socket = SocketModel()
-            socket.isOn = false
-            socket.socketId = model.mac + "_\(i)"
-            socket.sockeTtitle = "插座\(i)"
-            model.sockets.append(socket)
-        }
-        TCSQLManager.addTCDevice(model)
-        print("MAC:\(model.mac) 设备已经添加到本地")
-        DispatchQueue.main.async {
-            self.dataSource.append(model)
-            self.noDeviceBg.isHidden = true
-            self.tableView.reloadData()
-        }
+    private func discoverDevices(){
+        APIServiceManager.share.delegate = self
+        APIServiceManager.share.connectUDPService()
+        APIServiceManager.share.sendDeviceReportCmd()
     }
     
 }
 
-extension TCListViewController:TC1ServiceReceiveDelegate,NetServiceBrowserDelegate,NetServiceDelegate{
+extension TCListViewController:APIServiceReceiveDelegate,NetServiceBrowserDelegate,NetServiceDelegate{
     
-    func TC1ServiceReceivedMessage(message: Data) {
+    func DeviceServiceReceivedMessage(message: Data) {
         let messageJSON = try! JSON(data: message)
         //如果有IP信息,则添加设备!
         let ip = messageJSON["ip"].stringValue
         if ip.count > 0 && !TCSQLManager.deciveisExist(messageJSON["mac"].stringValue) {
-            self.addTC(message: messageJSON)
+            let deviceModel = messageJSON.addDevice()
+            DispatchQueue.main.async {
+                self.dataSource.append(deviceModel)
+                self.noDeviceBg.isHidden = true
+                self.tableView.reloadData()
+            }
         }
     }
     
-    func TC1ServicePublish(messageId: Int) {
+    func DeviceServicePublish(messageId: Int) {
         print("消息已经发送--> \(messageId)")
     }
     
@@ -113,11 +96,8 @@ extension TCListViewController:TC1ServiceReceiveDelegate,NetServiceBrowserDelega
                     return
                 }
             }
-            //判断是否TC1
-            let jsonMessage = JSON(serviceDic)
-            if jsonMessage["Protocol"].stringValue == "com.zyc.basic"{
-                print("发现TC1设备!")
-                self.discoverDevices(mac: jsonMessage["MAC"].stringValue)
+            if JSON(serviceDic).isA2633063Protocol(){
+                self.discoverDevices()
             }
         }
     }
@@ -142,16 +122,28 @@ extension TCListViewController:UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TCCell", for: indexPath) as! TCDeviceCell
-        cell.deviceTitle.text = self.dataSource[indexPath.row].name
+        cell.loadDeviceModel(self.dataSource[indexPath.row])
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let vc = UIStoryboard(name: "TCDeviceMain", bundle: nil).instantiateInitialViewController() as? TCDeviceMainViewController{
-            TC1ServiceManager.share.closeService()
-            vc.deviceModel = self.dataSource[indexPath.row]
-            vc.title = self.dataSource[indexPath.row].name
-            self.navigationController?.pushViewController(vc, animated: true)
+        let deviceModel = self.dataSource[indexPath.row]
+        APIServiceManager.share.closeService()
+        switch self.dataSource[indexPath.row].type {
+        case .TC1:
+            if let vc = UIStoryboard(name: "TCDeviceMain", bundle: nil).instantiateViewController(withIdentifier: "TC1") as? TCDeviceMainViewController{
+                vc.deviceModel = deviceModel
+                vc.title = deviceModel.name
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        case .DC1:
+            HUD.flash(.label("DC1开发中"), delay: 2.0)
+        case .A1:
+            if let vc = UIStoryboard(name: "TCDeviceMain", bundle: nil).instantiateViewController(withIdentifier: "A1") as? A1DeviceMainViewController{
+                vc.deviceModel = deviceModel
+                vc.title = deviceModel.name
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         }
     }
     

@@ -10,11 +10,19 @@
 #import "SocketModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
+
 @interface TCDeviceModel : NSObject
+
+typedef NS_ENUM(NSUInteger,FXDeviceType){
+    FXDeviceTC1 = 1,
+    FXDeviceDC1 = 2,
+    FXDeviceA1 = 3
+};
+
 //当前设备名称
 @property (nonatomic,copy) NSString *name;
-//设备类型编号,1表示zTC1排插
-@property (nonatomic,copy) NSString *type;
+//设备类型编号,1表示zTC1排插,2表示zDC1排插,3表示zA1排插
+@property (nonatomic,assign) FXDeviceType type;
 //设备类型名称
 @property (nonatomic,copy) NSString *type_name;
 //当前设备的mac地址
