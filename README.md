@@ -14,7 +14,6 @@
 1. 使用安卓APP配网 -> 打开本APP -> APP通过局域网自动识别出设备 -> 设置完成  
 2. 使用本APP配网,进入配网页面 -> 输入WIFI密码 -> 点击配置 -> 观察TC1的指示灯,快闪然后常亮则配网成功,此时APP无任何反应 -> 直接退出配网页面 -> APP通过局域网自动识别出设备 -> 设置完成
 
-
 ## TODO LIST
 
 - [ ] 添加设备(不完善)
@@ -27,13 +26,18 @@
 - [x] 设置MQTT服务器
 - [x] OTA更新
 - [x] 多设备支持
+- [x] 净化器A1支持
 - [ ] DC1支持
+- [ ] M1支持
+
 
 ### 预览图
-![](https://github.com/HuaZao/TC1-NG/blob/master/ScreenShot1.png)
-![](https://github.com/HuaZao/TC1-NG/blob/master/ScreenShot8.png)
-![](https://github.com/HuaZao/TC1-NG/blob/master/ScreenShot2.png)
-![](https://github.com/HuaZao/TC1-NG/blob/master/ScreenShot3.png)
-![](https://github.com/HuaZao/TC1-NG/blob/master/ScreenShot4.png)
-![](https://github.com/HuaZao/TC1-NG/blob/master/ScreenShot5.png)
-![](https://github.com/HuaZao/TC1-NG/blob/master/ScreenShot6.png)
+![](https://github.com/HuaZao/TC1-NG/blob/master/preview/index-nodevice.png)
+![](https://github.com/HuaZao/TC1-NG/blob/master/preview/add-A1.png)
+![](https://github.com/HuaZao/TC1-NG/blob/master/preview/add-TC1.png)
+![](https://github.com/HuaZao/TC1-NG/blob/master/preview/tc1-main.png)
+![](https://github.com/HuaZao/TC1-NG/blob/master/preview/device-info.png)
+![](https://github.com/HuaZao/TC1-NG/blob/master/preview/device-a1.png)
+![](https://github.com/HuaZao/TC1-NG/blob/master/preview/time-task.png)
+![](https://github.com/HuaZao/TC1-NG/blob/master/preview/task-set.png)
+
