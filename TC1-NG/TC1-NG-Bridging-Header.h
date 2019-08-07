@@ -5,4 +5,3 @@
 #import "SocketModel.h"
 #import "TCDeviceModel.h"
 #import "EasyLink.h"
-#import "HeartLive.h"
