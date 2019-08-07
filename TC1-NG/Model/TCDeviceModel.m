@@ -11,15 +11,6 @@
 
 @implementation TCDeviceModel
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        self.type = @"1";
-        self.type_name = @"zTC1";
-    }
-    return self;
-}
 
 + (NSString *)getPrimaryKey{
     return @"mac";

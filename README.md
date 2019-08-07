@@ -46,6 +46,7 @@
 
 ### 预览图
 ![](https://github.com/HuaZao/TC1-NG/blob/master/preview/index-nodevice.png)
+![](https://github.com/HuaZao/TC1-NG/blob/master/preview/index.png)
 ![](https://github.com/HuaZao/TC1-NG/blob/master/preview/add-A1.png)
 ![](https://github.com/HuaZao/TC1-NG/blob/master/preview/add-TC1.png)
 ![](https://github.com/HuaZao/TC1-NG/blob/master/preview/tc1-main.png)
