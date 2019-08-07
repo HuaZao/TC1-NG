@@ -131,13 +131,17 @@ extension TCListViewController:UITableViewDelegate,UITableViewDataSource{
         APIServiceManager.share.closeService()
         switch self.dataSource[indexPath.row].type {
         case .TC1:
-            if let vc = UIStoryboard(name: "TCDeviceMain", bundle: nil).instantiateViewController(withIdentifier: "TC1") as? TCDeviceMainViewController{
+            if let vc = UIStoryboard(name: "TCDeviceMain", bundle: nil).instantiateViewController(withIdentifier: "TC1") as? TDDeviceMainViewController{
                 vc.deviceModel = deviceModel
                 vc.title = deviceModel.name
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         case .DC1:
-            HUD.flash(.label("DC1开发中"), delay: 2.0)
+            if let vc = UIStoryboard(name: "TCDeviceMain", bundle: nil).instantiateViewController(withIdentifier: "TC1") as? TDDeviceMainViewController{
+                vc.deviceModel = deviceModel
+                vc.title = deviceModel.name
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         case .A1:
             if let vc = UIStoryboard(name: "TCDeviceMain", bundle: nil).instantiateViewController(withIdentifier: "A1") as? A1DeviceMainViewController{
                 vc.deviceModel = deviceModel

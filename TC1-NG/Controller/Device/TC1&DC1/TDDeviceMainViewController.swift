@@ -11,20 +11,90 @@ import SwiftyJSON
 import AudioToolbox
 import RealReachability
 import PKHUD
+import Charts
 
-class TCDeviceMainViewController: FXDeviceMainViewController {
+class TDDeviceMainViewController: FXDeviceMainViewController {
     
-    @IBOutlet weak var powerLabel: UILabel!
-    @IBOutlet weak var powerView: PowerProgressView!
+    @IBOutlet weak var chartContainerView: UIView!
     @IBOutlet weak var socketCollectionView: UICollectionView!
+    @IBOutlet weak var chartView:LineChartView!
+    private var chartDatasourceCount = 0
+    private var powerEntries = [ChartDataEntry]()
+    private var voltageEntries = [ChartDataEntry]()
+    private var ampereEntries = [ChartDataEntry]()
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        powerView.setCircleColor(color: UIColor.purple)
-        powerView.animateToProgress(progress: 0)
+        self.initChart()
+       
+    }
+    
+    private func initChart(){
+        self.chartView.noDataText = "暂无功率数据"
+        self.chartView.scaleXEnabled = false //允取消X轴缩放
+        self.chartView.scaleYEnabled = false //取消Y轴缩放
+        self.chartView.doubleTapToZoomEnabled = false //双击缩放
+        self.chartView.xAxis.drawGridLinesEnabled = false
+        self.chartView.leftAxis.drawLabelsEnabled = false
+        self.chartView.leftAxis.drawAxisLineEnabled = false //不显示右侧Y轴
+        self.chartView.rightAxis.drawLabelsEnabled = false //不绘制右侧Y轴文字
+        self.chartView.rightAxis.drawAxisLineEnabled = false //不显示右侧Y轴
+        let limitLine1 = ChartLimitLine(limit: 3000, label: "最大功率")
+        chartView.leftAxis.addLimitLine(limitLine1)
+        
     }
 
+    private func updateChartData(powerValue:Double,voltageValue:Double = 0.00,ampereVlaue:Double = 0.00) {
+        if self.powerEntries.count > 30 {
+            self.powerEntries.removeFirst()
+        }else{
+            chartView.xAxis.resetCustomAxisMax()
+            chartView.xAxis.resetCustomAxisMin()
+        }
+        self.chartDatasourceCount = self.chartDatasourceCount + 1
+        self.chartView.setVisibleXRangeMaximum(10)
+        var chartData:LineChartData!
+        var chartDataSet = [IChartDataSet]()
+        let powerEntry = ChartDataEntry(x: Double(self.chartDatasourceCount), y: powerValue)
+        self.powerEntries.append(powerEntry)
+        let powerChartData = self.initLineChartData(dataSource: self.powerEntries, describe: "功率", color: ChartColorTemplates.colorful()[3])
+        powerChartData.drawFilledEnabled = true //开启填充色绘制
+        powerChartData.fillColor = .orange  //设置填充色
+        powerChartData.fillAlpha = 0.5 //设置填充色透明度
+        
+        let voltageEntry = ChartDataEntry(x: Double(self.chartDatasourceCount), y: voltageValue)
+        self.voltageEntries.append(voltageEntry)
+        let voltageChartData = self.initLineChartData(dataSource: self.voltageEntries, describe: "电压", color: ChartColorTemplates.colorful()[2])
+        
+        let ampereEntry = ChartDataEntry(x: Double(self.chartDatasourceCount), y: ampereVlaue)
+        self.ampereEntries.append(ampereEntry)
+        let ampereChartData = self.initLineChartData(dataSource: self.ampereEntries, describe: "安培", color: ChartColorTemplates.colorful()[1])
+        
+        if powerValue > 0{
+            chartDataSet.append(powerChartData)
+        }
+        if  voltageValue > 0{
+            chartDataSet.append(voltageChartData)
+        }
+        if ampereVlaue > 0{
+            chartDataSet.append(ampereChartData)
+        }
+        chartData = LineChartData(dataSets: chartDataSet)
+
+        chartView.data = chartData
+        chartView.data?.notifyDataChanged()
+        chartView.notifyDataSetChanged()
+        chartView.moveViewToX(Double(self.powerEntries.count - 1))
+        
+    }
+    
+    private func initLineChartData(dataSource:[ChartDataEntry],describe:String,color:UIColor)->LineChartDataSet{
+        let chartDataSet = LineChartDataSet(entries: dataSource, label: describe)
+        chartDataSet.colors = [color]
+        chartDataSet.drawCirclesEnabled = false
+        chartDataSet.mode = .stepped
+        return chartDataSet
+    }
 
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -94,10 +164,11 @@ class TCDeviceMainViewController: FXDeviceMainViewController {
             if messageJSON["mac"].stringValue != self.deviceModel.mac{
                 return
             }
-            let power = messageJSON["power"].floatValue
-            if power > 0 {
-                self.powerView.animateToProgress(progress: 1/2500 * power)
-                self.powerLabel.text = "\(power)W";
+            let power = messageJSON["power"].doubleValue
+            let voltage = messageJSON["voltage"].doubleValue
+            let ampere = messageJSON["current"].doubleValue
+            if power > 0{
+                self.updateChartData(powerValue: power, voltageValue: voltage, ampereVlaue: ampere)
                 return
             }
             if let ip = messageJSON["ip"].string{
@@ -117,7 +188,7 @@ class TCDeviceMainViewController: FXDeviceMainViewController {
 }
 
 
-extension TCDeviceMainViewController:UICollectionViewDelegateFlowLayout,UICollectionViewDelegate,UICollectionViewDataSource{
+extension TDDeviceMainViewController:UICollectionViewDelegateFlowLayout,UICollectionViewDelegate,UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.deviceModel.sockets.count

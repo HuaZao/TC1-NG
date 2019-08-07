@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		152FAB042287D52000504DCD /* APIServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 152FAB032287D52000504DCD /* APIServiceManager.swift */; };
 		5008385822696106008EF69D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5008385722696106008EF69D /* AppDelegate.swift */; };
-		5008385A22696106008EF69D /* TCDeviceMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5008385922696106008EF69D /* TCDeviceMainViewController.swift */; };
+		5008385A22696106008EF69D /* TDDeviceMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5008385922696106008EF69D /* TDDeviceMainViewController.swift */; };
 		5008385D22696107008EF69D /* TCDeviceMain.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5008385B22696107008EF69D /* TCDeviceMain.storyboard */; };
 		5008385F22696108008EF69D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5008385E22696108008EF69D /* Assets.xcassets */; };
 		5008386222696108008EF69D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5008386022696108008EF69D /* LaunchScreen.storyboard */; };
@@ -58,7 +58,7 @@
 		152FAB032287D52000504DCD /* APIServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIServiceManager.swift; sourceTree = "<group>"; };
 		5008385422696106008EF69D /* TC1-NG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TC1-NG.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5008385722696106008EF69D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		5008385922696106008EF69D /* TCDeviceMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCDeviceMainViewController.swift; sourceTree = "<group>"; };
+		5008385922696106008EF69D /* TDDeviceMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDDeviceMainViewController.swift; sourceTree = "<group>"; };
 		5008385C22696107008EF69D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/TCDeviceMain.storyboard; sourceTree = "<group>"; };
 		5008385E22696108008EF69D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5008386122696108008EF69D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -232,7 +232,7 @@
 			children = (
 				B81A9F0122F8482800FB65A8 /* Matche */,
 				B81A9EFE22F8261800FB65A8 /* Base */,
-				B81A9EFA22F825C700FB65A8 /* TC1 */,
+				B81A9EFA22F825C700FB65A8 /* TC1&DC1 */,
 				B81A9EFB22F825E400FB65A8 /* A1 */,
 			);
 			path = Device;
@@ -256,12 +256,12 @@
 			path = Tool;
 			sourceTree = "<group>";
 		};
-		B81A9EFA22F825C700FB65A8 /* TC1 */ = {
+		B81A9EFA22F825C700FB65A8 /* TC1&DC1 */ = {
 			isa = PBXGroup;
 			children = (
-				5008385922696106008EF69D /* TCDeviceMainViewController.swift */,
+				5008385922696106008EF69D /* TDDeviceMainViewController.swift */,
 			);
-			path = TC1;
+			path = "TC1&DC1";
 			sourceTree = "<group>";
 		};
 		B81A9EFB22F825E400FB65A8 /* A1 */ = {
@@ -422,7 +422,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5008385A22696106008EF69D /* TCDeviceMainViewController.swift in Sources */,
+				5008385A22696106008EF69D /* TDDeviceMainViewController.swift in Sources */,
 				152FAB042287D52000504DCD /* APIServiceManager.swift in Sources */,
 				50A79777227064CA005C706A /* SocketModel.m in Sources */,
 				50E8903B2271651500F37638 /* FXDeviceConfigViewController.swift in Sources */,
