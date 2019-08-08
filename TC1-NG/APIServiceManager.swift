@@ -103,7 +103,7 @@ class APIServiceManager: NSObject {
         self.mqttClient?.transport = transport
         self.mqttClient?.userName = device.username
         self.mqttClient?.password = device.password
-        self.mqttClient?.clientId = device.type_name + device.mac
+//        self.mqttClient?.clientId = device.type_name + device.mac
         self.mqttClient?.delegate = self
         MQTTLog.setLogLevel(.info)
         self.mqttClient?.connect(connectHandler: { (error) in
@@ -185,7 +185,16 @@ extension APIServiceManager{
                 print("publishMessage With UDP -> \(jsonString)")
             }else{
                 if self.isConnect{
-                    self.mqttClient?.publishData(jsonString.data(using: .utf8)!, onTopic: "device/ztc1/set", retain: true, qos: MQTTQosLevel.init(rawValue: UInt8(qos))!,publishHandler:{ (error) in
+                    var topic = String()
+                    switch self.deviceModel.type {
+                    case .TC1:
+                        topic = "device/ztc1/set"
+                    case .DC1:
+                        topic = "device/zdc1/set"
+                    case .A1:
+                        topic = "device/za1/" + self.deviceModel.mac + "/set"
+                    }
+                    self.mqttClient?.publishData(jsonString.data(using: .utf8)!, onTopic: topic, retain: true, qos: MQTTQosLevel.init(rawValue: UInt8(qos))!,publishHandler:{ (error) in
                         self.delegate?.DeviceServicePublish(messageId: 0)
                     })
                     print("publishMessage With MQTT -> \(jsonString)")

@@ -70,6 +70,31 @@ class FXDeviceMainViewController: UIViewController,APIServiceReceiveDelegate{
         NotificationCenter.default.addObserver(self, selector: #selector(self.networkStateChange(sender:)), name: NSNotification.Name.realReachabilityChanged, object: nil)
     }
     
+    func updateDevice(message:JSON){
+        if let string = message.rawString(),string.contains("setting") == false{
+            return
+        }
+        if let version = message["version"].string{
+            self.deviceModel.version = version
+        }
+        if let mqtt_uri = message["setting"]["mqtt_uri"].string{
+            self.deviceModel.host = mqtt_uri
+        }
+        if let mqtt_port = message["setting"]["mqtt_port"].int{
+            self.deviceModel.port = mqtt_port
+        }
+        if let mqtt_user = message["setting"]["mqtt_user"].string{
+            self.deviceModel.username = mqtt_user
+        }
+        if let mqtt_password = message["setting"]["mqtt_password"].string{
+            self.deviceModel.password = mqtt_password
+        }
+        if let name = message["name"].string{
+            self.deviceModel.name = name
+        }
+        TCSQLManager.updateTCDevice(self.deviceModel)
+    }
+    
     @objc private func networkStateChange(sender:NotificationCenter){
         APIServiceManager.share.closeService()
         APIServiceManager.share.connectService(device: self.deviceModel, ip: self.deviceModel.ip)
@@ -117,7 +142,7 @@ class FXDeviceMainViewController: UIViewController,APIServiceReceiveDelegate{
                 self.deviceModel.isActivate = true
             }
         }
-        TCSQLManager.updateTCDevice(self.deviceModel)
+        self.updateDevice(message: messageJSON)
     }
     
     func DeviceServiceUnSubscribe(topic: String) {

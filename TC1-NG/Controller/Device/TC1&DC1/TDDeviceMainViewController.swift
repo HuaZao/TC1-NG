@@ -111,8 +111,8 @@ class TDDeviceMainViewController: FXDeviceMainViewController {
         
     }
     
-    
-    fileprivate func plugMessageReload(message:JSON){
+    override func updateDevice(message: JSON) {
+        super.updateDevice(message: message)
         if let string = message.rawString(),string.contains("plug") == false{
             return
         }
@@ -134,27 +134,7 @@ class TDDeviceMainViewController: FXDeviceMainViewController {
         if let plug_5 = message["plug_5"].dictionary{
             self.deviceModel.sockets[5].isOn = plug_5["on"]?.boolValue ?? false
             self.deviceModel.sockets[5].sockeTtitle =  plug_5["setting"]?.dictionaryValue["name"]?.stringValue ?? self.deviceModel.sockets[5].sockeTtitle      }
-        if let version = message["version"].string{
-            self.deviceModel.version = version
-        }
-        if let mqtt_uri = message["setting"]["mqtt_uri"].string{
-            self.deviceModel.host = mqtt_uri
-        }
-        if let mqtt_port = message["setting"]["mqtt_port"].int{
-            self.deviceModel.port = mqtt_port
-        }
-        if let mqtt_user = message["setting"]["mqtt_user"].string{
-            self.deviceModel.username = mqtt_user
-        }
-        if let mqtt_password = message["setting"]["mqtt_password"].string{
-            self.deviceModel.password = mqtt_password
-        }
-        //更新这个设备的信息
-        self.deviceModel.name = message["name"].stringValue
-        self.deviceModel.clientId = self.deviceModel.mac
-        TCSQLManager.updateTCDevice(self.deviceModel)
         self.socketCollectionView.reloadData()
-//        print("⚠️\(self.deviceModel.name)设备状态更新")
     }
     
     
@@ -174,7 +154,6 @@ class TDDeviceMainViewController: FXDeviceMainViewController {
             if let ip = messageJSON["ip"].string{
                 self.deviceModel.ip = ip
             }
-            self.plugMessageReload(message: messageJSON)
         }
         super.DeviceServiceReceivedMessage(message: message)
     }
