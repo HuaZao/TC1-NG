@@ -53,7 +53,7 @@ class FXDeviceInfoTableViewController: UITableViewController {
         case .DC1:
             self.deviceTypeName.text = "DC1智能排插"
         case .A1:
-            self.deviceTypeName.text = "悟空A1空气净化器"
+            self.deviceTypeName.text = "悟净A1空气净化器"
         }
         self.tableView.reloadData()
     }

@@ -276,7 +276,6 @@
 			isa = PBXGroup;
 			children = (
 				B81A9EFF22F8263700FB65A8 /* FXDeviceMainViewController.swift */,
-				50E8903A2271651500F37638 /* FXDeviceConfigViewController.swift */,
 				50C6DD402272B0B600EC9366 /* FXSetMQTTServiceViewController.swift */,
 				50C6DD3A2271B6FA00EC9366 /* FXDeviceInfoTableViewController.swift */,
 			);
@@ -287,6 +286,7 @@
 			isa = PBXGroup;
 			children = (
 				B81A9F0222F8484D00FB65A8 /* A1MatchViewController.swift */,
+				50E8903A2271651500F37638 /* FXDeviceConfigViewController.swift */,
 			);
 			path = Matche;
 			sourceTree = "<group>";

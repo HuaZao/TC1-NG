@@ -25,8 +25,6 @@ class FXDeviceConfigViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         APIServiceManager.share.delegate = self
-        //EASYLINK 配网成功之后并不会走任何回调,这里使用UDP轮询发送
-        APIServiceManager.share.connectUDPService()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -117,32 +115,14 @@ class FXDeviceConfigViewController: UIViewController {
             guard let mac = alert.textFields?.first(where: {$0.tag == 1005})?.text else{
                 return
             }
-            self?.addTC(message: JSON(["name":mac,"ip":ip,"mac":mac,"host":host,"port":iPort,"username":username,"password":password]))
+            self?.addTC(message: JSON(["name":mac,"ip":ip,"mac":mac,"mqtt_uri":host,"mqtt_port":iPort,"mqtt_user":username,"mqtt_password":password,"type":FXDeviceType.TC1.rawValue,"type_name":"zTC1"]))
         }))
         alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
     
     fileprivate func addTC(message:JSON){
-        let model = TCDeviceModel()
-        model.name = message["name"].stringValue
-        model.mac = message["mac"].stringValue
-        model.ip = message["ip"].stringValue
-        model.host = message["host"].stringValue
-        model.port = message["port"].intValue
-        model.username = message["username"].stringValue
-        model.password = message["password"].stringValue
-        model.sockets = [SocketModel]()
-        model.type = .TC1
-        //初始化6个插座
-        for i in 1...6{
-            let socket = SocketModel()
-            socket.isOn = false
-            socket.socketId = model.mac + "_\(i)"
-            socket.sockeTtitle = "插座\(i)"
-            model.sockets.append(socket)
-        }
-        TCSQLManager.addTCDevice(model)
+        _ = message.addDevice()
         DispatchQueue.main.async {
             self.navigationController?.popToRootViewController(animated: true)
         }
@@ -163,14 +143,22 @@ class FXDeviceConfigViewController: UIViewController {
             //        Step3: 开始发送配网信息
             self.easyLink?.transmitSettings()
             HUD.flash(.labeledProgress(title: "配网中", subtitle: nil))
-            DispatchQueue.global().async {
-                while self.isSend{
-                    APIServiceManager.share.sendDeviceReportCmd()
-                    sleep(1)
-                }
+            //EASYLINK 配网成功之后并不会走任何回调,这里使用UDP轮询发送
+            self.pollService()
+        }
+    }
+    
+    private func pollService(){
+        APIServiceManager.share.connectUDPService()
+        DispatchQueue.global().async {
+            while self.isSend{
+                APIServiceManager.share.sendDeviceReportCmd()
+                sleep(1)
             }
         }
     }
+    
+    
     
 }
 
@@ -213,11 +201,12 @@ extension FXDeviceConfigViewController:APIServiceReceiveDelegate,EasyLinkFTCDele
         let messageJSON = try! JSON(data: message)
         //如果有IP信息,则添加设备!
         let ip = messageJSON["ip"].stringValue
-        if ip.count > 0 && !TCSQLManager.deciveisExist(messageJSON["mac"].stringValue) {
-            self.addTC(message: messageJSON)
-            HUD.hide()
+        DispatchQueue.main.async {
+            if ip.count > 0 && !TCSQLManager.deciveisExist(messageJSON["mac"].stringValue) {
+                HUD.hide()
+                self.addTC(message: messageJSON)
+            }
         }
-        print(messageJSON)
     }
     
     

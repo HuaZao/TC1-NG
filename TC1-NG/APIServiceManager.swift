@@ -46,7 +46,7 @@ class APIServiceManager: NSObject {
     static let share = APIServiceManager()
     private var mqttClient: MQTTSession?
     private var udpSocket:GCDAsyncUdpSocket?
-    private(set) var isLocal = true
+    private(set) var isLocal = false
     private(set) var isConnect = false
     private(set) var deviceModel:TCDeviceModel!
     weak var delegate:APIServiceReceiveDelegate?
@@ -58,6 +58,7 @@ class APIServiceManager: NSObject {
     
     //用于连接设备
     func connectService(device:TCDeviceModel,ip:String? = nil){
+        self.deviceModel = device
         if device.isOnline == true{
             print("当前强制MQTT环境")
             self.initDeviceMQTTService(device: device)
@@ -94,7 +95,6 @@ class APIServiceManager: NSObject {
             self.initTC1UDPService()
             return
         }
-        self.deviceModel = device
         self.isLocal = false
         let transport = MQTTCFSocketTransport()
         transport.host = device.host
@@ -253,21 +253,21 @@ extension APIServiceManager{
         self.publishMessage(cmd,qos: 2)
     }
     
-    func getDeviceFullState(name:String){
+    func getDeviceFullState(){
         var cmd = [String:Any?]()
         switch self.deviceModel.type {
         case .TC1:
-           cmd = ["name":name,"mac":self.deviceModel.mac,"version":nil,
-             "setting":["mqtt_uri":nil,"mqtt_port":nil,"mqtt_user":nil,"mqtt_password":nil],
-             "plug_0":["setting":["name":nil]],
-             "plug_1":["setting":["name":nil]],
-             "plug_2":["setting":["name":nil]],
-             "plug_3":["setting":["name":nil]],
-             "plug_4":["setting":["name":nil]],
-             "plug_5":["setting":["name":nil]]
+            cmd = ["name":nil,"mac":self.deviceModel.mac,"version":nil,
+                   "setting":["mqtt_uri":nil,"mqtt_port":nil,"mqtt_user":nil,"mqtt_password":nil],
+                   "plug_0":["setting":["name":nil]],
+                   "plug_1":["setting":["name":nil]],
+                   "plug_2":["setting":["name":nil]],
+                   "plug_3":["setting":["name":nil]],
+                   "plug_4":["setting":["name":nil]],
+                   "plug_5":["setting":["name":nil]]
             ]
         case .DC1:
-            cmd = ["name":name,"mac":self.deviceModel.mac,"version":nil,
+            cmd = ["name":nil,"mac":self.deviceModel.mac,"version":nil,
                    "setting":["mqtt_uri":nil,"mqtt_port":nil,"mqtt_user":nil,"mqtt_password":nil],
                    "plug_0":["setting":["name":nil]],
                    "plug_1":["setting":["name":nil]],
@@ -275,7 +275,7 @@ extension APIServiceManager{
                    "plug_3":["setting":["name":nil]]
             ]
         case .A1:
-            cmd = ["name":name,"mac":self.deviceModel.mac,"version":nil,"on":nil,"speed":nil,
+            cmd = ["name":nil,"mac":self.deviceModel.mac,"version":nil,"on":nil,"speed":nil,
                    "setting":["mqtt_uri":nil,"mqtt_port":nil,"mqtt_user":nil,"mqtt_password":nil]
             ]
         }
@@ -287,8 +287,9 @@ extension APIServiceManager{
 extension APIServiceManager:MQTTSessionDelegate{
     
     func connected(_ session: MQTTSession!) {
-         self.isConnect = true
-          self.delegate?.DeviceServiceOnConnect()
+        self.isConnect = true
+        self.delegate?.DeviceServiceOnConnect()
+        APIServiceManager.share.sendDeviceReportCmd()
     }
     
     func newMessage(_ session: MQTTSession!, data: Data!, onTopic topic: String!, qos: MQTTQosLevel, retained: Bool, mid: UInt32) {

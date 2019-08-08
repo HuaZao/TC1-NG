@@ -89,7 +89,7 @@ class FXDeviceMainViewController: UIViewController,APIServiceReceiveDelegate{
             print("MQTT服务器连接成功!")
             APIServiceManager.share.subscribeDeviceMessage()
             APIServiceManager.share.isDeviceActivate()
-            APIServiceManager.share.getDeviceFullState(name: self.deviceModel.name)
+            APIServiceManager.share.getDeviceFullState()
         }else{
             print("UDP已经准备就绪!")
             DispatchQueue.global().async {
@@ -98,7 +98,7 @@ class FXDeviceMainViewController: UIViewController,APIServiceReceiveDelegate{
                     if !self.deviceModel.isActivate{
                         APIServiceManager.share.isDeviceActivate()
                     }
-                    APIServiceManager.share.getDeviceFullState(name: self.deviceModel.name)
+                    APIServiceManager.share.getDeviceFullState()
                     sleep(1)
                 }
             }
@@ -122,6 +122,10 @@ class FXDeviceMainViewController: UIViewController,APIServiceReceiveDelegate{
     
     func DeviceServiceUnSubscribe(topic: String) {
         print("退订成功! \(topic)")
+    }
+    
+    func DeviceServiceSubscribe(topics: [String]) {
+        print("订阅\(topics)")
     }
 
 }

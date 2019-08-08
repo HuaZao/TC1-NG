@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bfE-Bi-gb1">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -15,25 +11,25 @@
             <objects>
                 <viewController id="BKg-DH-fFc" customClass="TCListViewController" customModule="TC1_NG" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ORt-p0-9CW">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="100" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Bky-Rl-ebr">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TCCell" rowHeight="100" id="LBj-7U-cHG" customClass="TCDeviceCell" customModule="TC1_NG" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="100"/>
+                                        <rect key="frame" x="0.0" y="28" width="600" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="LBj-7U-cHG" id="tb7-zH-g43">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EAt-FW-9GH">
-                                                    <rect key="frame" x="8" y="8" width="304" height="92"/>
+                                                    <rect key="frame" x="8" y="8" width="359" height="92"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_device_bg" translatesAutoresizingMaskIntoConstraints="NO" id="oYS-ln-D40">
-                                                            <rect key="frame" x="0.0" y="0.0" width="304" height="92"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="359" height="92"/>
                                                         </imageView>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_device_icon_default" translatesAutoresizingMaskIntoConstraints="NO" id="j99-zk-J2m">
                                                             <rect key="frame" x="23" y="18.5" width="55" height="55"/>
@@ -43,7 +39,7 @@
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="zTC_ab730" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7yq-C1-PhA">
-                                                            <rect key="frame" x="93" y="35.5" width="196" height="21"/>
+                                                            <rect key="frame" x="93" y="35.5" width="251" height="21"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -85,7 +81,7 @@
                                 </connections>
                             </tableView>
                             <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg_no_device" translatesAutoresizingMaskIntoConstraints="NO" id="6Rl-ei-Jxb">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -141,36 +137,36 @@
             <objects>
                 <viewController id="kB8-i7-sVH" customClass="FXDeviceConfigViewController" customModule="TC1_NG" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="RrM-qu-9im">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_plug_bg" translatesAutoresizingMaskIntoConstraints="NO" id="W8Q-lx-J5K">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YZe-QO-X03" userLabel="WIFI">
-                                <rect key="frame" x="0.0" y="64" width="375" height="210"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="210"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mesh_AP" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fi2-UY-Wnn">
-                                        <rect key="frame" x="158" y="167.5" width="59" height="17"/>
+                                        <rect key="frame" x="270.5" y="167.5" width="59" height="17"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wi-Fi" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yiu-9r-NXg">
-                                        <rect key="frame" x="159.5" y="130.5" width="56" height="29"/>
+                                        <rect key="frame" x="272" y="130.5" width="56" height="29"/>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="24"/>
                                         <color key="textColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Wi-Fi 背景" translatesAutoresizingMaskIntoConstraints="NO" id="9cF-zK-VXj">
-                                        <rect key="frame" x="144.5" y="21.5" width="86" height="97"/>
+                                        <rect key="frame" x="257" y="21.5" width="86" height="97"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="97" id="8ZB-fI-VdQ"/>
                                             <constraint firstAttribute="width" constant="86" id="N3S-R0-Dp6"/>
                                         </constraints>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ASF-oN-71L">
-                                        <rect key="frame" x="144.5" y="21.5" width="86" height="97"/>
+                                        <rect key="frame" x="257" y="21.5" width="86" height="97"/>
                                         <connections>
                                             <action selector="wifiCustomAction:" destination="kB8-i7-sVH" eventType="touchUpInside" id="ifL-rt-qhB"/>
                                         </connections>
@@ -192,7 +188,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZYe-cK-SSq">
-                                <rect key="frame" x="43" y="568" width="289" height="49"/>
+                                <rect key="frame" x="43" y="501" width="514" height="49"/>
                                 <color key="backgroundColor" red="0.97647058819999999" green="0.61568627450000002" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="49" id="yT1-ow-IvZ"/>
@@ -206,7 +202,7 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="请输入 Wi-Fi 密码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6Wa-5l-fZg">
-                                <rect key="frame" x="24" y="297" width="327" height="48"/>
+                                <rect key="frame" x="24" y="297" width="552" height="48"/>
                                 <color key="backgroundColor" white="1" alpha="0.69616527288732399" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="shu-OV-LAZ"/>
@@ -270,11 +266,11 @@
             <objects>
                 <tableViewController id="mPI-fl-ljl" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="fbC-lk-Mby">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="JgB-4Z-REb">
-                            <rect key="frame" x="0.0" y="132" width="375" height="0.0"/>
+                            <rect key="frame" x="0.0" y="132" width="600" height="0.0"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </view>
@@ -282,14 +278,14 @@
                             <tableViewSection id="BBP-QV-BfB">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" textLabel="5E2-Xc-LX9" style="IBUITableViewCellStyleDefault" id="hgP-1K-8Bm">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hgP-1K-8Bm" id="Gfm-uZ-Is0">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="TC1智能排插" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5E2-Xc-LX9">
-                                                    <rect key="frame" x="16" y="0.0" width="343" height="43.5"/>
+                                                    <rect key="frame" x="20" y="0.0" width="560" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -302,14 +298,14 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" textLabel="Tb0-lG-olh" style="IBUITableViewCellStyleDefault" id="ldt-ko-9lC">
-                                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="44" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ldt-ko-9lC" id="GVK-TX-qJU">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="DC1智能排插" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Tb0-lG-olh">
-                                                    <rect key="frame" x="16" y="0.0" width="343" height="43.5"/>
+                                                    <rect key="frame" x="20" y="0.0" width="560" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -319,14 +315,14 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" textLabel="mRF-mR-Kps" style="IBUITableViewCellStyleDefault" id="DcT-30-5gf">
-                                        <rect key="frame" x="0.0" y="88" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="88" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="DcT-30-5gf" id="wWw-Pp-vzB">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="悟空A1空气净化器" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mRF-mR-Kps">
-                                                    <rect key="frame" x="16" y="0.0" width="343" height="43.5"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="悟净A1空气净化器" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mRF-mR-Kps">
+                                                    <rect key="frame" x="20" y="0.0" width="560" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -363,14 +359,14 @@
             <objects>
                 <viewController id="5R5-fW-3AJ" userLabel="配置入网提示" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="chr-eA-ih2">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_plug_bg" translatesAutoresizingMaskIntoConstraints="NO" id="84f-yg-qgQ">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y9A-ie-9dQ">
-                                <rect key="frame" x="43" y="568" width="289" height="49"/>
+                                <rect key="frame" x="43" y="501" width="514" height="49"/>
                                 <color key="backgroundColor" red="0.97647058819999999" green="0.61568627450000002" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="49" id="jF4-1T-6Ze"/>
@@ -384,14 +380,14 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_plug_highlight" translatesAutoresizingMaskIntoConstraints="NO" id="KGB-dS-PYa">
-                                <rect key="frame" x="87.5" y="282" width="200" height="103"/>
+                                <rect key="frame" x="200" y="248.5" width="200" height="103"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="103" id="Sho-wl-Swh"/>
                                     <constraint firstAttribute="width" constant="200" id="VgU-7A-eFv"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d0c-lR-LJ7">
-                                <rect key="frame" x="87.5" y="150.5" width="200" height="81.5"/>
+                                <rect key="frame" x="200" y="117" width="200" height="81.5"/>
                                 <string key="text">1.断开电源
 2.按住Logo按键不放
 3.插上电源
@@ -436,14 +432,14 @@
             <objects>
                 <viewController id="R5k-v8-zNB" userLabel="配置入网提示" customClass="A1MatchViewController" customModule="TC1_NG" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ksC-GK-6aM">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_plug_bg" translatesAutoresizingMaskIntoConstraints="NO" id="we1-xI-XGb">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pfg-nh-uOC">
-                                <rect key="frame" x="43" y="568" width="289" height="49"/>
+                                <rect key="frame" x="43" y="501" width="514" height="49"/>
                                 <color key="backgroundColor" red="0.97647058819999999" green="0.61568627450000002" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="49" id="HSw-z9-PdD"/>
@@ -457,14 +453,14 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="addCleaner" translatesAutoresizingMaskIntoConstraints="NO" id="Djl-1H-WP8">
-                                <rect key="frame" x="87.5" y="298.5" width="200" height="200"/>
+                                <rect key="frame" x="200" y="265" width="200" height="200"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="90v-RC-eQ2"/>
                                     <constraint firstAttribute="height" constant="200" id="OoY-Bl-Nx5"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.设备开机用手机连接设备的热点:zA1_XXXX 2.点击配置填写WIFI和激活码信息 3.手机连接路由器wifi后返回主界面,自动发现该设备" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zik-0H-Cnl">
-                                <rect key="frame" x="87.5" y="126.5" width="200" height="122"/>
+                                <rect key="frame" x="200" y="93" width="200" height="122"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -487,7 +483,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="00J-n0-Ivx"/>
                     </view>
-                    <navigationItem key="navigationItem" title="添加悟空A1空气净化器" id="tjw-Ke-XmF">
+                    <navigationItem key="navigationItem" title="添加悟净A1空气净化器" id="tjw-Ke-XmF">
                         <barButtonItem key="backBarButtonItem" title="取消" id="QSD-5a-5et"/>
                         <barButtonItem key="leftBarButtonItem" image="back_Arrow" style="plain" id="wL4-vH-Dh6">
                             <connections>

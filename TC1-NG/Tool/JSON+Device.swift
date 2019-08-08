@@ -15,6 +15,7 @@ extension JSON{
         model.name = self["name"].stringValue
         model.mac = self["mac"].stringValue
         model.ip = self["ip"].stringValue
+        model.type_name = self["type_name"].stringValue
         if let deviceType = FXDeviceType(rawValue: self["type"].uIntValue){
             model.type = deviceType
             if deviceType == .TC1{
@@ -26,8 +27,7 @@ extension JSON{
                     socket.sockeTtitle = "插座\(i)"
                     model.sockets.append(socket)
                 }
-            }
-            if deviceType == .DC1{
+            }else if deviceType == .DC1{
                 model.sockets = [SocketModel]()
                 for i in 1...4{
                     let socket = SocketModel()
@@ -37,8 +37,22 @@ extension JSON{
                     model.sockets.append(socket)
                 }
             }
+        }else{
+            //默认TC1
+           model.type = .TC1
         }
-        model.type_name = self["type_name"].stringValue
+        if let mqtt_uri = self["mqtt_uri"].string{
+            model.host = mqtt_uri
+        }
+        if let mqtt_port = self["mqtt_port"].int{
+            model.port = mqtt_port
+        }
+        if let mqtt_user = self["mqtt_user"].string{
+            model.username = mqtt_user
+        }
+        if let mqtt_password = self["mqtt_password"].string{
+            model.password = mqtt_password
+        }
         TCSQLManager.addTCDevice(model)
         print("MAC:\(model.mac) 设备\(model.type_name)已经添加到本地")
         return model
