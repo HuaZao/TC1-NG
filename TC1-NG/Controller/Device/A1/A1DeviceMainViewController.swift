@@ -177,7 +177,7 @@ extension A1DeviceMainViewController{
         locationManager.requestLocation(withReGeocode: true, completionBlock: { [weak self] (location: CLLocation?, reGeocode: AMapLocationReGeocode?, error: Error?) in
             if let reGeocode = reGeocode {
                 let freeWeatherApi = URL(string: apiHost + "/api/v2/weather/index")!
-                freeWeatherApi.requestJSON(params: ["app_id":"10001","app_version":"1.1.6","astro":"1","gd_code":reGeocode.adcode ?? "","astro_type":"1","city_en":reGeocode.city ?? ""], callBack: { (json) in
+                freeWeatherApi.requestJSON(params: ["app_id":"10001","app_version":"1.1.6","astro":"1","gd_code":reGeocode.adcode ?? "440106","astro_type":"1","city_en":reGeocode.city ?? "广州市"], callBack: { (json) in
                     guard let weather = json["data"].dictionaryValue["weather"]?.dictionaryValue else {
                         return
                     }
