@@ -38,6 +38,9 @@
 		B81A9F0022F8263700FB65A8 /* FXDeviceMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81A9EFF22F8263700FB65A8 /* FXDeviceMainViewController.swift */; };
 		B81A9F0322F8484D00FB65A8 /* A1MatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81A9F0222F8484D00FB65A8 /* A1MatchViewController.swift */; };
 		B81A9F0522F853B100FB65A8 /* URL+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81A9F0422F853B100FB65A8 /* URL+JSON.swift */; };
+		B8FB4E8623013EAA00A24342 /* WeatherNowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FB4E8523013EAA00A24342 /* WeatherNowView.swift */; };
+		B8FB4E8823013EC300A24342 /* WeatherAqiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FB4E8723013EC300A24342 /* WeatherAqiView.swift */; };
+		B8FB4E8A2301439000A24342 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FB4E892301439000A24342 /* UIViewExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -93,6 +96,9 @@
 		B81A9EFF22F8263700FB65A8 /* FXDeviceMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FXDeviceMainViewController.swift; sourceTree = "<group>"; };
 		B81A9F0222F8484D00FB65A8 /* A1MatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = A1MatchViewController.swift; sourceTree = "<group>"; };
 		B81A9F0422F853B100FB65A8 /* URL+JSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+JSON.swift"; sourceTree = "<group>"; };
+		B8FB4E8523013EAA00A24342 /* WeatherNowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherNowView.swift; sourceTree = "<group>"; };
+		B8FB4E8723013EC300A24342 /* WeatherAqiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAqiView.swift; sourceTree = "<group>"; };
+		B8FB4E892301439000A24342 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		F4B04F00B0112D2186FEB698 /* Pods_TC1_NG.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TC1_NG.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -252,6 +258,7 @@
 			children = (
 				B81A9EF322F80B5E00FB65A8 /* JSON+Device.swift */,
 				B81A9F0422F853B100FB65A8 /* URL+JSON.swift */,
+				B8FB4E892301439000A24342 /* UIViewExtension.swift */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -268,6 +275,7 @@
 			isa = PBXGroup;
 			children = (
 				B81A9EFC22F8260000FB65A8 /* A1DeviceMainViewController.swift */,
+				B8FB4E8423013E9300A24342 /* View */,
 			);
 			path = A1;
 			sourceTree = "<group>";
@@ -289,6 +297,15 @@
 				50E8903A2271651500F37638 /* FXDeviceConfigViewController.swift */,
 			);
 			path = Matche;
+			sourceTree = "<group>";
+		};
+		B8FB4E8423013E9300A24342 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B8FB4E8523013EAA00A24342 /* WeatherNowView.swift */,
+				B8FB4E8723013EC300A24342 /* WeatherAqiView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		D3C920977B31EFC8C2DE796F /* Pods */ = {
@@ -425,6 +442,7 @@
 				5008385A22696106008EF69D /* TDDeviceMainViewController.swift in Sources */,
 				152FAB042287D52000504DCD /* APIServiceManager.swift in Sources */,
 				50A79777227064CA005C706A /* SocketModel.m in Sources */,
+				B8FB4E8823013EC300A24342 /* WeatherAqiView.swift in Sources */,
 				50E8903B2271651500F37638 /* FXDeviceConfigViewController.swift in Sources */,
 				5008385822696106008EF69D /* AppDelegate.swift in Sources */,
 				50FBB4B12277FD73004713EC /* TCTaskCell.swift in Sources */,
@@ -436,12 +454,14 @@
 				50A7975F227045C1005C706A /* TCDeviceCell.swift in Sources */,
 				50A79776227064CA005C706A /* TCDeviceModel.m in Sources */,
 				B81A9EFD22F8260000FB65A8 /* A1DeviceMainViewController.swift in Sources */,
+				B8FB4E8A2301439000A24342 /* UIViewExtension.swift in Sources */,
 				5008387322696FC9008EF69D /* PowerProgressView.swift in Sources */,
 				B81A9EF422F80B5E00FB65A8 /* JSON+Device.swift in Sources */,
 				50445B6A2282CB3E00AAF4DD /* TCSocketWeekListViewController.swift in Sources */,
 				50C6DD412272B0B600EC9366 /* FXSetMQTTServiceViewController.swift in Sources */,
 				50A7976122704606005C706A /* TCListViewController.swift in Sources */,
 				50C6DD3B2271B6FA00EC9366 /* FXDeviceInfoTableViewController.swift in Sources */,
+				B8FB4E8623013EAA00A24342 /* WeatherNowView.swift in Sources */,
 				50A79763227055C0005C706A /* TCSocketItem.swift in Sources */,
 				50FBB4AF22770CFF004713EC /* TCSocketViewController.swift in Sources */,
 				50445B6C2282D32F00AAF4DD /* TCTimerCell.swift in Sources */,

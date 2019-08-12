@@ -115,7 +115,7 @@ class FXDeviceConfigViewController: UIViewController {
             guard let mac = alert.textFields?.first(where: {$0.tag == 1005})?.text else{
                 return
             }
-            self?.addTC(message: JSON(["name":mac,"ip":ip,"mac":mac,"mqtt_uri":host,"mqtt_port":iPort,"mqtt_user":username,"mqtt_password":password,"type":FXDeviceType.TC1.rawValue,"type_name":"zTC1"]))
+            self?.addTC(message: JSON(["name":mac,"ip":ip,"mac":mac,"mqtt_uri":host,"mqtt_port":iPort,"mqtt_user":username,"mqtt_password":password,"type":FXDeviceType.A1.rawValue,"type_name":"zA1"]))
         }))
         alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)

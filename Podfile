@@ -14,4 +14,8 @@ pod 'PKHUD', '~> 5.0'
 pod 'RealReachability'
 pod 'Bitter'
 pod 'Charts'
+pod 'AMapLocation-NO-IDFA'
+pod 'Alamofire'
+pod 'SDWebImage'
+
 end

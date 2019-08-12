@@ -9,6 +9,9 @@
 import UIKit
 import SwiftyJSON
 import PKHUD
+import AMapLocationKit
+
+let apiHost = "https://tq.miyauu.com"
 
 class A1DeviceMainViewController: FXDeviceMainViewController {
 
@@ -22,18 +25,31 @@ class A1DeviceMainViewController: FXDeviceMainViewController {
     @IBOutlet weak var fanSpeedLabel: UILabel!
     @IBOutlet weak var fanSpeedSlider: UISlider!
     
+    @IBOutlet weak var weatherNowView: WeatherNowView!
+    @IBOutlet weak var weatherAqiView: WeatherAqiView!
+
     private var speed = 0
+    fileprivate let locationManager = AMapLocationManager()
+    
+
     override func viewDidLoad() {
-        self.fanSetViewLeftConstraint.constant = self.view.bounds.width
         super.viewDidLoad()
+        self.fanSetViewLeftConstraint.constant = self.view.bounds.width
+        self.reloadCacheData()
         self.getWeather()
     }
     
-    private func getWeather(){
-        let freeWeatherApi = URL(string: "https://www.tianqiapi.com/api/?version=v6")!
-        freeWeatherApi.requestJSON { (json) in
-             let wea = json["wea"].stringValue
-            if wea.contains("云"){
+    fileprivate func reloadCacheData(){
+        guard let extensionVlaue = self.deviceModel.extension as? [String:[String:String]] else{
+            return
+        }
+        guard let weather_now = extensionVlaue["weather_now"] else{
+            return
+        }
+        self.weatherNowView.reloadWeatherNowinfo(weather_now)
+        if let wea = weather_now["weather"]{
+            print("当前天气 \(wea)")
+            if wea.contains("云") || wea.contains("阴"){
                 self.weatherBg.image = #imageLiteral(resourceName: "多云")
             }else if wea.contains("雨"){
                 self.weatherBg.image = #imageLiteral(resourceName: "雨")
@@ -41,7 +57,7 @@ class A1DeviceMainViewController: FXDeviceMainViewController {
                 self.weatherBg.image = #imageLiteral(resourceName: "晴")
             }else if wea.contains("风"){
                 self.weatherBg.image = #imageLiteral(resourceName: "风")
-            }else if wea.contains("雾霾"){
+            }else if wea.contains("雾"){
                 self.weatherBg.image = #imageLiteral(resourceName: "雾霾")
             }else if wea.contains("雪"){
                 self.weatherBg.image = #imageLiteral(resourceName: "雪")
@@ -49,7 +65,12 @@ class A1DeviceMainViewController: FXDeviceMainViewController {
                 self.weatherBg.image = #imageLiteral(resourceName: "默认")
             }
         }
+        guard let weather_aqi = extensionVlaue["weather_aqi"] else{
+            return
+        }
+        self.weatherAqiView.reloadWeatherAqinfo(weather_aqi,weather_now)
     }
+    
     
     @IBAction func fanSpeedValueChanged(_ sender: UISlider) {
         let value = Int(sender.value)
@@ -145,3 +166,42 @@ class A1DeviceMainViewController: FXDeviceMainViewController {
 
 
 }
+
+
+extension A1DeviceMainViewController{
+    
+    fileprivate func getWeather(){
+        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        locationManager.locationTimeout = 2
+        locationManager.reGeocodeTimeout = 2
+        locationManager.requestLocation(withReGeocode: true, completionBlock: { [weak self] (location: CLLocation?, reGeocode: AMapLocationReGeocode?, error: Error?) in
+            if let reGeocode = reGeocode {
+                let freeWeatherApi = URL(string: apiHost + "/api/v2/weather/index")!
+                freeWeatherApi.requestJSON(params: ["app_id":"10001","app_version":"1.1.6","astro":"1","gd_code":reGeocode.adcode ?? "","astro_type":"1","city_en":reGeocode.city ?? ""], callBack: { (json) in
+                    guard let weather = json["data"].dictionaryValue["weather"]?.dictionaryValue else {
+                        return
+                    }
+                    guard let current = weather["current"]?.arrayValue.first else {
+                        return
+                    }
+                    guard let nowWeather = current["weather_now"].dictionaryObject?.mapValues({"\($0)"}) else{
+                        return
+                    }
+                    self?.deviceModel.extension["weather_now"] = nowWeather
+                    self?.weatherNowView.reloadWeatherNowinfo(nowWeather)
+                    guard let weather_aqi = current["weather_aqi"].dictionaryObject?.mapValues({"\($0)"})else{
+                        return
+                    }
+                    self?.deviceModel.extension["weather_aqi"] = weather_aqi
+                    self?.weatherAqiView.reloadWeatherAqinfo(weather_aqi, nowWeather)
+                    print(JSON(self?.deviceModel.extension).description)
+                    self?.deviceModel.updateToDB()
+                })
+            }
+        })
+    }
+    
+   
+    
+}
+

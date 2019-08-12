@@ -1,4 +1,8 @@
 PODS:
+  - Alamofire (4.8.2)
+  - AMapFoundation-NO-IDFA (1.5.7)
+  - AMapLocation-NO-IDFA (2.6.2):
+    - AMapFoundation-NO-IDFA (~> 1.4)
   - Bitter (3.1.1)
   - Charts (3.3.0):
     - Charts/Core (= 3.3.0)
@@ -19,9 +23,14 @@ PODS:
     - RealReachability/Ping (= 1.3.0)
   - RealReachability/Connection (1.3.0)
   - RealReachability/Ping (1.3.0)
+  - SDWebImage (5.1.0):
+    - SDWebImage/Core (= 5.1.0)
+  - SDWebImage/Core (5.1.0)
   - SwiftyJSON (5.0.0)
 
 DEPENDENCIES:
+  - Alamofire
+  - AMapLocation-NO-IDFA
   - Bitter
   - Charts
   - CocoaAsyncSocket
@@ -30,10 +39,14 @@ DEPENDENCIES:
   - MQTTClient/Min
   - PKHUD (~> 5.0)
   - RealReachability
+  - SDWebImage
   - SwiftyJSON
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - AMapFoundation-NO-IDFA
+    - AMapLocation-NO-IDFA
     - Bitter
     - Charts
     - CocoaAsyncSocket
@@ -43,9 +56,13 @@ SPEC REPOS:
     - MQTTClient
     - PKHUD
     - RealReachability
+    - SDWebImage
     - SwiftyJSON
 
 SPEC CHECKSUMS:
+  Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
+  AMapFoundation-NO-IDFA: 9088085827c831811bb0fd3afd96b99963a7cf71
+  AMapLocation-NO-IDFA: d7792c8c516f415e186f1bc25946f1a58ca6a583
   Bitter: 9a6aa16f2c4e4303720c441108581b27c400ec27
   Charts: e0dd4cd8f257bccf98407b58183ddca8e8d5b578
   CocoaAsyncSocket: eafaa68a7e0ec99ead0a7b35015e0bf25d2c8987
@@ -55,8 +72,9 @@ SPEC CHECKSUMS:
   MQTTClient: 902c7bcac1501595f3d0b15178c7205b40331fb0
   PKHUD: 98f3e4bc904b9c916f1c5bb6d765365b5357291b
   RealReachability: eae9c58d2db52fadd8e1cba4b5d4c028454fbc47
+  SDWebImage: fb387001955223213dde14bc08c8b73f371f8d8f
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
 
-PODFILE CHECKSUM: 9d61935f4e43b4109926bb3a06bd00319851e708
+PODFILE CHECKSUM: 29772ab9b9cfbb3c5dbd706bf1d7cff1cb1af724
 
 COCOAPODS: 1.7.4

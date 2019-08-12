@@ -8,14 +8,13 @@
 
 import Foundation
 import SwiftyJSON
+import Alamofire
 
 extension URL{
-    func requestJSON(_ callBack:@escaping (JSON)->Void){
-        DispatchQueue.global().async {
-            if let data = try? Data(contentsOf: self),let json = try? JSON(data: data){
-                DispatchQueue.main.async {
-                    callBack(json)
-                }
+    func requestJSON(params:[String:String],callBack:@escaping (JSON)->Void){
+        Alamofire.request(self.absoluteString, method: .post, parameters: params).responseJSON { (response) in
+            if response.result.isSuccess{
+                callBack(JSON(response.result.value as Any))
             }
         }
     }

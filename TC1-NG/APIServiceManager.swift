@@ -86,12 +86,12 @@ class APIServiceManager: NSObject {
     
     private func initDeviceMQTTService(device:TCDeviceModel){
         guard device.host != "" else {
-            HUD.flash(HUDContentType.labeledError(title: "错误", subtitle: "无法连接到MQTT服务器(域名未设置),切换到UDP"))
+            HUD.flash(HUDContentType.labeledError(title: "错误", subtitle: "未配置MQTT服务器,切换到UDP"), delay: 3.0)
             self.initTC1UDPService()
             return
         }
         guard device.port > 0 else {
-            HUD.flash(HUDContentType.labeledError(title: "错误", subtitle: "无法连接到MQTT服务器(端口为0),切换到UDP"))
+            HUD.flash(HUDContentType.labeledError(title: "错误", subtitle: "未配置MQTT服务器,切换到UDP"), delay: 3.0)
             self.initTC1UDPService()
             return
         }

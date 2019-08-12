@@ -31,6 +31,8 @@ typedef NS_ENUM(NSUInteger,FXDeviceType){
 @property (nonatomic,copy) NSString *ip;
 //设备版本
 @property (nonatomic,copy) NSString *version;
+//设备扩展字段
+@property (nonatomic,strong) NSDictionary *extension;
 //各个插座的数据
 @property (nonatomic,strong) NSArray <SocketModel *>*sockets;
 //是否局域网在线

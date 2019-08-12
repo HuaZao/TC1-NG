@@ -8,6 +8,8 @@
 
 import UIKit
 import IQKeyboardManagerSwift
+import AMapLocationKit
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate{
 
@@ -15,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         IQKeyboardManager.shared.enable = true
+        AMapServices.shared().apiKey = "014e4cfa999171b4dce43fed1d7c8026"
         return true
     }
 
