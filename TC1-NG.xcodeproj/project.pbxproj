@@ -38,6 +38,9 @@
 		B81A9F0022F8263700FB65A8 /* FXDeviceMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81A9EFF22F8263700FB65A8 /* FXDeviceMainViewController.swift */; };
 		B81A9F0322F8484D00FB65A8 /* A1MatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81A9F0222F8484D00FB65A8 /* A1MatchViewController.swift */; };
 		B81A9F0522F853B100FB65A8 /* URL+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81A9F0422F853B100FB65A8 /* URL+JSON.swift */; };
+		B89D87D02302AE8800398226 /* libEsptouch_v0.3.5.3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B89D87CB2302AE8800398226 /* libEsptouch_v0.3.5.3.a */; };
+		B89D87D52302B8ED00398226 /* TC1MatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89D87D42302B8ED00398226 /* TC1MatchViewController.swift */; };
+		B89D87D72302B8FC00398226 /* DC1MatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89D87D62302B8FC00398226 /* DC1MatchViewController.swift */; };
 		B8FB4E8623013EAA00A24342 /* WeatherNowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FB4E8523013EAA00A24342 /* WeatherNowView.swift */; };
 		B8FB4E8823013EC300A24342 /* WeatherAqiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FB4E8723013EC300A24342 /* WeatherAqiView.swift */; };
 		B8FB4E8A2301439000A24342 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FB4E892301439000A24342 /* UIViewExtension.swift */; };
@@ -96,6 +99,12 @@
 		B81A9EFF22F8263700FB65A8 /* FXDeviceMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FXDeviceMainViewController.swift; sourceTree = "<group>"; };
 		B81A9F0222F8484D00FB65A8 /* A1MatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = A1MatchViewController.swift; sourceTree = "<group>"; };
 		B81A9F0422F853B100FB65A8 /* URL+JSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+JSON.swift"; sourceTree = "<group>"; };
+		B89D87CB2302AE8800398226 /* libEsptouch_v0.3.5.3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libEsptouch_v0.3.5.3.a; sourceTree = "<group>"; };
+		B89D87CC2302AE8800398226 /* ESPTouchTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESPTouchTask.h; sourceTree = "<group>"; };
+		B89D87CD2302AE8800398226 /* ESPTouchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESPTouchResult.h; sourceTree = "<group>"; };
+		B89D87CE2302AE8800398226 /* ESPTouchDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESPTouchDelegate.h; sourceTree = "<group>"; };
+		B89D87D42302B8ED00398226 /* TC1MatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TC1MatchViewController.swift; sourceTree = "<group>"; };
+		B89D87D62302B8FC00398226 /* DC1MatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DC1MatchViewController.swift; sourceTree = "<group>"; };
 		B8FB4E8523013EAA00A24342 /* WeatherNowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherNowView.swift; sourceTree = "<group>"; };
 		B8FB4E8723013EC300A24342 /* WeatherAqiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAqiView.swift; sourceTree = "<group>"; };
 		B8FB4E892301439000A24342 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
@@ -108,6 +117,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5008387122696693008EF69D /* SystemConfiguration.framework in Frameworks */,
+				B89D87D02302AE8800398226 /* libEsptouch_v0.3.5.3.a in Frameworks */,
 				5CB9C9FC603A96B93CA6D7FB /* Pods_TC1_NG.framework in Frameworks */,
 				50C6DD3222719FBD00EC9366 /* libEasyLink.a in Frameworks */,
 			);
@@ -141,6 +151,7 @@
 				50C6DD362271AE5300EC9366 /* View */,
 				50C6DD352271AE4300EC9366 /* Model */,
 				50C6DD342271AE3800EC9366 /* Cell */,
+				B89D87CA2302AE8800398226 /* ESPtouch */,
 				50C6DD2E22719FBD00EC9366 /* EasyLink */,
 				50A7976422705854005C706A /* SQL */,
 				B81A9EF222F80B2400FB65A8 /* Tool */,
@@ -295,8 +306,21 @@
 			children = (
 				B81A9F0222F8484D00FB65A8 /* A1MatchViewController.swift */,
 				50E8903A2271651500F37638 /* FXDeviceConfigViewController.swift */,
+				B89D87D42302B8ED00398226 /* TC1MatchViewController.swift */,
+				B89D87D62302B8FC00398226 /* DC1MatchViewController.swift */,
 			);
 			path = Matche;
+			sourceTree = "<group>";
+		};
+		B89D87CA2302AE8800398226 /* ESPtouch */ = {
+			isa = PBXGroup;
+			children = (
+				B89D87CB2302AE8800398226 /* libEsptouch_v0.3.5.3.a */,
+				B89D87CC2302AE8800398226 /* ESPTouchTask.h */,
+				B89D87CD2302AE8800398226 /* ESPTouchResult.h */,
+				B89D87CE2302AE8800398226 /* ESPTouchDelegate.h */,
+			);
+			path = ESPtouch;
 			sourceTree = "<group>";
 		};
 		B8FB4E8423013E9300A24342 /* View */ = {
@@ -456,8 +480,10 @@
 				B81A9EFD22F8260000FB65A8 /* A1DeviceMainViewController.swift in Sources */,
 				B8FB4E8A2301439000A24342 /* UIViewExtension.swift in Sources */,
 				5008387322696FC9008EF69D /* PowerProgressView.swift in Sources */,
+				B89D87D72302B8FC00398226 /* DC1MatchViewController.swift in Sources */,
 				B81A9EF422F80B5E00FB65A8 /* JSON+Device.swift in Sources */,
 				50445B6A2282CB3E00AAF4DD /* TCSocketWeekListViewController.swift in Sources */,
+				B89D87D52302B8ED00398226 /* TC1MatchViewController.swift in Sources */,
 				50C6DD412272B0B600EC9366 /* FXSetMQTTServiceViewController.swift in Sources */,
 				50A7976122704606005C706A /* TCListViewController.swift in Sources */,
 				50C6DD3B2271B6FA00EC9366 /* FXDeviceInfoTableViewController.swift in Sources */,
@@ -631,6 +657,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TC1-NG/EasyLink",
+					"$(PROJECT_DIR)/TC1-NG/ESPtouch",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huazao.testapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -668,6 +695,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TC1-NG/EasyLink",
+					"$(PROJECT_DIR)/TC1-NG/ESPtouch",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.huazao.testapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";

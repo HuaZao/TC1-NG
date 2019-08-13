@@ -21,7 +21,12 @@ class FXDeviceConfigViewController: UIViewController {
     fileprivate var moreComing = true
     fileprivate var ssidData:Data?
     fileprivate var isSend = false
-
+    fileprivate var maxSend = 10
+    
+    fileprivate var esptouchTask: ESPTouchTask?
+    
+    var deviceiType:FXDeviceType = .TC1
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         APIServiceManager.share.delegate = self
@@ -30,7 +35,11 @@ class FXDeviceConfigViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.isSend = false
-        self.easyLink?.unInit()
+        if self.deviceiType == .TC1 {
+            self.easyLink?.unInit()
+        }else if self.deviceiType == .DC1{
+            self.esptouchTask?.interrupt()
+        }
         APIServiceManager.share.closeService()
     }
     
@@ -131,27 +140,53 @@ class FXDeviceConfigViewController: UIViewController {
     
     @IBAction func beginConfAction(_ sender: UIButton) {
         if let password = self.wifiPass.text{
-            //        Step1: 初始化EasyLink实例
-            self.easyLink = EASYLINK(forDebug: true, withDelegate: self)
-             self.easyLink?.setDelegate(self)
-            //        Step2: 设置配置参数
-            if  self.ssidData == nil{
-                ssidData = EASYLINK.ssidDataForConnectedNetwork()
+            if self.deviceiType == .TC1 {
+                //        Step1: 初始化EasyLink实例
+                self.easyLink = EASYLINK(forDebug: true, withDelegate: self)
+                self.easyLink?.setDelegate(self)
+                if  self.ssidData == nil{
+                    ssidData = EASYLINK.ssidDataForConnectedNetwork()
+                }
+                //        EASYLINK AWS模式中使用UDP广播实现,其余的配网方式使用mDNS实现
+                self.easyLink?.prepareEasyLink(["SSID":self.ssidData!,"PASSWORD":password,"DHCP":NSNumber(booleanLiteral: true)], info: nil, mode: EASYLINK_V2_PLUS)
+                //        Step3: 开始发送配网信息
+                self.easyLink?.transmitSettings()
+                HUD.show(.labeledProgress(title: "配网中", subtitle: nil))
+                //EASYLINK 配网成功之后并不会走任何回调,这里使用UDP轮询发送
+                self.pollService()
+            }else if self.deviceiType == .DC1{
+                self.esptouchTask?.interrupt()
+                // 获得配置所需要的参数
+                if EASYLINK.ssidForConnectedNetwork() == nil || EASYLINK.ssidForConnectedNetwork() == ""{
+                    HUD.flash(.labeledError(title: "WiFi名不能为空呀!", subtitle: "如果没识别出WiFi可以点击蓝色的图标手动输入"),delay:3.0)
+                    return
+                }
+                self.esptouchTask = ESPTouchTask(apSsid:EASYLINK.ssidForConnectedNetwork(), andApBssid: EASYLINK.infoForConnectedNetwork()["BSSID"] as! String, andApPwd: password)
+                self.esptouchTask?.setEsptouchDelegate(self)
+                DispatchQueue.global().async {
+                    self.esptouchTask?.executeForResult()
+                }
+                HUD.show(.labeledProgress(title: "配网中", subtitle: nil))
+            }else{
+                HUD.flash(.labeledError(title: "暂不支持该设备!", subtitle: "设备Tag:\(self.deviceiType.rawValue)"),delay:3.0)
             }
-            //        EASYLINK AWS模式中使用UDP广播实现,其余的配网方式使用mDNS实现
-            self.easyLink?.prepareEasyLink(["SSID":self.ssidData!,"PASSWORD":password,"DHCP":NSNumber(booleanLiteral: true)], info: nil, mode: EASYLINK_V2_PLUS)
-            //        Step3: 开始发送配网信息
-            self.easyLink?.transmitSettings()
-            HUD.flash(.labeledProgress(title: "配网中", subtitle: nil))
-            //EASYLINK 配网成功之后并不会走任何回调,这里使用UDP轮询发送
-            self.pollService()
+            
         }
     }
     
     private func pollService(){
         APIServiceManager.share.connectUDPService()
+        var count = 0
         DispatchQueue.global().async {
             while self.isSend{
+                count = count + 1
+                if count >= self.maxSend{
+                    self.isSend = false
+                    self.easyLink?.unInit()
+                    DispatchQueue.main.async {
+                        HUD.flash(.labeledError(title: "配网超时!", subtitle: "请检查设备是否进入配网状态?"),delay:3.0)
+                    }
+                }
                 APIServiceManager.share.sendDeviceReportCmd()
                 sleep(1)
             }
@@ -162,7 +197,13 @@ class FXDeviceConfigViewController: UIViewController {
     
 }
 
-extension FXDeviceConfigViewController:APIServiceReceiveDelegate,EasyLinkFTCDelegate{
+extension FXDeviceConfigViewController:APIServiceReceiveDelegate,EasyLinkFTCDelegate,ESPTouchDelegate{
+    
+    
+    func onEsptouchResultAdded(with result: ESPTouchResult!) {
+        print("发现ESP设备 IP--> \(String(data: result.ipAddrData, encoding: .utf8))")
+        APIServiceManager.share.sendDeviceReportCmd()
+    }
     
     /**
      如果设备上开启了Config Server功能，那么还会触发onFoundByFTC回调
