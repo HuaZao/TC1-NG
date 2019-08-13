@@ -15,6 +15,9 @@ class WeatherNowView: UIView {
     @IBOutlet weak var weatherTemperature: UILabel!
     @IBOutlet weak var weathericonView: UIImageView!
     
+    @IBOutlet weak var weatherCitylabel: UILabel!
+
+    
     func reloadWeatherNowinfo(_ nowWeather:[String:String]){
         if let weather_img = nowWeather["weather_img"]{
             self.weathericonView.sd_setImage(with: URL(string: apiHost + weather_img))

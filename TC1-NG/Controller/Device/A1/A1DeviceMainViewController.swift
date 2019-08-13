@@ -40,12 +40,16 @@ class A1DeviceMainViewController: FXDeviceMainViewController {
     }
     
     fileprivate func reloadCacheData(){
-        guard let extensionVlaue = self.deviceModel.extension as? [String:[String:String]] else{
+        guard let extensionVlaue = self.deviceModel.extension as? [String:Any] else{
             return
         }
-        guard let weather_now = extensionVlaue["weather_now"] else{
+        guard let weather_now = extensionVlaue["weather_now"] as? [String:String] else{
             return
         }
+        if let weather_city = extensionVlaue["weather_city"] as? String{
+           self.weatherNowView.weatherCitylabel.text = weather_city
+        }
+
         self.weatherNowView.reloadWeatherNowinfo(weather_now)
         if let wea = weather_now["weather"]{
             print("当前天气 \(wea)")
@@ -65,7 +69,7 @@ class A1DeviceMainViewController: FXDeviceMainViewController {
                 self.weatherBg.image = #imageLiteral(resourceName: "默认")
             }
         }
-        guard let weather_aqi = extensionVlaue["weather_aqi"] else{
+        guard let weather_aqi = extensionVlaue["weather_aqi"] as? [String:String] else{
             return
         }
         self.weatherAqiView.reloadWeatherAqinfo(weather_aqi,weather_now)
@@ -176,6 +180,8 @@ extension A1DeviceMainViewController{
         locationManager.reGeocodeTimeout = 2
         locationManager.requestLocation(withReGeocode: true, completionBlock: { [weak self] (location: CLLocation?, reGeocode: AMapLocationReGeocode?, error: Error?) in
             if let reGeocode = reGeocode {
+                self?.weatherNowView.weatherCitylabel.text = "\(reGeocode.province ?? "广东省")-\(reGeocode.city ?? "广州市")"
+                self?.deviceModel.extension["weather_city"] = "\(reGeocode.province ?? "广东省")-\(reGeocode.city ?? "广州市")"
                 let freeWeatherApi = URL(string: apiHost + "/api/v2/weather/index")!
                 freeWeatherApi.requestJSON(params: ["app_id":"10001","app_version":"1.1.6","astro":"1","gd_code":reGeocode.adcode ?? "440106","astro_type":"1","city_en":reGeocode.city ?? "广州市"], callBack: { (json) in
                     guard let weather = json["data"].dictionaryValue["weather"]?.dictionaryValue else {

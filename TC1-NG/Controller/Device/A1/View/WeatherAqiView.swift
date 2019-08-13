@@ -16,6 +16,7 @@ class WeatherAqiView: UIView {
     @IBOutlet weak var aqiHumidity: UILabel!
     @IBOutlet weak var aqiPressure: UILabel!
     @IBOutlet weak var aqiWindDescribe: UILabel!
+    
 
     @IBOutlet weak var aqiCount: UILabel!
     @IBOutlet weak var aqiPM25: UILabel!
@@ -60,7 +61,7 @@ class WeatherAqiView: UIView {
             self.aqiPM10.text = pm10
         }
         if let aqi = weatherAqi["aqi"]{
-            self.aqiCount.text = "空气质量指数\(aqi)"
+            self.aqiCount.text = "空气质量指数:\(aqi)"
         }
         if let no2 = weatherAqi["no2"]{
             self.aqiNo2.text = no2
