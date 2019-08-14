@@ -25,6 +25,7 @@ extension JSON{
                     socket.isOn = false
                     socket.socketId = model.mac + "_\(i)"
                     socket.sockeTtitle = "插座\(i)"
+                    socket.canEdit = true
                     model.sockets.append(socket)
                 }
             }else if deviceType == .DC1{
@@ -33,7 +34,13 @@ extension JSON{
                     let socket = SocketModel()
                     socket.isOn = false
                     socket.socketId = model.mac + "_\(i)"
-                    socket.sockeTtitle = "插座\(i)"
+                    if i == 0{
+                        socket.canEdit = false
+                        socket.sockeTtitle = "总开关"
+                    }else{
+                        socket.canEdit = true
+                        socket.sockeTtitle = "插座\(i)"
+                    }
                     model.sockets.append(socket)
                 }
             }

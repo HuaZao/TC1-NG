@@ -18,6 +18,8 @@ class TDDeviceMainViewController: FXDeviceMainViewController {
     @IBOutlet weak var chartContainerView: UIView!
     @IBOutlet weak var socketCollectionView: UICollectionView!
     @IBOutlet weak var chartView:LineChartView!
+    @IBOutlet weak var nowDataView: UIView!
+    
     private var chartDatasourceCount = 0
     private var powerEntries = [ChartDataEntry]()
     private var voltageEntries = [ChartDataEntry]()
@@ -30,7 +32,7 @@ class TDDeviceMainViewController: FXDeviceMainViewController {
     }
     
     private func initChart(){
-        self.chartView.noDataText = "暂无功率数据"
+        self.chartView.noDataText = ""
         self.chartView.scaleXEnabled = false //允取消X轴缩放
         self.chartView.scaleYEnabled = false //取消Y轴缩放
         self.chartView.doubleTapToZoomEnabled = false //双击缩放
@@ -45,6 +47,7 @@ class TDDeviceMainViewController: FXDeviceMainViewController {
     }
 
     private func updateChartData(powerValue:Double,voltageValue:Double = 0.00,ampereVlaue:Double = 0.00) {
+        self.nowDataView.isHidden = true
         if self.powerEntries.count > 30 {
             self.powerEntries.removeFirst()
         }else{
@@ -73,7 +76,8 @@ class TDDeviceMainViewController: FXDeviceMainViewController {
         if powerValue > 0{
             chartDataSet.append(powerChartData)
         }
-        if  voltageValue > 0{
+        //如果电压太大,电流和功率太小,曲线图精度会下降,这里调整下电压的显示
+        if  voltageValue > 0 && powerValue > 200{
             chartDataSet.append(voltageChartData)
         }
         if ampereVlaue > 0{
@@ -85,7 +89,6 @@ class TDDeviceMainViewController: FXDeviceMainViewController {
         chartView.data?.notifyDataChanged()
         chartView.notifyDataSetChanged()
         chartView.moveViewToX(Double(self.powerEntries.count - 1))
-        
     }
     
     private func initLineChartData(dataSource:[ChartDataEntry],describe:String,color:UIColor)->LineChartDataSet{
@@ -176,14 +179,25 @@ extension TDDeviceMainViewController:UICollectionViewDelegateFlowLayout,UICollec
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let item = collectionView.dequeueReusableCell(withReuseIdentifier: "socketItem", for: indexPath) as! TCSocketItem
         item.titleLabel.text = self.deviceModel.sockets[indexPath.row].sockeTtitle
-        item.socketButton.isSelected = self.deviceModel.sockets[indexPath.row].isOn
+        item.socketButton.isOn = self.deviceModel.sockets[indexPath.row].isOn
         item.moreButton.tag = indexPath.row
         return item
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = self.view.frame.width / 3
-        return CGSize(width: width, height: width)
+        if self.deviceModel.type == .TC1{
+            let width = self.view.frame.width / 3
+            return CGSize(width: width, height: width)
+        }else if self.deviceModel.type == .DC1{
+            let width = self.view.frame.width / 3
+            if indexPath.item == 0{
+                return CGSize(width: self.view.frame.width - 20, height: width)
+            }else{
+                return CGSize(width: width, height: width)
+            }
+        }else{
+            return CGSize(width: 0, height: 0)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

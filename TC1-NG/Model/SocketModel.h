@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,copy) NSString *sockeTtitle;
 @property (nonatomic,copy) NSString *socketId;
 @property (nonatomic,assign) BOOL isOn;
+@property (nonatomic,assign) BOOL canEdit;
 
 
 @end

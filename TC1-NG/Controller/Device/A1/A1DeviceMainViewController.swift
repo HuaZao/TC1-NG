@@ -66,7 +66,7 @@ class A1DeviceMainViewController: FXDeviceMainViewController {
             }else if wea.contains("雪"){
                 self.weatherBg.image = #imageLiteral(resourceName: "雪")
             }else {
-                self.weatherBg.image = #imageLiteral(resourceName: "默认")
+                self.weatherBg.image = #imageLiteral(resourceName: "homePageBg")
             }
         }
         guard let weather_aqi = extensionVlaue["weather_aqi"] as? [String:String] else{

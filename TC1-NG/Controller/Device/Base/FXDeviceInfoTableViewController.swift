@@ -159,7 +159,7 @@ class FXDeviceInfoTableViewController: UITableViewController {
         let userAction = UIAlertAction(title: "自定义OTA地址", style: .default) { (_) in
             self.userDefinedService()
         }
-        let wulaAction = UIAlertAction(title: "软件内置OTA地址", style: .default) { (_) in
+        let wulaAction = UIAlertAction(title: "软件内置OTA地址(推荐)", style: .default) { (_) in
             self.wulaService()
         }
         alert.addAction(userAction)
@@ -169,14 +169,22 @@ class FXDeviceInfoTableViewController: UITableViewController {
     }
     
     private func userDefinedService(){
-        let alert = UIAlertController(title: "请输入OTA地址", message: "当前软件版本为\(self.version.text!)", preferredStyle: .alert)
+        let alert = UIAlertController(title: "请输入OTA地址", message: "当前软件版本为\(self.version.text!),DC1有两个OTA地址请用,分割", preferredStyle: .alert)
         alert.addTextField { (textField) in
             textField.placeholder = "请输入OTA地址"
         }
         alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
         let update = UIAlertAction(title: "确认", style: .destructive, handler: { (_) in
             if let otaString = alert.textFields?.first!.text,otaString.hasPrefix("http"){
-                APIServiceManager.share.publishMessage(["mac":self.deviceModel.mac,"setting":["ota":otaString]])
+                if self.deviceModel.type == .DC1{
+                    if let ota1 = otaString.components(separatedBy: ",").first,let ota2 = otaString.components(separatedBy: ",").last,ota1 != ota2{
+                        APIServiceManager.share.publishMessage(["mac":self.deviceModel.mac,"setting":["ota1":ota1,"ota2":ota2]])
+                    }else{
+                        HUD.flash(.labeledError(title: "OTA失败", subtitle: "OTA地址输入有误"))
+                    }
+                }else{
+                    APIServiceManager.share.publishMessage(["mac":self.deviceModel.mac,"setting":["ota":otaString]])
+                }
                 HUD.show(.labeledProgress(title: "正在更新", subtitle: "请勿断开设备电源!"))
             }else{
                 HUD.flash(.labeledError(title: "OTA失败", subtitle: "OTA地址输入有误"))
@@ -192,13 +200,15 @@ class FXDeviceInfoTableViewController: UITableViewController {
             do{
                 var url:URL!
                 var otaUrl:URL!
+                var otaUrl2:URL!
                 switch self.deviceModel.type{
                 case .TC1:
                     url = URL(string: "http://fx.tanwan.site:4380/zTC1.json")
                     otaUrl = URL(string: "http://fx.tanwan.site:4380/TC1_OTA.bin")
                 case .DC1:
                     url = URL(string: "http://fx.tanwan.site:4380/zDC1.json")
-                    otaUrl = URL(string: "http://fx.tanwan.site:4380/DC1_OTA.bin")
+                    otaUrl = URL(string: "http://fx.tanwan.site:4380/DC1_OTA1.bin")
+                    otaUrl2 = URL(string: "http://fx.tanwan.site:4380/DC1_OTA2.bin")
                 case .A1:
                     url = URL(string: "http://fx.tanwan.site:4380/zA1.json")
                     otaUrl = URL(string: "http://fx.tanwan.site:4380/A1_OTA.bin")
@@ -210,7 +220,11 @@ class FXDeviceInfoTableViewController: UITableViewController {
                             let alert = UIAlertController(title: "\(self.deviceTypeName.text!)检测到新版本", message:message, preferredStyle: .alert)
                             alert.addAction(UIAlertAction(title: "暂不更新", style: .cancel, handler: nil))
                             let update = UIAlertAction(title: "马上更新", style: .destructive, handler: { (_) in
-                                APIServiceManager.share.publishMessage(["mac":self.deviceModel.mac,"setting":["ota":otaUrl]])
+                                if self.deviceModel.type == .DC1{
+                                    APIServiceManager.share.publishMessage(["mac":self.deviceModel.mac,"setting":["ota1":otaUrl,"ota2":otaUrl2]])
+                                }else{
+                                    APIServiceManager.share.publishMessage(["mac":self.deviceModel.mac,"setting":["ota":otaUrl]])
+                                }
                                 HUD.show(.labeledProgress(title: "正在更新", subtitle: "请勿断开设备电源!"))
                             })
                             alert.addAction(update)

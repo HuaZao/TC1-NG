@@ -269,7 +269,7 @@ extension APIServiceManager{
         var cmd = [String:Any?]()
         switch self.deviceModel.type {
         case .TC1:
-            cmd = ["name":nil,"mac":self.deviceModel.mac,"version":nil,
+            cmd = ["name":nil,"mac":self.deviceModel.mac,"version":nil,"power":nil,
                    "setting":["mqtt_uri":nil,"mqtt_port":nil,"mqtt_user":nil,"mqtt_password":nil],
                    "plug_0":["setting":["name":nil]],
                    "plug_1":["setting":["name":nil]],
@@ -279,7 +279,7 @@ extension APIServiceManager{
                    "plug_5":["setting":["name":nil]]
             ]
         case .DC1:
-            cmd = ["name":nil,"mac":self.deviceModel.mac,"version":nil,
+            cmd = ["name":nil,"mac":self.deviceModel.mac,"version":nil,"power":nil,"voltage":nil,"current":nil,
                    "setting":["mqtt_uri":nil,"mqtt_port":nil,"mqtt_user":nil,"mqtt_password":nil],
                    "plug_0":["setting":["name":nil]],
                    "plug_1":["setting":["name":nil]],
