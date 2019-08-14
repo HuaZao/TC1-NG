@@ -79,8 +79,6 @@ class APIServiceManager: NSObject {
         print("close service")
         self.mqttClient?.disconnect()
         self.udpSocket?.close()
-        self.mqttClient = nil
-        self.udpSocket = nil
     }
     
     
@@ -105,9 +103,14 @@ class APIServiceManager: NSObject {
         self.mqttClient?.password = device.password
 //        self.mqttClient?.clientId = device.type_name + device.mac
         self.mqttClient?.delegate = self
-        MQTTLog.setLogLevel(.info)
+        MQTTLog.setLogLevel(.error)
         self.mqttClient?.connect(connectHandler: { (error) in
-            self.delegate?.DeviceServiceOnConnect()
+            if error != nil{
+                HUD.flash(HUDContentType.labeledError(title: "连接失败", subtitle: error!.localizedDescription), delay: 5.0)
+                print("MQTT服务器连接失败 ERROR \(error!.localizedDescription)")
+            }else{
+                self.delegate?.DeviceServiceOnConnect()
+            }
         })
         self.mqttClient?.close(disconnectHandler: { (error) in
             self.delegate?.DeviceServiceDidDisconnect(error: error)
@@ -298,10 +301,12 @@ extension APIServiceManager:MQTTSessionDelegate{
     func connected(_ session: MQTTSession!) {
         self.isConnect = true
         self.delegate?.DeviceServiceOnConnect()
-        APIServiceManager.share.sendDeviceReportCmd()
     }
     
     func newMessage(_ session: MQTTSession!, data: Data!, onTopic topic: String!, qos: MQTTQosLevel, retained: Bool, mid: UInt32) {
+        if data.count == 0 {
+            return
+        }
         self.delegate?.DeviceServiceReceivedMessage(message: data)
     }
     

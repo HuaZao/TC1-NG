@@ -143,7 +143,7 @@ class FXDeviceConfigViewController: UIViewController {
             if self.deviceiType == .TC1 {
                 //        Step1: 初始化EasyLink实例
                 self.easyLink = EASYLINK(forDebug: true, withDelegate: self)
-                self.easyLink?.setDelegate(self)
+//                self.easyLink?.setDelegate(self)
                 if  self.ssidData == nil{
                     ssidData = EASYLINK.ssidDataForConnectedNetwork()
                 }
@@ -152,8 +152,6 @@ class FXDeviceConfigViewController: UIViewController {
                 //        Step3: 开始发送配网信息
                 self.easyLink?.transmitSettings()
                 HUD.show(.labeledProgress(title: "配网中", subtitle: nil))
-                //EASYLINK 配网成功之后并不会走任何回调,这里使用UDP轮询发送
-                self.pollService()
             }else if self.deviceiType == .DC1{
                 self.esptouchTask?.interrupt()
                 // 获得配置所需要的参数
@@ -162,7 +160,6 @@ class FXDeviceConfigViewController: UIViewController {
                     return
                 }
                 self.esptouchTask = ESPTouchTask(apSsid:EASYLINK.ssidForConnectedNetwork(), andApBssid: EASYLINK.infoForConnectedNetwork()["BSSID"] as! String, andApPwd: password)
-                self.esptouchTask?.setEsptouchDelegate(self)
                 DispatchQueue.global().async {
                     self.esptouchTask?.executeForResult()
                 }
@@ -170,7 +167,8 @@ class FXDeviceConfigViewController: UIViewController {
             }else{
                 HUD.flash(.labeledError(title: "暂不支持该设备!", subtitle: "设备Tag:\(self.deviceiType.rawValue)"),delay:3.0)
             }
-            
+            //EASYLINK 配网成功之后并不会走任何回调,这里使用UDP轮询发送
+            self.pollService()
         }
     }
     
@@ -197,45 +195,7 @@ class FXDeviceConfigViewController: UIViewController {
     
 }
 
-extension FXDeviceConfigViewController:APIServiceReceiveDelegate,EasyLinkFTCDelegate,ESPTouchDelegate{
-    
-    
-    func onEsptouchResultAdded(with result: ESPTouchResult!) {
-        print("发现ESP设备 IP--> \(String(data: result.ipAddrData, encoding: .utf8))")
-        APIServiceManager.share.sendDeviceReportCmd()
-    }
-    
-    /**
-     如果设备上开启了Config Server功能，那么还会触发onFoundByFTC回调
-     @brief 新设备发现回调
-     @param client: 客户端编号
-     @param name: configDict，设备在Config Server功能中提供的配置信息
-     @return none.
-     */
-    func onFound(byFTC client: NSNumber!, withConfiguration configDict: [AnyHashable : Any]!) {
-        //        如果触发了onFoundByFTC回调，就可以使用- (void)configFTCClient:(NSNumber *)client withConfiguration: (NSDictionary *)configDict;方法来设置设备参数了。但是这个功能也要和设备上的Config Server功能配合
-        
-        
-    }
-    
-    func onEasyLinkSoftApStageChanged(_ stage: EasyLinkSoftApStage) {
-        
-    }
-    
-    /**
-     @brief 新设备发现回调 通过Bonjour服务查找MiCO设备的地址
-     @param client: 客户端编号（可以忽略）
-     @param name: 设备名称，就是设备在mDNS服务中提供的实例名称
-     @param mataDataDict: 元数据，即使设备在mDNS服务中提供的TXT Record，或者UDP广播中提供的JSON数据
-     @return none.
-     */
-    func onFound(_ client: NSNumber!, withName name: String!, mataData mataDataDict: [AnyHashable : Any]!) {
-        
-    }
-    
-    func onDisconnect(fromFTC client: NSNumber!, withError err: Bool) {
-        
-    }
+extension FXDeviceConfigViewController:APIServiceReceiveDelegate{
     
     
     func DeviceServiceReceivedMessage(message: Data) {
