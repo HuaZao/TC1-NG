@@ -221,9 +221,9 @@ class FXDeviceInfoTableViewController: UITableViewController {
                             alert.addAction(UIAlertAction(title: "暂不更新", style: .cancel, handler: nil))
                             let update = UIAlertAction(title: "马上更新", style: .destructive, handler: { (_) in
                                 if self.deviceModel.type == .DC1{
-                                    APIServiceManager.share.publishMessage(["mac":self.deviceModel.mac,"setting":["ota1":otaUrl,"ota2":otaUrl2]])
+                                    APIServiceManager.share.publishMessage(["mac":self.deviceModel.mac,"setting":["ota1":otaUrl.absoluteString,"ota2":otaUrl2.absoluteString]])
                                 }else{
-                                    APIServiceManager.share.publishMessage(["mac":self.deviceModel.mac,"setting":["ota":otaUrl]])
+                                    APIServiceManager.share.publishMessage(["mac":self.deviceModel.mac,"setting":["ota":otaUrl.absoluteString]])
                                 }
                                 HUD.show(.labeledProgress(title: "正在更新", subtitle: "请勿断开设备电源!"))
                             })
