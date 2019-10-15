@@ -9,9 +9,7 @@
 import UIKit
 import SwiftyJSON
 import PKHUD
-import AMapLocationKit
 
-let apiHost = "https://tq.miyauu.com"
 
 class A1DeviceMainViewController: FXDeviceMainViewController {
 
@@ -28,15 +26,40 @@ class A1DeviceMainViewController: FXDeviceMainViewController {
     @IBOutlet weak var weatherNowView: WeatherNowView!
     @IBOutlet weak var weatherAqiView: WeatherAqiView!
 
-    private var speed = 0
-    fileprivate let locationManager = AMapLocationManager()
+    private var weatherView = WHWeatherView(frame: UIScreen.main.bounds)
     
+    private var speed = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.weatherBg.addSubview(self.weatherView)
         self.fanSetViewLeftConstraint.constant = self.view.bounds.width
         self.reloadCacheData()
-        self.getWeather()
+        WeatherTool.share.getWeather { [weak self] (nowWeather, weather_aqi,cityName) in
+            self?.weatherNowView.reloadWeatherNowinfo(nowWeather)
+            self?.weatherAqiView.reloadWeatherAqinfo(weather_aqi, nowWeather)
+            self?.deviceModel.extension["weather_now"] = nowWeather
+            self?.deviceModel.extension["weather_aqi"] = weather_aqi
+            self?.deviceModel.extension["weather_city"] = cityName
+            self?.deviceModel.updateToDB()
+            if let wea = nowWeather["weather"]{
+                if wea.contains("云") || wea.contains("阴"){
+                   self?.weatherView.showWeatherAnimation(with: .clound)
+                }else if wea.contains("雨"){
+                    self?.weatherView.showWeatherAnimation(with: .rain)
+                }else if wea.contains("晴"){
+                    self?.weatherView.showWeatherAnimation(with: .sun)
+                }else if wea.contains("风"){
+                    self?.weatherView.showWeatherAnimation(with: .clound)
+                }else if wea.contains("雾"){
+                    self?.weatherView.showWeatherAnimation(with: .clound)
+                }else if wea.contains("雪"){
+                    self?.weatherView.showWeatherAnimation(with: .snow)
+                }else {
+                    self?.weatherView.showWeatherAnimation(with: .clound)
+                }
+            }
+        }
     }
     
     fileprivate func reloadCacheData(){
@@ -52,21 +75,20 @@ class A1DeviceMainViewController: FXDeviceMainViewController {
 
         self.weatherNowView.reloadWeatherNowinfo(weather_now)
         if let wea = weather_now["weather"]{
-            print("当前天气 \(wea)")
             if wea.contains("云") || wea.contains("阴"){
-                self.weatherBg.image = #imageLiteral(resourceName: "多云")
+               self.weatherView.showWeatherAnimation(with: .clound)
             }else if wea.contains("雨"){
-                self.weatherBg.image = #imageLiteral(resourceName: "雨")
+                self.weatherView.showWeatherAnimation(with: .rain)
             }else if wea.contains("晴"){
-                self.weatherBg.image = #imageLiteral(resourceName: "晴")
+                self.weatherView.showWeatherAnimation(with: .sun)
             }else if wea.contains("风"){
-                self.weatherBg.image = #imageLiteral(resourceName: "风")
+                self.weatherView.showWeatherAnimation(with: .clound)
             }else if wea.contains("雾"){
-                self.weatherBg.image = #imageLiteral(resourceName: "雾霾")
+                self.weatherView.showWeatherAnimation(with: .clound)
             }else if wea.contains("雪"){
-                self.weatherBg.image = #imageLiteral(resourceName: "雪")
+                self.weatherView.showWeatherAnimation(with: .snow)
             }else {
-                self.weatherBg.image = #imageLiteral(resourceName: "homePageBg")
+                self.weatherView.showWeatherAnimation(with: .clound)
             }
         }
         guard let weather_aqi = extensionVlaue["weather_aqi"] as? [String:String] else{
@@ -137,7 +159,7 @@ class A1DeviceMainViewController: FXDeviceMainViewController {
         
         if let vc = segue.destination as? TCSocketViewController,let sender = sender as? UIButton{
             vc.plug = sender.tag
-            vc.title = self.deviceModel.sockets[sender.tag].sockeTtitle
+            vc.title = self.deviceModel.sockets[sender.tag].sockeTitle
             vc.deviceModel = self.deviceModel
         }
         
@@ -145,14 +167,9 @@ class A1DeviceMainViewController: FXDeviceMainViewController {
     
     
     override func DeviceServiceReceivedMessage(message: Data) {
+        super.DeviceServiceReceivedMessage(message: message)
         DispatchQueue.main.async {
             let messageJSON = try! JSON(data: message)
-            if messageJSON["mac"].stringValue != self.deviceModel.mac{
-                return
-            }
-            if let ip = messageJSON["ip"].string{
-                self.deviceModel.ip = ip
-            }
             let on = messageJSON["on"].intValue
             self.switchButton.isSelected = (on == 1)
             self.speed = messageJSON["speed"].intValue
@@ -165,49 +182,7 @@ class A1DeviceMainViewController: FXDeviceMainViewController {
             self.maxSpeedButton.isSelected = (self.speed == 100)
             self.sleepSpeedButton.isSelected = (self.speed == 20)
         }
-        super.DeviceServiceReceivedMessage(message: message)
     }
 
 
 }
-
-
-extension A1DeviceMainViewController{
-    
-    fileprivate func getWeather(){
-        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-        locationManager.locationTimeout = 2
-        locationManager.reGeocodeTimeout = 2
-        locationManager.requestLocation(withReGeocode: true, completionBlock: { [weak self] (location: CLLocation?, reGeocode: AMapLocationReGeocode?, error: Error?) in
-            if let reGeocode = reGeocode {
-                self?.weatherNowView.weatherCitylabel.text = "\(reGeocode.province ?? "广东省")-\(reGeocode.city ?? "广州市")"
-                self?.deviceModel.extension["weather_city"] = "\(reGeocode.province ?? "广东省")-\(reGeocode.city ?? "广州市")"
-                let freeWeatherApi = URL(string: apiHost + "/api/v2/weather/index")!
-                freeWeatherApi.requestJSON(params: ["app_id":"10001","app_version":"1.1.6","astro":"1","gd_code":reGeocode.adcode ?? "440106","astro_type":"1","city_en":reGeocode.city ?? "广州市"], callBack: { (json) in
-                    guard let weather = json["data"].dictionaryValue["weather"]?.dictionaryValue else {
-                        return
-                    }
-                    guard let current = weather["current"]?.arrayValue.first else {
-                        return
-                    }
-                    guard let nowWeather = current["weather_now"].dictionaryObject?.mapValues({"\($0)"}) else{
-                        return
-                    }
-                    self?.deviceModel.extension["weather_now"] = nowWeather
-                    self?.weatherNowView.reloadWeatherNowinfo(nowWeather)
-                    guard let weather_aqi = current["weather_aqi"].dictionaryObject?.mapValues({"\($0)"})else{
-                        return
-                    }
-                    self?.deviceModel.extension["weather_aqi"] = weather_aqi
-                    self?.weatherAqiView.reloadWeatherAqinfo(weather_aqi, nowWeather)
-                    print(JSON(self?.deviceModel.extension).description)
-                    self?.deviceModel.updateToDB()
-                })
-            }
-        })
-    }
-    
-   
-    
-}
-

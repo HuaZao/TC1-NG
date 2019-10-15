@@ -12,8 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SocketModel : NSObject
 
-@property (nonatomic,copy) NSString *sockeTtitle;
+@property (nonatomic,copy) NSString *sockeTitle;
 @property (nonatomic,copy) NSString *socketId;
+@property (nonatomic,assign) NSInteger tag;
 @property (nonatomic,assign) BOOL isOn;
 @property (nonatomic,assign) BOOL canEdit;
 

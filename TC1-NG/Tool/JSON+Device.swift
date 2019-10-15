@@ -10,11 +10,14 @@ import Foundation
 import SwiftyJSON
 
 extension JSON{
-    func addDevice()->TCDeviceModel{
+    func addDevice()->TCDeviceModel?{
         let model = TCDeviceModel()
         model.name = self["name"].stringValue
         model.mac = self["mac"].stringValue
         model.ip = self["ip"].stringValue
+        if TCSQLManager.deciveisExist(model.mac){
+            return nil
+        }
         model.type_name = self["type_name"].stringValue
         if let deviceType = FXDeviceType(rawValue: self["type"].uIntValue){
             model.type = deviceType
@@ -24,7 +27,7 @@ extension JSON{
                     let socket = SocketModel()
                     socket.isOn = false
                     socket.socketId = model.mac + "_\(i)"
-                    socket.sockeTtitle = "插座\(i)"
+                    socket.sockeTitle = "插座\(i)"
                     socket.canEdit = true
                     model.sockets.append(socket)
                 }
@@ -36,10 +39,10 @@ extension JSON{
                     socket.socketId = model.mac + "_\(i)"
                     if i == 0{
                         socket.canEdit = false
-                        socket.sockeTtitle = "总开关"
+                        socket.sockeTitle = "总开关"
                     }else{
                         socket.canEdit = true
-                        socket.sockeTtitle = "插座\(i)"
+                        socket.sockeTitle = "插座\(i)"
                     }
                     model.sockets.append(socket)
                 }
@@ -63,10 +66,6 @@ extension JSON{
         TCSQLManager.addTCDevice(model)
         print("MAC:\(model.mac) 设备\(model.type_name)已经添加到本地")
         return model
-    }
-    
-    func isA2633063Protocol()->Bool{
-        return self["Protocol"].stringValue == "com.zyc.basic"
     }
     
     func isActivate()->Bool{

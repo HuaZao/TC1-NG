@@ -14,6 +14,8 @@ import SwiftyJSON
 class FXDeviceMainViewController: UIViewController,APIServiceReceiveDelegate{
     var deviceModel = TCDeviceModel()
     var isReload = true
+    var needUpdate = false
+
     private var isAlert = false
 
     override func viewDidLoad() {
@@ -71,28 +73,34 @@ class FXDeviceMainViewController: UIViewController,APIServiceReceiveDelegate{
     }
     
     func updateDevice(message:JSON){
-        if let string = message.rawString(),string.contains("setting") == false{
-            return
-        }
         if let version = message["version"].string{
+            self.needUpdate = true
             self.deviceModel.version = version
         }
         if let mqtt_uri = message["setting"]["mqtt_uri"].string{
+            self.needUpdate = true
             self.deviceModel.host = mqtt_uri
         }
         if let mqtt_port = message["setting"]["mqtt_port"].int{
+            self.needUpdate = true
             self.deviceModel.port = mqtt_port
         }
         if let mqtt_user = message["setting"]["mqtt_user"].string{
+            self.needUpdate = true
             self.deviceModel.username = mqtt_user
         }
         if let mqtt_password = message["setting"]["mqtt_password"].string{
+            self.needUpdate = true
             self.deviceModel.password = mqtt_password
         }
         if let name = message["name"].string{
+            self.needUpdate = true
             self.deviceModel.name = name
         }
-        TCSQLManager.updateTCDevice(self.deviceModel)
+        if self.needUpdate{
+            self.needUpdate = false
+            TCSQLManager.updateTCDevice(self.deviceModel)
+        }
     }
     
     @objc private func networkStateChange(sender:NotificationCenter){
@@ -132,6 +140,9 @@ class FXDeviceMainViewController: UIViewController,APIServiceReceiveDelegate{
     
     func DeviceServiceReceivedMessage(message: Data) {
         let messageJSON = try! JSON(data: message)
+        if messageJSON["mac"].stringValue != self.deviceModel.mac{
+            return
+        }
         if let lock = messageJSON["lock"].string{
             if lock == "false"{
                 DispatchQueue.main.async {

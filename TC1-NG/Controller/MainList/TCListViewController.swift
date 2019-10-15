@@ -38,14 +38,14 @@ class TCListViewController: UIViewController {
     
 }
 
-extension TCListViewController:APIServiceReceiveDelegate,NetServiceBrowserDelegate,NetServiceDelegate{
+extension TCListViewController:APIServiceReceiveDelegate{
     
     func DeviceServiceReceivedMessage(message: Data) {
         let messageJSON = try! JSON(data: message)
         //如果有IP信息,则添加设备!
         let ip = messageJSON["ip"].stringValue
-        if ip.count > 0 && !TCSQLManager.deciveisExist(messageJSON["mac"].stringValue) {
-            let deviceModel = messageJSON.addDevice()
+        if ip.count > 0{
+            guard let deviceModel = messageJSON.addDevice() else { return}
             DispatchQueue.main.async {
                 self.dataSource.append(deviceModel)
                 self.noDeviceBg.isHidden = true
@@ -87,6 +87,12 @@ extension TCListViewController:UITableViewDelegate,UITableViewDataSource{
             }
         case .A1:
             if let vc = UIStoryboard(name: "TCDeviceMain", bundle: nil).instantiateViewController(withIdentifier: "A1") as? A1DeviceMainViewController{
+                vc.deviceModel = deviceModel
+                vc.title = deviceModel.name
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        case .M1:
+            if let vc = UIStoryboard(name: "TCDeviceMain", bundle: nil).instantiateViewController(withIdentifier: "M1") as? M1DeviceMainViewController{
                 vc.deviceModel = deviceModel
                 vc.title = deviceModel.name
                 self.navigationController?.pushViewController(vc, animated: true)

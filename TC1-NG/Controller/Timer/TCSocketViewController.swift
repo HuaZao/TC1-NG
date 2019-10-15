@@ -86,7 +86,7 @@ class TCSocketViewController: UIViewController {
                 APIServiceManager.share.publishMessage(["mac":self.deviceModel.mac,"plug_\(self.plug)":["setting":["name":name]]],qos:1)
                 HUD.flash(.labeledSuccess(title: nil, subtitle: "请求已发送"), delay: 2)
                 self.title = name
-                self.deviceModel.sockets[self.plug].sockeTtitle = name
+                self.deviceModel.sockets[self.plug].sockeTitle = name
                 TCSQLManager.updateTCDevice(self.deviceModel)
             }else{
                 HUD.flash(.labeledError(title: nil, subtitle: "请输入新名字"), delay: 2)

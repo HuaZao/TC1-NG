@@ -11,14 +11,14 @@ import SDWebImage
 
 class WeatherAqiView: UIView {
     
-    @IBOutlet weak var aqiImage: UIImageView!
-    @IBOutlet weak var aqiDescribe: UILabel!
-    @IBOutlet weak var aqiHumidity: UILabel!
-    @IBOutlet weak var aqiPressure: UILabel!
-    @IBOutlet weak var aqiWindDescribe: UILabel!
+    @IBOutlet weak var aqiImage: UIImageView?
+    @IBOutlet weak var aqiDescribe: UILabel?
+    @IBOutlet weak var aqiHumidity: UILabel?
+    @IBOutlet weak var aqiPressure: UILabel?
+    @IBOutlet weak var aqiWindDescribe: UILabel?
     
 
-    @IBOutlet weak var aqiCount: UILabel!
+    @IBOutlet weak var aqiCount: UILabel?
     @IBOutlet weak var aqiPM25: UILabel!
     @IBOutlet weak var aqiPM10: UILabel!
     @IBOutlet weak var aqiSo2: UILabel!
@@ -29,19 +29,19 @@ class WeatherAqiView: UIView {
     
     func reloadWeatherAqinfo(_ weatherAqi:[String:String],_ nowWeather:[String:String]){
         if let aqi_image = weatherAqi["aqi_image"]{
-            self.aqiImage.sd_setImage(with: URL(string: apiHost + aqi_image))
+            self.aqiImage?.sd_setImage(with: URL(string: apiHost + aqi_image))
         }
         if let aqi_text = weatherAqi["aqi_text"]{
-           self.aqiDescribe.text = aqi_text
+            self.aqiDescribe?.text = aqi_text
         }
         if let humidity = nowWeather["humidity"]{
-            self.aqiHumidity.text = "\(humidity)%"
+            self.aqiHumidity?.text = "\(humidity)%"
         }
         if let winddirect = nowWeather["winddirect"],let windpower = nowWeather["windpower"]{
-            self.aqiWindDescribe.text = "\(winddirect),\(windpower)级"
+            self.aqiWindDescribe?.text = "\(winddirect),\(windpower)级"
         }
         if let pressure = nowWeather["pressure"]{
-            self.aqiPressure.text = "\(pressure)hPa"
+            self.aqiPressure?.text = "\(pressure)hPa"
         }
         
         //AQI
@@ -61,7 +61,7 @@ class WeatherAqiView: UIView {
             self.aqiPM10.text = pm10
         }
         if let aqi = weatherAqi["aqi"]{
-            self.aqiCount.text = "空气质量指数:\(aqi)"
+            self.aqiCount?.text = "空气质量指数:\(aqi)"
         }
         if let no2 = weatherAqi["no2"]{
             self.aqiNo2.text = no2

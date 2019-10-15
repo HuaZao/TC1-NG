@@ -38,26 +38,14 @@ class TCSQLManager: NSObject {
         return all.contains(where: {$0.mac == mac})
     }
     
-    static func getDBPath() -> String{
-        NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-        let documentDirPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
-        let fileManager = FileManager.default
-        var isDir : ObjCBool = false
-        let isExits = fileManager.fileExists(atPath: documentDirPath, isDirectory:&isDir)
-        if isExits && !isDir.boolValue{
-            fatalError("The dir is file，can not create dir.")
+    static func queryDevice(_ mac:String) ->TCDeviceModel?{
+        if let object = TCDeviceModel.searchSingle(withWhere: "mac = '\(mac)'", orderBy: nil) as? TCDeviceModel{
+            return object
+        }else{
+            return nil
         }
-        if !isExits {
-            try! FileManager.default.createDirectory(atPath: documentDirPath, withIntermediateDirectories: true, attributes: nil)
-            print("Create db dir success-\(documentDirPath)")
-        }
-        let dbPath = documentDirPath + "/TC.db"
-        if !FileManager.default.fileExists(atPath: dbPath) {
-            FileManager.default.createFile(atPath: dbPath, contents: nil, attributes: nil)
-            print("Create db file success-\(dbPath)")
-        }
-        print(dbPath)
-        return dbPath
     }
+    
+    
     
 }
