@@ -430,9 +430,9 @@
 			isa = PBXGroup;
 			children = (
 				B8F462322355BBE100B7DDEE /* WHWeatherHeader.h */,
+				B8F462792355BBE100B7DDEE /* WHWeatherView.h */,
 				B8F462332355BBE100B7DDEE /* WHWeatherView.m */,
 				B8F462342355BBE100B7DDEE /* WeatherView */,
-				B8F462792355BBE100B7DDEE /* WHWeatherView.h */,
 			);
 			path = WHWeatherAnimation;
 			sourceTree = "<group>";
@@ -440,13 +440,13 @@
 		B8F462342355BBE100B7DDEE /* WeatherView */ = {
 			isa = PBXGroup;
 			children = (
+				B8F462762355BBE100B7DDEE /* Snow */,
 				B8F462352355BBE100B7DDEE /* Sun */,
 				B8F462382355BBE100B7DDEE /* Clound */,
 				B8F4623B2355BBE100B7DDEE /* Rain */,
+				B8F462752355BBE100B7DDEE /* WHWeatherBaseView.h */,
 				B8F462402355BBE100B7DDEE /* WHWeatherBaseView.m */,
 				B8F462412355BBE100B7DDEE /* Image */,
-				B8F462752355BBE100B7DDEE /* WHWeatherBaseView.h */,
-				B8F462762355BBE100B7DDEE /* Snow */,
 			);
 			path = WeatherView;
 			sourceTree = "<group>";
@@ -454,8 +454,8 @@
 		B8F462352355BBE100B7DDEE /* Sun */ = {
 			isa = PBXGroup;
 			children = (
-				B8F462362355BBE100B7DDEE /* WHWeatherSunView.m */,
 				B8F462372355BBE100B7DDEE /* WHWeatherSunView.h */,
+				B8F462362355BBE100B7DDEE /* WHWeatherSunView.m */,
 			);
 			path = Sun;
 			sourceTree = "<group>";
@@ -463,8 +463,8 @@
 		B8F462382355BBE100B7DDEE /* Clound */ = {
 			isa = PBXGroup;
 			children = (
-				B8F462392355BBE100B7DDEE /* WHWeatherClound.m */,
 				B8F4623A2355BBE100B7DDEE /* WHWeatherClound.h */,
+				B8F462392355BBE100B7DDEE /* WHWeatherClound.m */,
 			);
 			path = Clound;
 			sourceTree = "<group>";
@@ -473,9 +473,9 @@
 			isa = PBXGroup;
 			children = (
 				B8F4623C2355BBE100B7DDEE /* WHWeatherLightingView.h */,
-				B8F4623D2355BBE100B7DDEE /* WHWeatherRainView.m */,
 				B8F4623E2355BBE100B7DDEE /* WHWeatherLightingView.m */,
 				B8F4623F2355BBE100B7DDEE /* WHWeatherRainView.h */,
+				B8F4623D2355BBE100B7DDEE /* WHWeatherRainView.m */,
 			);
 			path = Rain;
 			sourceTree = "<group>";

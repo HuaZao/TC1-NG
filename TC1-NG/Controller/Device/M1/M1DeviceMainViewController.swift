@@ -62,6 +62,12 @@ class M1DeviceMainViewController: FXDeviceMainViewController {
         }
     }
     
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.weatherView.removeFromSuperview()
+    }
+    
     private func initChart(){
         self.PCView.noDataText = ""
         self.PCView.scaleXEnabled = false
@@ -138,9 +144,6 @@ class M1DeviceMainViewController: FXDeviceMainViewController {
         let pm25Entry = ChartDataEntry(x: Double(self.chartPm25Count), y: pm25)
         self.pm25Entries.append(pm25Entry)
         let pm25ChartData = self.initLineChartData(dataSource: self.pm25Entries, describe: "PM2.5(μg/m³)", color: ChartColorTemplates.colorful()[3])
-        pm25ChartData.drawFilledEnabled = true //开启填充色绘制
-        pm25ChartData.fillColor = .orange  //设置填充色
-        pm25ChartData.fillAlpha = 0.5 //设置填充色透明度
         chartDataSet.append(pm25ChartData)
         
         let choEntry = ChartDataEntry(x: Double(self.chartChoCount), y: cho)
@@ -163,9 +166,6 @@ class M1DeviceMainViewController: FXDeviceMainViewController {
         let tempEntry = ChartDataEntry(x: Double(self.chartTempCount), y: temp)
         self.tempEntries.append(tempEntry)
         let tempChartData = self.initLineChartData(dataSource: self.tempEntries, describe: "温度(°C)", color: ChartColorTemplates.colorful()[3])
-        tempChartData.drawFilledEnabled = true //开启填充色绘制
-        tempChartData.fillColor = .orange  //设置填充色
-        tempChartData.fillAlpha = 0.5 //设置填充色透明度
         chartDataSet.append(tempChartData)
         
         let humEntry = ChartDataEntry(x: Double(self.chartHumCount), y: hum)

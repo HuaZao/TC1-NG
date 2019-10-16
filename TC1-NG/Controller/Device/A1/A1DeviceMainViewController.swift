@@ -62,6 +62,11 @@ class A1DeviceMainViewController: FXDeviceMainViewController {
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.weatherView.removeFromSuperview()
+    }
+    
     fileprivate func reloadCacheData(){
         guard let extensionVlaue = self.deviceModel.extension as? [String:Any] else{
             return
