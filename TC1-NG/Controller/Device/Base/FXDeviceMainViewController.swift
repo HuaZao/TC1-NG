@@ -43,6 +43,7 @@ class FXDeviceMainViewController: UIViewController,APIServiceReceiveDelegate{
     }
     
     private func activateDevice(){
+        if self.deviceModel.type == .M1{return}
         if self.isAlert{return}
         self.isAlert = true
         let alert = UIAlertController(title: "设备激活", message: "设备尚未激活(激活码和固件不需要任何费用,请勿上当受骗)", preferredStyle: .alert)
@@ -140,6 +141,8 @@ class FXDeviceMainViewController: UIViewController,APIServiceReceiveDelegate{
     
     func DeviceServiceReceivedMessage(message: Data) {
         let messageJSON = try! JSON(data: message)
+        print(messageJSON)
+
         if messageJSON["mac"].stringValue != self.deviceModel.mac{
             return
         }

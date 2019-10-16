@@ -771,7 +771,7 @@
                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="银河系-火星" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8s2-uF-bIJ">
+                                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="银河系-火星" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8s2-uF-bIJ">
                                                 <rect key="frame" x="165.33333333333334" y="8" width="83.666666666666657" height="18"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                                 <color key="textColor" red="0.016804177310000001" green="0.45232234589041098" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -2008,17 +2008,21 @@
                                         <rect key="frame" x="0.0" y="53" width="398" height="332"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EAV-JC-Kwr" userLabel="温湿度" customClass="LineChartView" customModule="Charts">
-                                                <rect key="frame" x="0.0" y="0.0" width="398" height="162"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="398" height="105.33333333333333"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zH5-8Z-eAf" userLabel="PMCHO" customClass="LineChartView" customModule="Charts">
-                                                <rect key="frame" x="0.0" y="170" width="398" height="162"/>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="svt-gx-sF4" userLabel="PM" customClass="LineChartView" customModule="Charts">
+                                                <rect key="frame" x="0.0" y="113.33333333333331" width="398" height="105.33333333333331"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zH5-8Z-eAf" userLabel="CHO" customClass="LineChartView" customModule="Charts">
+                                                <rect key="frame" x="0.0" y="226.66666666666666" width="398" height="105.33333333333334"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </view>
                                         </subviews>
                                     </stackView>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="0.80309289383561644" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.65000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="zOH-8n-sHo" firstAttribute="top" secondItem="jQw-3Y-2PC" secondAttribute="bottom" id="033-8G-0jn"/>
                                     <constraint firstAttribute="trailing" secondItem="jQw-3Y-2PC" secondAttribute="trailing" constant="8" id="7g2-8v-7Dn"/>
@@ -2069,7 +2073,8 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
-                        <outlet property="PCView" destination="zH5-8Z-eAf" id="a9f-3a-iTK"/>
+                        <outlet property="CView" destination="zH5-8Z-eAf" id="W1e-Hv-5ac"/>
+                        <outlet property="PView" destination="svt-gx-sF4" id="iad-5g-8gE"/>
                         <outlet property="THView" destination="EAV-JC-Kwr" id="N3o-Xd-XVB"/>
                         <outlet property="weatherAqiView" destination="65F-zG-cSG" id="coA-AN-A9D"/>
                         <outlet property="weatherBg" destination="TjV-0h-oau" id="cjQ-0t-ua5"/>
@@ -2622,6 +2627,6 @@
         <image name="默认" width="1125" height="2436"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="IzK-Xk-l1E"/>
+        <segue reference="fHr-H7-jXP"/>
     </inferredMetricsTieBreakers>
 </document>

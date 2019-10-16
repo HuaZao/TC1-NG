@@ -67,7 +67,7 @@ class FXDeviceInfoTableViewController: UITableViewController {
     }
     
     @IBAction func rebootAction(_ sender: UIBarButtonItem) {
-        let alert = UIAlertController(title: "警告", message: "是否立即重启设备?(需要版本v0.10.1及以上版本)", preferredStyle: .alert)
+        let alert = UIAlertController(title: "警告", message: "是否立即重启设备?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
         let reboot = UIAlertAction(title: "确认", style: .destructive, handler: { (_) in
             APIServiceManager.share.publishMessage(["mac":self.deviceModel.mac,"cmd":"restart"],qos:1)

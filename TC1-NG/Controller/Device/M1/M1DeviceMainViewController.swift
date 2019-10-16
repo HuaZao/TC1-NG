@@ -12,7 +12,10 @@ import SwiftyJSON
 
 class M1DeviceMainViewController: FXDeviceMainViewController {
     //甲醛,PM2.5
-    @IBOutlet weak var PCView: LineChartView!
+    @IBOutlet weak var PView: LineChartView!
+    
+    @IBOutlet weak var CView: LineChartView!
+
     //温度,湿度
     @IBOutlet weak var THView: LineChartView!
     
@@ -33,6 +36,7 @@ class M1DeviceMainViewController: FXDeviceMainViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.deviceModel.isActivate = true
         self.weatherBg.addSubview(self.weatherView)
         self.reloadCacheData()
         self.initChart()
@@ -69,33 +73,29 @@ class M1DeviceMainViewController: FXDeviceMainViewController {
     }
     
     private func initChart(){
-        self.PCView.noDataText = ""
-        self.PCView.scaleXEnabled = false
-        self.PCView.scaleYEnabled = false
-        self.PCView.doubleTapToZoomEnabled = false
-        self.PCView.xAxis.drawGridLinesEnabled = false
-        self.PCView.xAxis.drawAxisLineEnabled = false
-        self.PCView.xAxis.drawLabelsEnabled = false
-        self.PCView.leftAxis.drawLabelsEnabled = false
-        self.PCView.leftAxis.drawGridLinesEnabled = false
-        self.PCView.leftAxis.drawAxisLineEnabled = false
-        self.PCView.rightAxis.drawLabelsEnabled = false
-        self.PCView.rightAxis.drawGridLinesEnabled = false
-        self.PCView.rightAxis.drawAxisLineEnabled = false
+        self.PView.noDataText = ""
+        self.PView.scaleXEnabled = false
+        self.PView.scaleYEnabled = false
+        self.PView.doubleTapToZoomEnabled = false
+        self.PView.leftAxis.enabled = false
+        self.PView.rightAxis.enabled = false
+        self.PView.xAxis.enabled = false
+        
+        self.CView.noDataText = ""
+        self.CView.scaleXEnabled = false
+        self.CView.scaleYEnabled = false
+        self.CView.doubleTapToZoomEnabled = false
+        self.CView.leftAxis.enabled = false
+        self.CView.rightAxis.enabled = false
+        self.CView.xAxis.enabled = false
         
         self.THView.noDataText = ""
         self.THView.scaleXEnabled = false
         self.THView.scaleYEnabled = false
         self.THView.doubleTapToZoomEnabled = false
-        self.THView.xAxis.drawGridLinesEnabled = false
-        self.THView.xAxis.drawAxisLineEnabled = false
-        self.THView.xAxis.drawLabelsEnabled = false
-        self.THView.leftAxis.drawLabelsEnabled = false
-        self.THView.leftAxis.drawGridLinesEnabled = false
-        self.THView.leftAxis.drawAxisLineEnabled = false
-        self.THView.rightAxis.drawLabelsEnabled = false
-        self.THView.rightAxis.drawGridLinesEnabled = false
-        self.THView.rightAxis.drawAxisLineEnabled = false
+        self.THView.leftAxis.enabled = false
+        self.THView.rightAxis.enabled = false
+        self.THView.xAxis.enabled = false
     }
     
     fileprivate func reloadCacheData(){
@@ -136,55 +136,74 @@ class M1DeviceMainViewController: FXDeviceMainViewController {
        }
     
     
-    private func updatePCChartData(pm25:Double,cho:Double) {
-        self.PCView.autoScaleMinMaxEnabled = true
-        self.PCView.setVisibleXRangeMaximum(10)
+    private func updatePChartData(pm25:Double) {
+        self.PView.autoScaleMinMaxEnabled = true
+        self.PView.setVisibleXRangeMaximum(5)
+
         var chartData:LineChartData!
         var chartDataSet = [IChartDataSet]()
         let pm25Entry = ChartDataEntry(x: Double(self.chartPm25Count), y: pm25)
         self.pm25Entries.append(pm25Entry)
-        let pm25ChartData = self.initLineChartData(dataSource: self.pm25Entries, describe: "PM2.5(μg/m³)", color: ChartColorTemplates.colorful()[3])
+        let pm25ChartData = self.initLineChartData(dataSource: self.pm25Entries, describe: "PM2.5(μg/m³)", color: ChartColorTemplates.material()[0])
+        self.chartPm25Count = self.chartPm25Count + 1
         chartDataSet.append(pm25ChartData)
         
-        let choEntry = ChartDataEntry(x: Double(self.chartChoCount), y: cho)
+        chartData = LineChartData(dataSets: chartDataSet)
+        PView.data = chartData
+        PView.data?.notifyDataChanged()
+        PView.notifyDataSetChanged()
+        PView.moveViewToX(Double(self.chartPm25Count))
+    }
+    
+    private func updateCChartData(cho:Double) {
+        self.CView.autoScaleMinMaxEnabled = true
+        self.CView.setVisibleXRangeMaximum(5)
+        
+        var chartData:LineChartData!
+        var chartDataSet = [IChartDataSet]()
+        let choEntry = ChartDataEntry(x: Double(self.chartChoCount), y:cho)
         self.choEntries.append(choEntry)
-        let choChartData = self.initLineChartData(dataSource: self.choEntries, describe: "甲醛(mg/m³)", color: ChartColorTemplates.colorful()[2])
+        let choChartData = self.initLineChartData(dataSource: self.choEntries, describe: "甲醛(mg/m³)", color: ChartColorTemplates.material()[1])
+        self.chartChoCount = self.chartChoCount + 1
         chartDataSet.append(choChartData)
 
         chartData = LineChartData(dataSets: chartDataSet)
-        PCView.data = chartData
-        PCView.data?.notifyDataChanged()
-        PCView.notifyDataSetChanged()
-        PCView.moveViewToX(Double(self.chartPm25Count))
+        CView.data = chartData
+        CView.data?.notifyDataChanged()
+        CView.notifyDataSetChanged()
+        CView.moveViewToX(Double(self.chartChoCount))
     }
     
     private func updateTHChartData(temp:Double,hum:Double) {
-        self.PCView.autoScaleMinMaxEnabled = true
-        self.PCView.setVisibleXRangeMaximum(10)
+        self.THView.autoScaleMinMaxEnabled = true
+        self.THView.setVisibleXRangeMaximum(5)
         var chartData:LineChartData!
         var chartDataSet = [IChartDataSet]()
         let tempEntry = ChartDataEntry(x: Double(self.chartTempCount), y: temp)
         self.tempEntries.append(tempEntry)
-        let tempChartData = self.initLineChartData(dataSource: self.tempEntries, describe: "温度(°C)", color: ChartColorTemplates.colorful()[3])
+        let tempChartData = self.initLineChartData(dataSource: self.tempEntries, describe: "温度(°C)", color: ChartColorTemplates.material()[2])
+        self.chartTempCount = self.chartTempCount + 1
         chartDataSet.append(tempChartData)
         
         let humEntry = ChartDataEntry(x: Double(self.chartHumCount), y: hum)
         self.humEntries.append(humEntry)
-        let humChartData = self.initLineChartData(dataSource: self.humEntries, describe: "湿度(%)", color: ChartColorTemplates.colorful()[2])
+        let humChartData = self.initLineChartData(dataSource: self.humEntries, describe: "湿度(%)", color: ChartColorTemplates.material()[3])
+        self.chartHumCount = self.chartHumCount + 1
         chartDataSet.append(humChartData)
 
         chartData = LineChartData(dataSets: chartDataSet)
-        PCView.data = chartData
-        PCView.data?.notifyDataChanged()
-        PCView.notifyDataSetChanged()
-        PCView.moveViewToX(Double(self.chartPm25Count))
+        THView.data = chartData
+        THView.data?.notifyDataChanged()
+        THView.notifyDataSetChanged()
+        THView.moveViewToX(Double(self.chartTempCount))
     }
     
     private func initLineChartData(dataSource:[ChartDataEntry],describe:String,color:UIColor)->LineChartDataSet{
         let chartDataSet = LineChartDataSet(entries: dataSource, label: describe)
         chartDataSet.colors = [color]
         chartDataSet.drawCirclesEnabled = false
-        chartDataSet.mode = .horizontalBezier
+        chartDataSet.mode = .linear
+        chartDataSet.highlightEnabled = false
         return chartDataSet
     }
     
@@ -194,10 +213,17 @@ class M1DeviceMainViewController: FXDeviceMainViewController {
             let messageJSON = try! JSON(data: message)
             let pm25 = messageJSON["PM25"].doubleValue
             let formaldehyde = messageJSON["formaldehyde"].doubleValue
-            self.updatePCChartData(pm25: pm25, cho: formaldehyde)
+            if pm25 > 0 {
+                self.updatePChartData(pm25: pm25)
+            }
+            if formaldehyde > 0{
+                self.updateCChartData(cho: formaldehyde)
+            }
             let temperature = messageJSON["temperature"].doubleValue
             let humidity = messageJSON["humidity"].doubleValue
-            self.updateTHChartData(temp: temperature, hum: humidity)
+            if temperature > 0 && humidity > 0{
+                self.updateTHChartData(temp: temperature, hum: humidity)
+            }
         }
     }
     

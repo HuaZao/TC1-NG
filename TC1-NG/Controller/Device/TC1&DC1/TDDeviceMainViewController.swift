@@ -101,6 +101,7 @@ class TDDeviceMainViewController: FXDeviceMainViewController {
         chartDataSet.colors = [color]
         chartDataSet.drawCirclesEnabled = false
         chartDataSet.mode = .horizontalBezier
+        chartDataSet.highlightEnabled = false
         return chartDataSet
     }
 

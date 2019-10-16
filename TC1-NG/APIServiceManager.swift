@@ -151,36 +151,46 @@ class APIServiceManager: NSObject {
 
 extension APIServiceManager{
     func subscribeDeviceMessage(qos:Int = 0){
-        var topic = String()
+        var topicState = String()
+        var topicSensor = String()
         switch self.deviceModel.type {
         case .TC1:
-            topic = "device/ztc1/" + self.deviceModel.mac + "/state"
+            topicState = "device/ztc1/" + self.deviceModel.mac + "/state"
         case .DC1:
-            topic = "device/zdc1/" + self.deviceModel.mac + "/state"
+            topicState = "device/zdc1/" + self.deviceModel.mac + "/state"
         case .A1:
-            topic = "device/za1/" + self.deviceModel.mac + "/state"
+            topicState = "device/za1/" + self.deviceModel.mac + "/state"
         case .M1:
-            topic = "device/zm1/" + self.deviceModel.mac + "/state"
+            topicState = "device/zm1/" + self.deviceModel.mac + "/state"
         }
-        self.mqttClient?.subscribe(toTopic: topic, at: MQTTQosLevel.init(rawValue: UInt8(qos))!, subscribeHandler: { (error, tops) in
-            self.delegate?.DeviceServiceSubscribe(topics:[topic])
+        topicSensor = topicState.replacingOccurrences(of: "state", with: "sensor")
+        self.mqttClient?.subscribe(toTopic: topicState, at: MQTTQosLevel.init(rawValue: UInt8(qos))!, subscribeHandler: { (error, tops) in
+                   self.delegate?.DeviceServiceSubscribe(topics:[topicState])
+               })
+        self.mqttClient?.subscribe(toTopic: topicSensor, at: MQTTQosLevel.init(rawValue: UInt8(qos))!, subscribeHandler: { (error, tops) in
+            self.delegate?.DeviceServiceSubscribe(topics:[topicSensor])
         })
     }
     
     func unSubscribeDeviceMessage(){
-        var topic = String()
+        var topicState = String()
+        var topicSensor = String()
         switch self.deviceModel.type {
         case .TC1:
-            topic = "device/ztc1/" + self.deviceModel.mac + "/state"
+            topicState = "device/ztc1/" + self.deviceModel.mac + "/state"
         case .DC1:
-            topic = "device/zdc1/" + self.deviceModel.mac + "/state"
+            topicState = "device/zdc1/" + self.deviceModel.mac + "/state"
         case .A1:
-            topic = "device/za1/" + self.deviceModel.mac + "/state"
+            topicState = "device/za1/" + self.deviceModel.mac + "/state"
         case .M1:
-            topic = "device/zm1/" + self.deviceModel.mac + "/state"
+            topicState = "device/zm1/" + self.deviceModel.mac + "/state"
         }
-        self.mqttClient?.unsubscribeTopic(topic, unsubscribeHandler: { (error) in
-            self.delegate?.DeviceServiceUnSubscribe(topic: topic)
+        topicSensor = topicState.replacingOccurrences(of: "state", with: "sensor")
+        self.mqttClient?.unsubscribeTopic(topicState, unsubscribeHandler: { (error) in
+            self.delegate?.DeviceServiceUnSubscribe(topic: topicState)
+        })
+        self.mqttClient?.unsubscribeTopic(topicSensor, unsubscribeHandler: { (error) in
+            self.delegate?.DeviceServiceUnSubscribe(topic: topicSensor)
         })
     }
     
