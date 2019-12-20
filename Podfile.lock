@@ -1,7 +1,7 @@
 PODS:
   - Alamofire (4.8.2)
   - AMapFoundation-NO-IDFA (1.5.7)
-  - AMapLocation-NO-IDFA (2.6.2):
+  - AMapLocation-NO-IDFA (2.6.3):
     - AMapFoundation-NO-IDFA (~> 1.4)
   - Bitter (3.1.1)
   - Charts (3.3.0):
@@ -62,7 +62,7 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   AMapFoundation-NO-IDFA: 9088085827c831811bb0fd3afd96b99963a7cf71
-  AMapLocation-NO-IDFA: d7792c8c516f415e186f1bc25946f1a58ca6a583
+  AMapLocation-NO-IDFA: f22a480573aa18c521946f13d49521f042a7dca6
   Bitter: 9a6aa16f2c4e4303720c441108581b27c400ec27
   Charts: e0dd4cd8f257bccf98407b58183ddca8e8d5b578
   CocoaAsyncSocket: eafaa68a7e0ec99ead0a7b35015e0bf25d2c8987

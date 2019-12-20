@@ -16,7 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NS_ENUM(NSUInteger,FXDeviceType){
     FXDeviceTC1 = 1,
     FXDeviceDC1 = 2,
-    FXDeviceA1 = 3
+    FXDeviceA1 = 3,
+    FXDeviceM1 = 4
 };
 
 //当前设备名称

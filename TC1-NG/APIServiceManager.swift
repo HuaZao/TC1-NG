@@ -101,7 +101,7 @@ class APIServiceManager: NSObject {
         self.mqttClient?.transport = transport
         self.mqttClient?.userName = device.username
         self.mqttClient?.password = device.password
-//        self.mqttClient?.clientId = device.type_name + device.mac
+        //        self.mqttClient?.clientId = device.type_name + device.mac
         self.mqttClient?.delegate = self
         MQTTLog.setLogLevel(.error)
         self.mqttClient?.connect(connectHandler: { (error) in
@@ -151,32 +151,46 @@ class APIServiceManager: NSObject {
 
 extension APIServiceManager{
     func subscribeDeviceMessage(qos:Int = 0){
-        var topic = String()
+        var topicState = String()
+        var topicSensor = String()
         switch self.deviceModel.type {
         case .TC1:
-            topic = "device/ztc1/" + self.deviceModel.mac + "/state"
+            topicState = "device/ztc1/" + self.deviceModel.mac + "/state"
         case .DC1:
-            topic = "device/zdc1/" + self.deviceModel.mac + "/state"
+            topicState = "device/zdc1/" + self.deviceModel.mac + "/state"
         case .A1:
-            topic = "device/za1/" + self.deviceModel.mac + "/state"
+            topicState = "device/za1/" + self.deviceModel.mac + "/state"
+        case .M1:
+            topicState = "device/zm1/" + self.deviceModel.mac + "/state"
         }
-        self.mqttClient?.subscribe(toTopic: topic, at: MQTTQosLevel.init(rawValue: UInt8(qos))!, subscribeHandler: { (error, tops) in
-            self.delegate?.DeviceServiceSubscribe(topics:[topic])
+        topicSensor = topicState.replacingOccurrences(of: "state", with: "sensor")
+        self.mqttClient?.subscribe(toTopic: topicState, at: MQTTQosLevel.init(rawValue: UInt8(qos))!, subscribeHandler: { (error, tops) in
+                   self.delegate?.DeviceServiceSubscribe(topics:[topicState])
+               })
+        self.mqttClient?.subscribe(toTopic: topicSensor, at: MQTTQosLevel.init(rawValue: UInt8(qos))!, subscribeHandler: { (error, tops) in
+            self.delegate?.DeviceServiceSubscribe(topics:[topicSensor])
         })
     }
     
     func unSubscribeDeviceMessage(){
-        var topic = String()
+        var topicState = String()
+        var topicSensor = String()
         switch self.deviceModel.type {
         case .TC1:
-            topic = "device/ztc1/" + self.deviceModel.mac + "/state"
+            topicState = "device/ztc1/" + self.deviceModel.mac + "/state"
         case .DC1:
-            topic = "device/zdc1/" + self.deviceModel.mac + "/state"
+            topicState = "device/zdc1/" + self.deviceModel.mac + "/state"
         case .A1:
-            topic = "device/za1/" + self.deviceModel.mac + "/state"
+            topicState = "device/za1/" + self.deviceModel.mac + "/state"
+        case .M1:
+            topicState = "device/zm1/" + self.deviceModel.mac + "/state"
         }
-        self.mqttClient?.unsubscribeTopic(topic, unsubscribeHandler: { (error) in
-            self.delegate?.DeviceServiceUnSubscribe(topic: topic)
+        topicSensor = topicState.replacingOccurrences(of: "state", with: "sensor")
+        self.mqttClient?.unsubscribeTopic(topicState, unsubscribeHandler: { (error) in
+            self.delegate?.DeviceServiceUnSubscribe(topic: topicState)
+        })
+        self.mqttClient?.unsubscribeTopic(topicSensor, unsubscribeHandler: { (error) in
+            self.delegate?.DeviceServiceUnSubscribe(topic: topicSensor)
         })
     }
     
@@ -188,112 +202,129 @@ extension APIServiceManager{
                 print("publishMessage With UDP -> \(jsonString)")
             }else{
                 if self.isConnect{
+                    //新版本通讯协议 device/name/mac/set
                     var topic = String()
                     switch self.deviceModel.type {
                     case .TC1:
-                        topic = "device/ztc1/set"
+                        //这个版本号有点尴尬,,,v开头..取第一位数作为大版本号
+                        if let version = self.deviceModel.version.replacingOccurrences(of: "v", with: "").components(separatedBy: ".").first, let iVersion = Int(version){
+                            if iVersion >= 1{
+                                print("新版协议")
+                                topic = "device/ztc1/" + self.deviceModel.mac + "set"
+                            }else{
+                                print("旧版本协议")
+                                topic = "device/ztc1/set"
+                            }
+                        }else{
+                            topic = "device/ztc1/" + self.deviceModel.mac + "set"
+                        }
                     case .DC1:
                         topic = "device/zdc1/set"
                     case .A1:
                         topic = "device/za1/" + self.deviceModel.mac + "/set"
+                    case .M1:
+                        topic = "device/zm1/" + self.deviceModel.mac + "/set"
                     }
-                    self.mqttClient?.publishData(jsonString.data(using: .utf8)!, onTopic: topic, retain: true, qos: MQTTQosLevel.init(rawValue: UInt8(qos))!,publishHandler:{ (error) in
-                        self.delegate?.DeviceServicePublish(messageId: 0)
-                    })
-                    print("publishMessage With MQTT -> \(jsonString)")
-                }
+                self.mqttClient?.publishData(jsonString.data(using: .utf8)!, onTopic: topic, retain: true, qos: MQTTQosLevel.init(rawValue: UInt8(qos))!,publishHandler:{ (error) in
+                    self.delegate?.DeviceServicePublish(messageId: 0)
+                })
+                print("publishMessage With MQTT -> \(jsonString)")
             }
-            
         }
     }
-    
-    func activateDevice(lock:String){
-        let cmd = ["mac":self.deviceModel.mac,"lock":lock]
-        self.publishMessage(cmd,qos: 1)
+}
+
+func activateDevice(lock:String){
+    let cmd = ["mac":self.deviceModel.mac,"lock":lock]
+    self.publishMessage(cmd,qos: 1)
+}
+
+func switchTC1Device(state:Bool,index:Int){
+    var cmd = [String:Any]()
+    if state{
+        cmd = ["mac":self.deviceModel.mac,"plug_\(index)":["on":1]] as [String : Any]
+    }else{
+        cmd = ["mac":self.deviceModel.mac,"plug_\(index)":["on":0]] as [String : Any]
     }
-    
-    func switchTC1Device(state:Bool,index:Int){
-        var cmd = [String:Any]()
-        if state{
-            cmd = ["mac":self.deviceModel.mac,"plug_\(index)":["on":1]] as [String : Any]
-        }else{
-            cmd = ["mac":self.deviceModel.mac,"plug_\(index)":["on":0]] as [String : Any]
-        }
-        self.publishMessage(cmd,qos: 1)
-    }
-    
-    func queryTask(index:Int){
-        let cmd = ["mac":self.deviceModel.mac,
-                   "plug_\(index)":[
-                    "name":nil,
-                    "setting":[
-                        "task_0":nil,
-                        "task_1":nil,
-                        "task_2":nil,
-                        "task_3":nil,
-                        "task_4":nil
+    self.publishMessage(cmd,qos: 1)
+}
+
+func queryTask(index:Int){
+    let cmd = ["mac":self.deviceModel.mac,
+               "plug_\(index)":[
+                "name":nil,
+                "setting":[
+                    "task_0":nil,
+                    "task_1":nil,
+                    "task_2":nil,
+                    "task_3":nil,
+                    "task_4":nil
+                ]
+        ]
+        ] as [String : Any]
+    self.publishMessage(cmd,qos: 1)
+}
+
+func taskDevice(task:TCTask,index:Int,taskIndex:Int){
+    let cmd = ["mac":self.deviceModel.mac,
+               "plug_\(index)":[
+                "setting":[
+                    "task_\(taskIndex)":[
+                        "hour":task.hour,
+                        "minute":task.minute,
+                        "repeat":task.repeat,
+                        "action":task.action,
+                        "on":task.on
                     ]
-            ]
-            ] as [String : Any]
-        self.publishMessage(cmd,qos: 1)
+                ]
+        ]
+        ] as [String : Any]
+    self.publishMessage(cmd,qos: 1)
+}
+
+func isDeviceActivate(){
+    let cmd2 = ["mac":self.deviceModel.mac,"lock":nil]
+    self.publishMessage(cmd2 as [String : Any],qos: 2)
+}
+
+func sendDeviceReportCmd(){
+    let cmd = ["cmd":"device report"]
+    self.publishMessage(cmd,qos: 2)
+}
+
+func getDeviceFullState(){
+    var cmd = [String:Any?]()
+    switch self.deviceModel.type {
+    case .TC1:
+        cmd = ["name":nil,"mac":self.deviceModel.mac,"version":nil,"power":nil,
+               "setting":["mqtt_uri":nil,"mqtt_port":nil,"mqtt_user":nil,"mqtt_password":nil],
+               "plug_0":["setting":["name":nil]],
+               "plug_1":["setting":["name":nil]],
+               "plug_2":["setting":["name":nil]],
+               "plug_3":["setting":["name":nil]],
+               "plug_4":["setting":["name":nil]],
+               "plug_5":["setting":["name":nil]]
+        ]
+    case .DC1:
+        cmd = ["name":nil,"mac":self.deviceModel.mac,"version":nil,"power":nil,"voltage":nil,"current":nil,
+               "setting":["mqtt_uri":nil,"mqtt_port":nil,"mqtt_user":nil,"mqtt_password":nil],
+               "plug_0":["setting":["name":nil]],
+               "plug_1":["setting":["name":nil]],
+               "plug_2":["setting":["name":nil]],
+               "plug_3":["setting":["name":nil]]
+        ]
+    case .A1:
+        cmd = ["name":nil,"mac":self.deviceModel.mac,"version":nil,"on":nil,"speed":nil,
+               "setting":["mqtt_uri":nil,"mqtt_port":nil,"mqtt_user":nil,"mqtt_password":nil]
+        ]
+    case .M1:
+        cmd = ["name":nil,"mac":self.deviceModel.mac,"version":nil,"PM25":nil,"formaldehyde":nil,"temperature":nil,"humidity":nil,"brightness":nil,
+               "setting":["mqtt_uri":nil,"mqtt_port":nil,"mqtt_user":nil,"mqtt_password":nil]
+        ]
     }
-    
-    func taskDevice(task:TCTask,index:Int,taskIndex:Int){
-        let cmd = ["mac":self.deviceModel.mac,
-                   "plug_\(index)":[
-                    "setting":[
-                        "task_\(taskIndex)":[
-                            "hour":task.hour,
-                            "minute":task.minute,
-                            "repeat":task.repeat,
-                            "action":task.action,
-                            "on":task.on
-                        ]
-                    ]
-            ]
-            ] as [String : Any]
-        self.publishMessage(cmd,qos: 1)
-    }
-    
-    func isDeviceActivate(){
-        let cmd2 = ["mac":self.deviceModel.mac,"lock":nil]
-        self.publishMessage(cmd2 as [String : Any],qos: 2)
-    }
-    
-    func sendDeviceReportCmd(){
-        let cmd = ["cmd":"device report"]
-        self.publishMessage(cmd,qos: 2)
-    }
-    
-    func getDeviceFullState(){
-        var cmd = [String:Any?]()
-        switch self.deviceModel.type {
-        case .TC1:
-            cmd = ["name":nil,"mac":self.deviceModel.mac,"version":nil,"power":nil,
-                   "setting":["mqtt_uri":nil,"mqtt_port":nil,"mqtt_user":nil,"mqtt_password":nil],
-                   "plug_0":["setting":["name":nil]],
-                   "plug_1":["setting":["name":nil]],
-                   "plug_2":["setting":["name":nil]],
-                   "plug_3":["setting":["name":nil]],
-                   "plug_4":["setting":["name":nil]],
-                   "plug_5":["setting":["name":nil]]
-            ]
-        case .DC1:
-            cmd = ["name":nil,"mac":self.deviceModel.mac,"version":nil,"power":nil,"voltage":nil,"current":nil,
-                   "setting":["mqtt_uri":nil,"mqtt_port":nil,"mqtt_user":nil,"mqtt_password":nil],
-                   "plug_0":["setting":["name":nil]],
-                   "plug_1":["setting":["name":nil]],
-                   "plug_2":["setting":["name":nil]],
-                   "plug_3":["setting":["name":nil]]
-            ]
-        case .A1:
-            cmd = ["name":nil,"mac":self.deviceModel.mac,"version":nil,"on":nil,"speed":nil,
-                   "setting":["mqtt_uri":nil,"mqtt_port":nil,"mqtt_user":nil,"mqtt_password":nil]
-            ]
-        }
-        self.publishMessage(cmd as [String : Any],qos: 1)
-        self.sendDeviceReportCmd()
-    }
+    self.publishMessage(cmd as [String : Any],qos: 1)
+    self.sendDeviceReportCmd()
+}
 }
 
 extension APIServiceManager:MQTTSessionDelegate{

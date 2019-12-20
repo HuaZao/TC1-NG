@@ -14,8 +14,6 @@ class FXDeviceConfigViewController: UIViewController {
     
     @IBOutlet weak var wifiName: UILabel!
     @IBOutlet weak var wifiPass: UITextField!
-    
-    fileprivate var easyLink:EASYLINK?
     fileprivate var serviceDataSource = [NetService]()
     fileprivate var serviceInfoDataSource = [[String:String]]()
     fileprivate var moreComing = true
@@ -23,9 +21,8 @@ class FXDeviceConfigViewController: UIViewController {
     fileprivate var isSend = false
     fileprivate var maxSend = 10
     
-    fileprivate var esptouchTask: ESPTouchTask?
     
-    var deviceiType:FXDeviceType = .TC1
+    var deviceiType:FXDeviceType = .DC1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,20 +32,15 @@ class FXDeviceConfigViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.isSend = false
-        if self.deviceiType == .TC1 {
-            self.easyLink?.unInit()
-        }else if self.deviceiType == .DC1{
-            self.esptouchTask?.interrupt()
-        }
         APIServiceManager.share.closeService()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.isSend = true
-        if let wifiName = String(data: EASYLINK.ssidDataForConnectedNetwork(), encoding: String.Encoding.utf8){
-            self.wifiName.text = wifiName
-        }
+//        if let wifiName = String(data: EASYLINK.ssidDataForConnectedNetwork(), encoding: String.Encoding.utf8){
+//            self.wifiName.text = wifiName
+//        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -124,7 +116,7 @@ class FXDeviceConfigViewController: UIViewController {
             guard let mac = alert.textFields?.first(where: {$0.tag == 1005})?.text else{
                 return
             }
-            self?.addTC(message: JSON(["name":mac,"ip":ip,"mac":mac,"mqtt_uri":host,"mqtt_port":iPort,"mqtt_user":username,"mqtt_password":password,"type":FXDeviceType.A1.rawValue,"type_name":"zA1"]))
+            self?.addTC(message: JSON(["name":mac,"ip":ip,"mac":mac,"mqtt_uri":host,"mqtt_port":iPort,"mqtt_user":username,"mqtt_password":password,"type":self?.deviceiType.rawValue,"type_name":"zDC1"]))
         }))
         alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
@@ -139,38 +131,20 @@ class FXDeviceConfigViewController: UIViewController {
     
     
     @IBAction func beginConfAction(_ sender: UIButton) {
-        if let password = self.wifiPass.text{
             // 获得配置所需要的参数
-            if EASYLINK.ssidForConnectedNetwork() == nil || EASYLINK.ssidForConnectedNetwork() == ""{
-                HUD.flash(.labeledError(title: "WiFi名不能为空呀!", subtitle: "如果没识别出WiFi可以点击蓝色的图标手动输入"),delay:3.0)
-                return
-            }
-            if self.deviceiType == .TC1 {
-                
-                //        Step1: 初始化EasyLink实例
-                self.easyLink = EASYLINK(forDebug: true, withDelegate: self)
-//                self.easyLink?.setDelegate(self)
-                if  self.ssidData == nil{
-                    ssidData = EASYLINK.ssidDataForConnectedNetwork()
-                }
-                //        EASYLINK AWS模式中使用UDP广播实现,其余的配网方式使用mDNS实现
-                self.easyLink?.prepareEasyLink(["SSID":self.ssidData!,"PASSWORD":password,"DHCP":NSNumber(booleanLiteral: true)], info: nil, mode: EASYLINK_V2_PLUS)
-                //        Step3: 开始发送配网信息
-                self.easyLink?.transmitSettings()
-                HUD.show(.labeledProgress(title: "配网中", subtitle: nil))
-            }else if self.deviceiType == .DC1{
-                self.esptouchTask?.interrupt()
-                self.esptouchTask = ESPTouchTask(apSsid:EASYLINK.ssidForConnectedNetwork(), andApBssid: EASYLINK.infoForConnectedNetwork()["BSSID"] as? String, andApPwd: password)
-                DispatchQueue.global().async {
-                    self.esptouchTask?.executeForResult()
-                }
-                HUD.show(.labeledProgress(title: "配网中", subtitle: nil))
-            }else{
-                HUD.flash(.labeledError(title: "暂不支持该设备!", subtitle: "设备Tag:\(self.deviceiType.rawValue)"),delay:3.0)
-            }
+//            if EASYLINK.ssidForConnectedNetwork() == nil || EASYLINK.ssidForConnectedNetwork() == ""{
+//                HUD.flash(.labeledError(title: "WiFi名不能为空呀!", subtitle: "如果没识别出WiFi可以点击蓝色的图标手动输入"),delay:3.0)
+//                return
+//            }
+//            self.esptouchTask?.interrupt()
+//            self.esptouchTask = ESPTouchTask(apSsid:EASYLINK.ssidForConnectedNetwork(), andApBssid: EASYLINK.infoForConnectedNetwork()["BSSID"] as? String, andApPwd: password)
+//            DispatchQueue.global().async {
+//                self.esptouchTask?.executeForResult()
+//            }
+//            HUD.show(.labeledProgress(title: "配网中", subtitle: nil))
             //配网成功之后并不会走任何回调,这里使用UDP轮询发送
-            self.pollService()
-        }
+//            self.pollService()
+            
     }
     
     private func pollService(){
@@ -181,8 +155,8 @@ class FXDeviceConfigViewController: UIViewController {
                 count = count + 1
                 if count >= self.maxSend{
                     self.isSend = false
-                    self.easyLink?.unInit()
-                    self.esptouchTask?.interrupt()
+//                    self.easyLink?.unInit()
+//                    self.esptouchTask?.interrupt()
                     DispatchQueue.main.async {
                         HUD.flash(.labeledError(title: "配网超时!", subtitle: "请检查设备是否进入配网状态?"),delay:3.0)
                     }
@@ -205,7 +179,7 @@ extension FXDeviceConfigViewController:APIServiceReceiveDelegate{
         //如果有IP信息,则添加设备!
         let ip = messageJSON["ip"].stringValue
         DispatchQueue.main.async {
-            if ip.count > 0 && !TCSQLManager.deciveisExist(messageJSON["mac"].stringValue) {
+            if ip.count > 0{
                 HUD.hide()
                 self.addTC(message: messageJSON)
             }

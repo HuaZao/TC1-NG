@@ -35,6 +35,8 @@ class TCDeviceCell: UITableViewCell {
             self.iconImage.image = #imageLiteral(resourceName: "DC1")
         case .A1:
             self.iconImage.image = #imageLiteral(resourceName: "addCleaner")
+        case .M1:
+            self.iconImage.image = #imageLiteral(resourceName: "M1")
         }
     }
     

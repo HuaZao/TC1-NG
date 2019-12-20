@@ -54,6 +54,8 @@ class FXDeviceInfoTableViewController: UITableViewController {
             self.deviceTypeName.text = "DC1智能排插"
         case .A1:
             self.deviceTypeName.text = "悟净A1空气净化器"
+        case .M1:
+            self.deviceTypeName.text = "悟空M1空气管家"
         }
         self.tableView.reloadData()
     }
@@ -65,7 +67,7 @@ class FXDeviceInfoTableViewController: UITableViewController {
     }
     
     @IBAction func rebootAction(_ sender: UIBarButtonItem) {
-        let alert = UIAlertController(title: "警告", message: "是否立即重启设备?(需要版本v0.10.1及以上版本)", preferredStyle: .alert)
+        let alert = UIAlertController(title: "警告", message: "是否立即重启设备?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
         let reboot = UIAlertAction(title: "确认", style: .destructive, handler: { (_) in
             APIServiceManager.share.publishMessage(["mac":self.deviceModel.mac,"cmd":"restart"],qos:1)
@@ -212,6 +214,9 @@ class FXDeviceInfoTableViewController: UITableViewController {
                 case .A1:
                     url = URL(string: "http://fx.tanwan.site:4380/zA1.json")
                     otaUrl = URL(string: "http://fx.tanwan.site:4380/A1_OTA.bin")
+                case .M1:
+                    url = URL(string: "http://fx.tanwan.site:4380/zM1.json")
+                    otaUrl = URL(string: "http://fx.tanwan.site:4380/M1_OTA.bin")
                 }
                 let jsonData = try Data(contentsOf: url!)
                 if let version = JSON(jsonData)["version"].string,let message = JSON(jsonData)["message"].string{
