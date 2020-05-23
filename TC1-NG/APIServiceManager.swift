@@ -202,24 +202,12 @@ extension APIServiceManager{
                 print("publishMessage With UDP -> \(jsonString)")
             }else{
                 if self.isConnect{
-                    //新版本通讯协议 device/name/mac/set
                     var topic = String()
                     switch self.deviceModel.type {
                     case .TC1:
-                        //这个版本号有点尴尬,,,v开头..取第一位数作为大版本号
-                        if let version = self.deviceModel.version.replacingOccurrences(of: "v", with: "").components(separatedBy: ".").first, let iVersion = Int(version){
-                            if iVersion >= 1{
-                                print("新版协议")
-                                topic = "device/ztc1/" + self.deviceModel.mac + "set"
-                            }else{
-                                print("旧版本协议")
-                                topic = "device/ztc1/set"
-                            }
-                        }else{
-                            topic = "device/ztc1/" + self.deviceModel.mac + "set"
-                        }
+                         topic = "device/ztc1/" + self.deviceModel.mac + "/set"
                     case .DC1:
-                        topic = "device/zdc1/set"
+                        topic = "device/zdc1/" + self.deviceModel.mac + "/set"
                     case .A1:
                         topic = "device/za1/" + self.deviceModel.mac + "/set"
                     case .M1:
